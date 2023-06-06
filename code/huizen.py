@@ -1,9 +1,8 @@
+class Huizen:
 
-#class huizen.
+    def __init__(self, x, y, maxoutput) -> None:
+        """Neemt gegevens van Huizen uit district en slaat ze op in een Huizen object."""
 
-#def init
-    # neemt drie variabelen(x-as, y-as, maxoutput)
-    
-    # var x-as (integer)
-    # var y-as (integer)
-    # var maxoutput (float)
+        self.x_as = x
+        self.y_as = y
+        self.maxoutput = maxoutput
