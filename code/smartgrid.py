@@ -13,8 +13,14 @@ if __name__ == "__main__":
     
     # maak een district aan. 
     wijk = District(wijknummer)
-    print(wijk.huizen)
-    # haal bestanden op.
+
+    print('huizen')
+    for huis in wijk.huizen:
+        print(huis.x_as, huis.y_as, huis.maxoutput)
+    
+    print('Batterijen')
+    for batterij in wijk.batterijen:
+        print(batterij.x_as, batterij.y_as, batterij.capaciteit)
     
     
     
