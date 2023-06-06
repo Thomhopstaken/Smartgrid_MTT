@@ -56,4 +56,6 @@ class District:
         district_map = os.path.join(hoofdfolder, 'Huizen&Batterijen', f'district_{self.districtnummer}')
         bestandnaam = f'district-{self.districtnummer}_{naam}.csv'
         return os.path.join(district_map, bestandnaam)
+
+# update
     
