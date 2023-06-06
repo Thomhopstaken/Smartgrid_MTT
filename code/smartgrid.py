@@ -3,6 +3,20 @@ from district import District
 from huizen import Huizen
 
 class Smartgrid:
+
+    def init(self):
+        self.grid = create_grid()
+
+    def create_grid(self):
+        rows, cols = (50, 50)
+        arr = [["_" for i in range(cols)] for j in range(rows)]
+        return arr
+
+    def print_grid(self, grid):
+        for row in arr:
+            print(*row)
+
+
     pass
     # to do: algo keuze maken huis naar batterij
 
