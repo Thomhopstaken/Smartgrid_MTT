@@ -4,3 +4,7 @@ Leden:
 - Michael Lin
 - Teun Binkhorst
 - Thom Hopstaken
+
+Requirements:
+- typing library
+- os library
