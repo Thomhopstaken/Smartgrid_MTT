@@ -21,10 +21,3 @@ if __name__ == "__main__":
     print('Batterijen')
     for batterij in wijk.batterijen:
         print(batterij.x_as, batterij.y_as, batterij.capaciteit)
-    
-    
-    
-    #draai op het nieuwe district de laad_batterijen def. 
-
-    #draai op het nieuwe district de laad_huizen def. 
-
