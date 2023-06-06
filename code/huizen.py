@@ -6,3 +6,6 @@ class Huizen:
         self.x_as = x
         self.y_as = y
         self.maxoutput = maxoutput
+        # self.cable lijst tuples
+
+        # to do: kabels leggen.

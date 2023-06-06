@@ -14,6 +14,10 @@ class District:
         
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
         self.laad_huizen(f"{self.bestand_vinden('houses')}")
+
+        # Connected house: Lijst
+        # to do: verplaats connected huizen naar connected lijst van huizenlijst.
+
     
     def laad_batterijen(self, bestand):
         """Neemt data van bestand en maakt daarmee batterijobjecten.

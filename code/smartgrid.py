@@ -4,6 +4,12 @@ from huizen import Huizen
 
 class Smartgrid:
     pass
+    # to do: algo keuze maken huis naar batterij
+
+    # to do: huizen aan batterij verbinden.
+
+    # to do: kabels leggen.
+
 
 
 if __name__ == "__main__":
