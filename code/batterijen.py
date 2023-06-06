@@ -1,8 +1,9 @@
-class Batterijen:
 
-    def __init__(self, x, y, capaciteit) -> None:
-        """Neemt gegevens van batterijen uit district en slaat het op in batterij object."""
+#class batterijen.
 
-        self.x_as = x
-        self.y_as = y
-        self.capaciteit = capaciteit
+#def init
+    # neemt drie variabelen(x-as, y-as, capaciteit)
+    
+    # var x-as (integer)
+    # var y-as (integer)
+    # var capaciteit (float)
