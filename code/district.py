@@ -21,5 +21,3 @@
     # neemt file eindigend op houses.csv als input. 
     # itereer over de file lijnen en maak huizen class aan 
     # voeg batterij object aan huizen-lijst toe.
-
-    asjdalkkmdad
