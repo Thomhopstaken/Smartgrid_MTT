@@ -25,14 +25,40 @@ class Smartgrid:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
+        if self.grid[y][x] == colored('H', 'blue'):
+            return
         try:
             self.grid[y][x] += 1
         except TypeError:
             self.grid[y][x] = 1
 
+    def make_connection(self, battery, house):
+        house.linked = True
+        battery.update_usage(house.maxoutput)
+        battery.gelinkte_huizen.append(house)
 
+    def route_cable(self, battery, house):
+        cursor_x, cursor_y = battery.x_as, battery.y_as
+        print(cursor_x)
+        while cursor_x < house.x_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y), (cursor_x + 1))
+            cursor_x += 1
+        while cursor_x > house.x_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y), (cursor_x - 1))
+            cursor_x -= 1
+        while cursor_y < house.y_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y - 1), (cursor_x))
+            cursor_y += 1
+        while cursor_y > house.y_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y + 1), (cursor_x))
+            cursor_y -= 1
+        house.lay_cable((cursor_x), (cursor_y))
+        self.make_connection(battery, house)
 
-    pass
     # to do: algo keuze maken huis naar batterij
 
     # to do: huizen aan batterij verbinden.
@@ -60,11 +86,18 @@ if __name__ == "__main__":
     grid = Smartgrid()
     grid.add_houses(wijk)
     grid.add_batteries(wijk)
-    # grid.add_cable(0, 0)
-    # grid.add_cable(0, 0)
-    # grid.add_cable(0, 0)
-    grid.print_grid()
 
-    print(wijk.batterijen[0].afstand_huizen)
-    print(wijk.batterijen[0].x_as)
-    print(wijk.batterijen[0].y_as)
+    # print(wijk.batterijen[0].x_as)
+    # print(wijk.batterijen[0].y_as)
+
+    # print(wijk.batterijen[0].closest_house().x_as)
+    # print(wijk.batterijen[0].closest_house().y_as)
+
+    for i in range(len(wijk.batterijen)):
+        grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
+        # wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
+    grid.print_grid()
+    for i in range(len(wijk.batterijen)):
+        print(wijk.batterijen[i].closest_house().kabels)
+        print(wijk.batterijen[i].closest_house().linked)
+        print(wijk.batterijen[i].resterende_capaciteit)

@@ -5,7 +5,7 @@ class Batterijen:
         self.x_as = x
         self.y_as = y
         self.capaciteit = capaciteit
-        self.huidig_gebruik = 0
+        self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
         self.afstand_huizen = {}
     
@@ -16,4 +16,11 @@ class Batterijen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             self.afstand_huizen[huis] = afstand
             self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda x: x[1]))
-            print(f"afstand huizen: {self.afstand_huizen}")
+            # print(f"afstand huizen: {self.afstand_huizen}")
+
+    def closest_house(self):
+        distance = self.afstand_huizen
+        return min(distance, key=distance.get)
+
+    def update_usage(self, output):
+        self.resterende_capaciteit -= output
