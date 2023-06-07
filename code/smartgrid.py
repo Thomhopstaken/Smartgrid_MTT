@@ -4,17 +4,25 @@ from huizen import Huizen
 
 class Smartgrid:
 
-    def init(self):
-        self.grid = create_grid()
+    def __init__(self):
+        self.grid = self.create_grid()
 
     def create_grid(self):
-        rows, cols = (50, 50)
-        arr = [["_" for i in range(cols)] for j in range(rows)]
+        rows, cols = (51, 51)
+        arr = [["_" for _ in range(cols)] for _ in range(rows)]
         return arr
 
-    def print_grid(self, grid):
-        for row in arr:
+    def print_grid(self):
+        for row in self.grid:
             print(*row)
+
+    def add_houses(self, district):
+        for house in district.huizen:
+            self.grid[(50 - house.y_as)][house.x_as] = "H"
+
+    def add_batteries(self, district):
+        for battery in district.batterijen:
+            self.grid[(50 - battery.y_as)][battery.x_as] = "B"
 
 
     pass
@@ -41,3 +49,9 @@ if __name__ == "__main__":
     print('Batterijen')
     for batterij in wijk.batterijen:
         print(batterij.x_as, batterij.y_as, batterij.capaciteit)
+
+    grid = Smartgrid()
+    grid.add_houses(wijk)
+    grid.add_batteries(wijk)
+    grid.print_grid()
+
