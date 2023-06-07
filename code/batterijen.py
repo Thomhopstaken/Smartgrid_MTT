@@ -6,5 +6,5 @@ class Batterijen:
         self.x_as = x
         self.y_as = y
         self.capaciteit = capaciteit
-        # Huidig gebruik: int
-        # self.houses: lijst
+        self.huidig_gebruik = 0
+        self.gelinkte_huizen = []
