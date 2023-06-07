@@ -13,7 +13,7 @@ class Batterijen:
         """Berekent afstand van batterijen tot huizen."""
         # itereer over ongekoppelde huizen, voeg deze toe aan dictionary en geef afstand tot batterij als waarde mee
         for huis in huizen:
-            afstand = abs((huis.x_as + huis.y_as) - (self.x_as + self.y_as))
+            afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             self.afstand_huizen[huis] = afstand
             self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda x: x[1]))
             print(f"afstand huizen: {self.afstand_huizen}")
