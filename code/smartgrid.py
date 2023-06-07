@@ -1,6 +1,7 @@
 from batterijen import Batterijen
 from district import District
 from huizen import Huizen
+from termcolor import colored
 
 class Smartgrid:
 
@@ -15,14 +16,13 @@ class Smartgrid:
     def print_grid(self):
         for row in self.grid:
             print(*row)
-
     def add_houses(self, district):
         for house in district.huizen:
-            self.grid[(50 - house.y_as)][house.x_as] = "H"
+            self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
         for battery in district.batterijen:
-            self.grid[(50 - battery.y_as)][battery.x_as] = "B"
+            self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
 
     pass

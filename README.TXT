@@ -8,3 +8,4 @@ Leden:
 Requirements:
 - typing library
 - os library
+- termcolor
