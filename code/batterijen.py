@@ -14,3 +14,5 @@ class Batterijen:
         for huis in huizen:
             afstand = abs((huis.x_as + huis.y_as) - (self.x_as + self.y_as))
             self.afstand_huizen[huis] = afstand
+            self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda x: x[1]))
+            print(f"afstand huizen: {self.afstand_huizen}")
