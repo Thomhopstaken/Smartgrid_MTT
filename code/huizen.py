@@ -6,6 +6,8 @@ class Huizen:
         self.x_as = x
         self.y_as = y
         self.maxoutput = maxoutput
-        # self.cable lijst tuples
+        self.kabels = []
 
+    def kabels_leggen(self):
         # to do: kabels leggen.
+        pass
