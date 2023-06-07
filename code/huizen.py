@@ -1,7 +1,8 @@
 class Huizen:
 
-    def __init__(self, x, y, maxoutput) -> None:
+    def __init__(self, i, x, y, maxoutput) -> None:
         """Neemt gegevens van Huizen uit district en slaat ze op in een Huizen object."""
+        self.huis_id = i
         self.x_as = x
         self.y_as = y
         self.maxoutput = maxoutput

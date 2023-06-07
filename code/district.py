@@ -32,11 +32,11 @@ class District:
         with open(bestand, 'r') as b:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
-            for x in range(0, teller):
+            for i in range(0, teller):
                 data = self.data_inladen(b)
         # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
-                    self.batterijen.append(Batterijen(int(data[0]), int(data[1]), float(data[2])))
+                    self.batterijen.append(Batterijen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def laad_huizen(self, bestand: TextIO) -> None:
         """Neemt data van bestand en maakt daarna huisobjecten.
@@ -48,11 +48,11 @@ class District:
         with open(bestand, 'r') as b:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
-            for x in range(0, teller):
+            for i in range(0, teller):
                 data = self.data_inladen(b)
         # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
-                    self.losse_huizen.append(Huizen(int(data[0]), int(data[1]), float(data[2])))
+                    self.losse_huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def data_inladen(self, b: TextIO) -> list[str]:
         """Neemt bestandlijn en converteert het naar een lijst.
