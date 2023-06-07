@@ -17,7 +17,7 @@ class Smartgrid:
         for row in self.grid:
             print(*row)
     def add_houses(self, district):
-        for house in district.huizen:
+        for house in district.losse_huizen:
             self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     wijk = District(wijknummer)
 
     print('huizen')
-    for huis in wijk.huizen:
+    for huis in wijk.losse_huizen:
         print(huis.x_as, huis.y_as, huis.maxoutput)
     
     print('Batterijen')
