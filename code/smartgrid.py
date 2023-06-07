@@ -92,13 +92,13 @@ if __name__ == "__main__":
     # print(wijk.batterijen[0].closest_house().x_as)
     # print(wijk.batterijen[0].closest_house().y_as)
 
-    for i in range(len(wijk.batterijen)):
-        if wijk.batterijen[i].closest_house().linked == True:
-            wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
-        grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
-        #1wijk.batterijen[i].afstand_huizen.pop()
+    for _ in range(30):
+        for i in range(len(wijk.batterijen)):
+            if wijk.batterijen[i].closest_house().linked == True:
+                wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
+                wijk.batterijen[i].afstand_huizen.popitem()
+            grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
+            wijk.batterijen[i].afstand_huizen.popitem()
     grid.print_grid()
     for i in range(len(wijk.batterijen)):
-        print(wijk.batterijen[i].closest_house().kabels)
-        print(wijk.batterijen[i].closest_house().linked)
-        print(wijk.batterijen[i].resterende_capaciteit)
+        print(len(wijk.batterijen[i].gelinkte_huizen))
