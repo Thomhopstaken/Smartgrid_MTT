@@ -9,6 +9,8 @@ class Batterijen:
         self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
         self.afstand_huizen = {}
+        
+        #to do: lijst van dicts maken met huis_id: huis object en afstand: afstande. 
     
     def afstand_berekenen(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
