@@ -17,7 +17,7 @@ class Smartgrid:
         for row in self.grid:
             print(*row)
     def add_houses(self, district):
-        for house in district.losse_huizen:
+        for house in district.huizen:
             self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
@@ -96,7 +96,7 @@ if __name__ == "__main__":
         if wijk.batterijen[i].closest_house().linked == True:
             wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
         grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
-        wijk.batterijen[i].afstand_huizen.pop()
+        #1wijk.batterijen[i].afstand_huizen.pop()
     grid.print_grid()
     for i in range(len(wijk.batterijen)):
         print(wijk.batterijen[i].closest_house().kabels)
