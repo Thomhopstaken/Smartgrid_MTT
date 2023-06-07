@@ -17,7 +17,7 @@ class Smartgrid:
         for row in self.grid:
             print(*row)
     def add_houses(self, district):
-        for house in district.losse_huizen:
+        for house in district.huizen:
             self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
@@ -33,16 +33,12 @@ class Smartgrid:
     def huizen_verdelen(self, wijk):
         for batterij in wijk.batterijen:
             for huis in batterij.afstand_huizen:
-                if huis in wijk.losse_huizen:
-                    if batterij.huidig_verbruik + huis.maxoutput <= batterij.capaciteit:
-                        batterij.gelinkte_huizen.append(huis)
-                        batterij.huidig_verbruik += huis.maxoutput 
-                        huis.afstand_batterij = batterij.afstand_huizen[huis]
-                        wijk.huizen_gelinkt(huis)
-                    else:
-                        continue
-                else:
-                    continue
+                while huis.linked == False:
+                    batterij.gelinkte_huizen.append(huis)
+                    batterij.resterende_capaciteit -= huis.maxoutput 
+                    huis.afstand_batterij = batterij.afstand_huizen[huis]
+                    huis.linked == True
+
         
                     
 
@@ -78,7 +74,7 @@ if __name__ == "__main__":
 
     
     for batterij in wijk.batterijen:
-        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.huidig_verbruik}')
+        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.resterende_capaciteit}')
         print(f'gelinkte huizen:')
         for huis in batterij.gelinkte_huizen:
             print(f' {huis.huis_id}|', end='')
