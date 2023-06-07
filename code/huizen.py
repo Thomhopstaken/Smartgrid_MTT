@@ -6,10 +6,10 @@ class Huizen:
         self.y_as = y
         self.maxoutput = maxoutput
         self.kabels = []
+        self.linked = False
 
-    def kabels_leggen(self) -> None:
+    def lay_cable(self, x, y) -> None:
         """Maakt connecties tussen batterijen en huizen."""
-        # todo: kabels leggen.
-        pass
+        self.kabels.append((x, y))
 
     
