@@ -39,7 +39,6 @@ class Smartgrid:
 
     def route_cable(self, battery, house):
         cursor_x, cursor_y = battery.x_as, battery.y_as
-        print(cursor_x)
         while cursor_x < house.x_as:
             house.lay_cable((cursor_x), (cursor_y))
             self.add_cable((50 - cursor_y), (cursor_x + 1))
@@ -94,8 +93,10 @@ if __name__ == "__main__":
     # print(wijk.batterijen[0].closest_house().y_as)
 
     for i in range(len(wijk.batterijen)):
+        if wijk.batterijen[i].closest_house().linked == True:
+            wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
         grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
-        # wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
+        wijk.batterijen[i].afstand_huizen.pop()
     grid.print_grid()
     for i in range(len(wijk.batterijen)):
         print(wijk.batterijen[i].closest_house().kabels)
