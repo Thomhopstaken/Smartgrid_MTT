@@ -25,3 +25,7 @@ class Batterijen:
 
     def update_usage(self, output):
         self.resterende_capaciteit -= output
+
+    def clear_linked_houses(self):
+        new_dict = {key: value for key, value in self.afstand_huizen.items() if key.linked == False}
+        self.afstand_huizen = new_dict

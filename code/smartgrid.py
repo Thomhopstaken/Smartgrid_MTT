@@ -94,11 +94,9 @@ if __name__ == "__main__":
 
     for _ in range(30):
         for i in range(len(wijk.batterijen)):
-            if wijk.batterijen[i].closest_house().linked == True:
-                wijk.batterijen[i].afstand_huizen.pop(wijk.batterijen[i].closest_house())
-                wijk.batterijen[i].afstand_huizen.popitem()
+            wijk.batterijen[i].clear_linked_houses()
             grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
             wijk.batterijen[i].afstand_huizen.popitem()
     grid.print_grid()
-    for i in range(len(wijk.batterijen)):
-        print(len(wijk.batterijen[i].gelinkte_huizen))
+    # for i in range(len(wijk.batterijen.afstand_huizen)):
+    # print(wijk.batterijen[0].afstand_huizen)
