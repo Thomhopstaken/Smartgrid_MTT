@@ -24,6 +24,13 @@ class Smartgrid:
         for battery in district.batterijen:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
+    def add_cable(self, y, x):
+        try:
+            self.grid[y][x] += 1
+        except TypeError:
+            self.grid[y][x] = 1
+
+
 
     pass
     # to do: algo keuze maken huis naar batterij
@@ -42,16 +49,22 @@ if __name__ == "__main__":
     # maak een district aan. 
     wijk = District(wijknummer)
 
-    print('huizen')
-    for huis in wijk.losse_huizen:
-        print(huis.x_as, huis.y_as, huis.maxoutput)
-    
-    print('Batterijen')
-    for batterij in wijk.batterijen:
-        print(batterij.x_as, batterij.y_as, batterij.capaciteit)
-
+    # print('huizen')
+    # for huis in wijk.losse_huizen:
+    #     print(huis.x_as, huis.y_as, huis.maxoutput)
+    #
+    # print('Batterijen')
+    # for batterij in wijk.batterijen:
+    #     print(batterij.x_as, batterij.y_as, batterij.capaciteit)
+    #
     grid = Smartgrid()
     grid.add_houses(wijk)
     grid.add_batteries(wijk)
+    # grid.add_cable(0, 0)
+    # grid.add_cable(0, 0)
+    # grid.add_cable(0, 0)
     grid.print_grid()
 
+    print(wijk.batterijen[0].afstand_huizen)
+    print(wijk.batterijen[0].x_as)
+    print(wijk.batterijen[0].y_as)

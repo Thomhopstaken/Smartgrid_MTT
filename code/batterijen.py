@@ -7,7 +7,7 @@ class Batterijen:
         self.capaciteit = capaciteit
         self.huidig_gebruik = 0
         self.gelinkte_huizen = []
-        self.afstand_huizen = {} 
+        self.afstand_huizen = {}
     
     def afstand_berekenen(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
