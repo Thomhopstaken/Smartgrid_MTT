@@ -10,7 +10,7 @@ class Huizen:
         self.linked = False
 
     def lay_cable(self, x, y) -> None:
-        """Maakt connecties tussen batterijen en huizen."""
+        """Voegt kabels toe in self.kabels."""
         self.kabels.append((x, y))
-
+        print(f"kabels: {self.kabels}")
     

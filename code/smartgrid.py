@@ -26,6 +26,7 @@ class Smartgrid:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
+        """Voegt kabel connecties toe aan grid."""
         if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
             return
         try:
@@ -67,7 +68,7 @@ if __name__ == "__main__":
     
     # vraag om district.
     wijknummer = input('Wijk 1, 2 of 3: ')
-    algoritme_keuze = input('Kies 1 (greedy algoritme) of 2 (random algoritme)')
+    #algoritme_keuze = input('Kies 1 (greedy algoritme) of 2 (random algoritme)')
     
     # maak een district aan. 
     wijk = District(wijknummer)

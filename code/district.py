@@ -15,7 +15,6 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-       
 
 
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
