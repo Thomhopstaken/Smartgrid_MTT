@@ -13,14 +13,16 @@ class District:
 
         self.districtnummer = district
         self.batterijen = []
-        self.huizen = [] 
+        self.losse_huizen = []
+        self.gelinkte_huizen = []
+       
 
 
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
         self.laad_huizen(f"{self.bestand_vinden('houses')}")
-
+        
         for batterij in self.batterijen:
-            batterij.afstand_berekenen(self.huizen)
+            batterij.afstand_berekenen(self.losse_huizen)
 
     def laad_batterijen(self, bestand: TextIO) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
@@ -52,7 +54,7 @@ class District:
                 data = self.data_inladen(b)
         # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
-                    self.huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
+                    self.losse_huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def data_inladen(self, b: TextIO) -> list[str]:
         """Neemt bestandlijn en converteert het naar een lijst.
@@ -77,4 +79,17 @@ class District:
         bestandnaam = f'district-{self.districtnummer}_{naam}.csv'
         
         return os.path.join(district_map, bestandnaam)
+    
+    def huis_linken(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                self.losse_huizen.remove(huis)
+                self.gelinkte_huizen.append(huis)
+                huis.linked == True
+                break
+                    
+    def huis_vinden(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                return huis
 
