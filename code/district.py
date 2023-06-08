@@ -77,4 +77,20 @@ class District:
         bestandnaam = f'district-{self.districtnummer}_{naam}.csv'
         
         return os.path.join(district_map, bestandnaam)
+<<<<<<< Updated upstream
+=======
+    
+    def huis_linken(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                self.losse_huizen.remove(huis)
+                self.gelinkte_huizen.append(huis)
+                huis.linked = True
+                break
+                    
+    def huis_vinden(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                return huis
+>>>>>>> Stashed changes
 
