@@ -31,7 +31,7 @@ class Smartgrid:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
-        """Voegt een kabel toe aan het Smartgrid op de opgegeven positie."""
+        """Geeft kleur aan huis en batterij in grid."""
         if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
             return
         try:
@@ -61,7 +61,7 @@ class Smartgrid:
         huis.lay_cable((cursor_x), (cursor_y))
         wijk.creer_connectie(batterij, huis)
 
-def huis_checker(huis, batterij):
+def kan_huis_aansluiten_op_batterij(huis, batterij):
     """Controleert of een huis kan worden aangesloten op een batterij."""
     if not huis.linked:
         if batterij.resterende_capaciteit - huis.maxoutput >= 0:
@@ -73,7 +73,6 @@ def huis_checker(huis, batterij):
 
 
 if __name__ == "__main__":
-
     # vraag om district.
     wijknummer = input('Wijk 1, 2 of 3: ')
     if wijknummer not in ["1", "2", "3"]:
@@ -90,23 +89,22 @@ if __name__ == "__main__":
 
     algoritme_keuze = input('Kies (g)reedy algoritme of (r)andom algoritme: ')
     
-    if algoritme_keuze == "g":
+    if algoritme_keuze == "r":
         while len(wijk.losse_huizen) > 0:
             for batterij in wijk.batterijen:
                 for huis in wijk.losse_huizen:
-                    if huis_checker(huis, batterij):
+                    if kan_huis_aansluiten_op_batterij(huis, batterij):
                         # batterij.gebruik += huis.maxoutput
-                        wijk.huis_linken(huis.huis_id)
+                        wijk.link_huis(huis.huis_id)
                         grid.route_cable(wijk, batterij, huis)
     
-    elif algoritme_keuze == "r":
-        # while len(wijk.losse_huizen) > 0:
-        #     for batterij in wijk.batterijen:
-        #         for huis in wijk.losse_huizen:
-        #             if huis_checker(huis, batterij):
-        #                 # batterij.gebruik += huis.maxoutput
-        #                 wijk.huis_linken(huis.huis_id)
-        #                 grid.route_cable(wijk, batterij, huis)
+    elif algoritme_keuze == "g":
+        while len(wijk.losse_huizen) > 0:
+            for batterij in wijk.batterijen:
+                for huis in wijk.losse_huizen:
+                    if kan_huis_aansluiten_op_batterij(huis, batterij):
+                        wijk.link_huis(huis.huis_id)
+                        grid.route_cable(wijk, batterij, huis)
     else:
         print("Ongeldig algoritme keuze.")
     
