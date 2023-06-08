@@ -89,5 +89,3 @@ if __name__ == "__main__":
         print(f'{len(batterij.gelinkte_huizen)}')
         #for huis in batterij.gelinkte_huizen:
         #    print(f' {huis.huis_id}|', end='')
-            
-        
