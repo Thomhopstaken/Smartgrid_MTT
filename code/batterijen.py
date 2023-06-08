@@ -6,7 +6,7 @@ class Batterijen:
         self.x_as = x
         self.y_as = y
         self.capaciteit = capaciteit
-        self.gebruik = 0
+        self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
         self.afstand_huizen = {}
         
@@ -24,9 +24,9 @@ class Batterijen:
     def closest_house(self):
         distance = self.afstand_huizen
         return min(distance, key=distance.get)
-
-    #def update_usage(self, output):
-     #   self.resterende_capaciteit -= output
+    
+    def update_usage(self, output):
+        self.resterende_capaciteit -= output
 
     def clear_linked_houses(self):
         new_dict = {key: value for key, value in self.afstand_huizen.items() if key.linked == False}
