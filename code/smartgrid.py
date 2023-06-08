@@ -28,7 +28,10 @@ class Smartgrid:
         if self.grid[y][x] == colored('H', 'blue'):
             return
         try:
-            self.grid[y][x] += 1
+            if self.grid[y][x] > 8: ## Temp. measure
+                self.grid[y][x] = 9
+            else:
+                self.grid[y][x] += 1
         except TypeError:
             self.grid[y][x] = 1
 
@@ -94,9 +97,15 @@ if __name__ == "__main__":
 
     for _ in range(30):
         for i in range(len(wijk.batterijen)):
-            wijk.batterijen[i].clear_linked_houses()
-            grid.route_cable(wijk.batterijen[i], wijk.batterijen[i].closest_house())
-            wijk.batterijen[i].afstand_huizen.popitem()
+            closest = wijk.batterijen[i].closest_house()
+            while closest['huis'].linked is True:
+                wijk.batterijen[i].afstand_huizen.pop(0)
+            grid.route_cable(wijk.batterijen[i], closest['huis'])
+            print(closest)
+
+
+
+
     grid.print_grid()
     # for i in range(len(wijk.batterijen.afstand_huizen)):
     # print(wijk.batterijen[0].afstand_huizen)

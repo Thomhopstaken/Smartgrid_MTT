@@ -54,7 +54,7 @@ class District:
                 if data[0].isnumeric():
                     self.huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
-    def data_inladen(self, b: TextIO) -> list[str]:
+    def data_inladen(self, b):
         """Neemt bestandlijn en converteert het naar een lijst.
 
         In: CSV bestand.
