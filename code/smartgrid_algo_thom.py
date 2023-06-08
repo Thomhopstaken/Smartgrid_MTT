@@ -25,7 +25,7 @@ class Smartgrid:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
-        if self.grid[y][x] == colored('H', 'blue'):
+        if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
             return
         try:
             self.grid[y][x] += 1
@@ -34,7 +34,7 @@ class Smartgrid:
 
     def make_connection(self, battery, house):
         house.linked = True
-        battery.update_usage(house.maxoutput)
+        #battery.update_usage(house.maxoutput)
         battery.gelinkte_huizen.append(house)
 
     def route_cable(self, battery, house):
@@ -57,6 +57,7 @@ class Smartgrid:
             cursor_y -= 1
         house.lay_cable((cursor_x), (cursor_y))
         self.make_connection(battery, house)
+    
 
     # to do: algo keuze maken huis naar batterij
 
@@ -64,7 +65,14 @@ class Smartgrid:
 
     # to do: kabels leggen.
 
-
+def huis_checker(huis, batterij):
+    if not huis.linked and huis not in batterij.gelinkte_huizen:
+        if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 if __name__ == "__main__":
     
@@ -94,20 +102,30 @@ if __name__ == "__main__":
 
     while len(wijk.losse_huizen) > 0:
         for batterij in wijk.batterijen:
-            for dictio in batterij.afstand_huizen:
-                key = next(iter(dictio))
-                huis = dictio[key]
-                if not huis.linked:
-                    if batterij.resterende_capaciteit - huis.maxoutput >= 0:
-                        batterij.resterende_capaciteit -= huis.maxoutput
-                        grid.route_cable(batterij, huis)
-                        wijk.huis_linken(huis)      
+            for huis in wijk.losse_huizen:
+                if huis_checker(huis, batterij):
+                    batterij.gelinkte_huizen.append(huis)
+                    batterij.gebruik += huis.maxoutput
+                    wijk.huis_linken(huis.huis_id)
+                    grid.route_cable(batterij, huis)
+
+                    
+
+                
+
+
+                
+#                if not huis.linked:
+#                    if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
+#                        batterij.gebruik += huis.maxoutput
+#                        grid.route_cable(batterij, huis)
+#                        wijk.(huis)      
     grid.print_grid()
     # for i in range(len(wijk.batterijen.afstand_huizen)):
     # print(wijk.batterijen[0].afstand_huizen)
     
     for batterij in wijk.batterijen:
-        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.resterende_capaciteit}')
+        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.gebruik}')
         print(f'gelinkte huizen:')
         for huis in batterij.gelinkte_huizen:
             print(f' {huis.huis_id}|', end='')

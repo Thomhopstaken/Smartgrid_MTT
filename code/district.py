@@ -15,12 +15,12 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-        
+       
 
 
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
         self.laad_huizen(f"{self.bestand_vinden('houses')}")
-
+        
         for batterij in self.batterijen:
             batterij.afstand_berekenen(self.losse_huizen)
 
@@ -80,7 +80,16 @@ class District:
         
         return os.path.join(district_map, bestandnaam)
     
-    def huis_linken(self, huis):
-        self.losse_huizen.remove(huis)
-        self.gelinkte_huizen.append(huis)
+    def huis_linken(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                self.losse_huizen.remove(huis)
+                self.gelinkte_huizen.append(huis)
+                huis.linked == True
+                break
+                    
+    def huis_vinden(self, id):
+        for huis in self.losse_huizen:
+            if huis.huis_id == id:
+                return huis
 
