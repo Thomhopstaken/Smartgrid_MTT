@@ -34,7 +34,7 @@ class Smartgrid:
 
     def make_connection(self, battery, house):
         house.linked = True
-        #battery.update_usage(house.maxoutput)
+        battery.update_usage(house.maxoutput)
         battery.gelinkte_huizen.append(house)
 
     def route_cable(self, battery, house):
@@ -67,7 +67,7 @@ class Smartgrid:
 
 def huis_checker(huis, batterij):
     if not huis.linked:
-        if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
+        if batterij.resterende_capaciteit - huis.maxoutput >= 0:
             return True
         else:
             return False
@@ -104,13 +104,13 @@ if __name__ == "__main__":
         for batterij in wijk.batterijen:
             for huis in wijk.losse_huizen:
                 if huis_checker(huis, batterij):
-                    batterij.gebruik += huis.maxoutput
+                    #batterij.gebruik += huis.maxoutput
                     wijk.huis_linken(huis.huis_id)
                     grid.route_cable(batterij, huis)
  
     grid.print_grid()
     for batterij in wijk.batterijen:
-        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.gebruik}')
+        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.resterende_capaciteit}')
         print(f'gelinkte huizen:')
         print(f'{len(batterij.gelinkte_huizen)}')
         #for huis in batterij.gelinkte_huizen:
