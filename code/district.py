@@ -85,7 +85,7 @@ class District:
             if huis.huis_id == id:
                 self.losse_huizen.remove(huis)
                 self.gelinkte_huizen.append(huis)
-                huis.linked == True
+                huis.linked = True
                 break
                     
     def huis_vinden(self, id):

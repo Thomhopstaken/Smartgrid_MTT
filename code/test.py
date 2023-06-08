@@ -1,12 +1,10 @@
-<<<<<<< Updated upstream
-"_" + 2
-=======
 from matplotlib import pyplot as plt
 import pandas as pd
 from district import District
 from smartgrid import huis_checker
 
 wijknummer = input('Wijk 1, 2 of 3: ')
+colors = ['b', 'y', 'r', 'c', 'm']
 
 # maak een district aan.
 wijk = District(wijknummer)
@@ -39,7 +37,8 @@ y = df.y
 
 # Scatter plot with x and y
 plt.scatter(x, y, color='blue', marker='p')
-plt.plot(x_pos, y_pos, marker='s', ls='none', ms=10, color='red')
+for i in range(len(wijk.batterijen)):
+    plt.plot(x_pos[i], y_pos[i], marker='s', ls='none', ms=10, color=colors[i])
 
 
 def route_cable(wijk, batterij, huis):
@@ -68,16 +67,14 @@ while len(wijk.losse_huizen) > 0:
                 route_cable(wijk, batterij, huis)
 
 for i in range(len(wijk.gelinkte_huizen)):
-    kabels = iter(wijk.gelinkte_huizen[i].kabels)
-    for kabel in kabels:
+    color = colors[i % len(colors)]
+    for j in range(len(wijk.gelinkte_huizen[i].kabels)):
+        kabel= wijk.gelinkte_huizen[i].kabels
         try:
-            plt.plot([kabel[0], next(kabels)[0]], [kabel[1], next(kabels)[1]])
-            print(kabel, next(kabels))
-        except StopIteration:
+            plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color)
+            # print(wijk.gelinkte_huizen[i].kabels[j][0], wijk.gelinkte_huizen[i].kabels[j+1][0])
+        except IndexError:
             break
-
-plt.plot([10, 35], [40, 40])
 
 # Display the plot
 plt.show()
->>>>>>> Stashed changes
