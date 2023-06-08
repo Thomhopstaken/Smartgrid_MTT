@@ -66,7 +66,7 @@ class Smartgrid:
     # to do: kabels leggen.
 
 def huis_checker(huis, batterij):
-    if not huis.linked and huis not in batterij.gelinkte_huizen:
+    if not huis.linked:
         if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
             return True
         else:
@@ -104,31 +104,16 @@ if __name__ == "__main__":
         for batterij in wijk.batterijen:
             for huis in wijk.losse_huizen:
                 if huis_checker(huis, batterij):
-                    batterij.gelinkte_huizen.append(huis)
                     batterij.gebruik += huis.maxoutput
                     wijk.huis_linken(huis.huis_id)
                     grid.route_cable(batterij, huis)
-
-                    
-
-                
-
-
-                
-#                if not huis.linked:
-#                    if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
-#                        batterij.gebruik += huis.maxoutput
-#                        grid.route_cable(batterij, huis)
-#                        wijk.(huis)      
+ 
     grid.print_grid()
-    # for i in range(len(wijk.batterijen.afstand_huizen)):
-    # print(wijk.batterijen[0].afstand_huizen)
-    
     for batterij in wijk.batterijen:
         print(F'Batterij {batterij.batterij_id} gebruik: {batterij.gebruik}')
         print(f'gelinkte huizen:')
-        for huis in batterij.gelinkte_huizen:
-            print(f' {huis.huis_id}|', end='')
-        print('')
+        print(f'{len(batterij.gelinkte_huizen)}')
+        #for huis in batterij.gelinkte_huizen:
+        #    print(f' {huis.huis_id}|', end='')
             
         
