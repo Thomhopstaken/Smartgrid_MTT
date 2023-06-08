@@ -6,14 +6,13 @@ class Batterijen:
         self.x_as = x
         self.y_as = y
         self.capaciteit = capaciteit
-        self.gebruik = 0
+        self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
-        self.afstand_huizen = {}
-        
-        #to do: lijst van dicts maken met huis_id: huis object en afstand: afstande. 
+        self.afstand_huizen = {} 
     
     def afstand_berekenen(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
+        
         # itereer over ongekoppelde huizen, voeg deze toe aan dictionary en geef afstand tot batterij als waarde mee
         for huis in huizen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
@@ -24,10 +23,7 @@ class Batterijen:
     def closest_house(self):
         distance = self.afstand_huizen
         return min(distance, key=distance.get)
+    
+    def update_usage(self, output):
+        self.resterende_capaciteit -= output
 
-    #def update_usage(self, output):
-     #   self.resterende_capaciteit -= output
-
-    def clear_linked_houses(self):
-        new_dict = {key: value for key, value in self.afstand_huizen.items() if key.linked == False}
-        self.afstand_huizen = new_dict
