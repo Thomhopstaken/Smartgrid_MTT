@@ -1,4 +1,4 @@
-from blok3.Algoritmen_en_heuristieken.Smartgrid_MTT.thom_test.batterijen_backup import Batterijen
+from batterijen import Batterijen
 from district import District
 from huizen import Huizen
 from termcolor import colored
