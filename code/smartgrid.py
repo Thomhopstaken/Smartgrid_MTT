@@ -59,12 +59,6 @@ class Smartgrid:
         self.make_connection(battery, house)
     
 
-    # to do: algo keuze maken huis naar batterij
-
-    # to do: huizen aan batterij verbinden.
-
-    # to do: kabels leggen.
-
 def huis_checker(huis, batterij):
     if not huis.linked:
         if batterij.resterende_capaciteit - huis.maxoutput >= 0:
