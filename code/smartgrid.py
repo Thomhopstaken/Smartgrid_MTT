@@ -73,26 +73,46 @@ def huis_checker(huis, batterij):
 
 
 if __name__ == "__main__":
-    
+
     # vraag om district.
     wijknummer = input('Wijk 1, 2 of 3: ')
-    #algoritme_keuze = input('Kies 1 (greedy algoritme) of 2 (random algoritme)')
+    if wijknummer not in ["1", "2", "3"]:
+        print("Ongeldig wijknummer.")
+    else:
+        wijknummer = int(wijknummer)
+        # maak een district aan
+        wijk = District(wijknummer)
+        # maak een smartgrid aan
+        grid = Smartgrid()
     
-    # maak een district aan. 
-    wijk = District(wijknummer)
-    grid = Smartgrid()
     grid.add_houses(wijk)
     grid.add_batteries(wijk)
+
+    algoritme_keuze = input('Kies (g)reedy algoritme of (r)andom algoritme: ')
     
-    while len(wijk.losse_huizen) > 0:
-        for batterij in wijk.batterijen:
-            for huis in wijk.losse_huizen:
-                if huis_checker(huis, batterij):
-                    #batterij.gebruik += huis.maxoutput
-                    wijk.huis_linken(huis.huis_id)
-                    grid.route_cable(wijk, batterij, huis)
- 
+    if algoritme_keuze == "g":
+        while len(wijk.losse_huizen) > 0:
+            for batterij in wijk.batterijen:
+                for huis in wijk.losse_huizen:
+                    if huis_checker(huis, batterij):
+                        # batterij.gebruik += huis.maxoutput
+                        wijk.huis_linken(huis.huis_id)
+                        grid.route_cable(wijk, batterij, huis)
+    
+    elif algoritme_keuze == "r":
+        # while len(wijk.losse_huizen) > 0:
+        #     for batterij in wijk.batterijen:
+        #         for huis in wijk.losse_huizen:
+        #             if huis_checker(huis, batterij):
+        #                 # batterij.gebruik += huis.maxoutput
+        #                 wijk.huis_linken(huis.huis_id)
+        #                 grid.route_cable(wijk, batterij, huis)
+    else:
+        print("Ongeldig algoritme keuze.")
+    
+    
     grid.print_grid()
+
     for batterij in wijk.batterijen:
         print(F'Batterij {batterij.batterij_id} gebruik: {batterij.resterende_capaciteit}')
         print(f'gelinkte huizen:')
