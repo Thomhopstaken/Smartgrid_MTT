@@ -3,30 +3,35 @@ from district import District
 from huizen import Huizen
 from termcolor import colored
 
-class Smartgrid:
 
+class Smartgrid:
     def __init__(self):
+        """Initialiseert het Smartgrid-object."""
         self.grid = self.create_grid()
 
     def create_grid(self):
+        """Maakt een 2D-array voor het grid en vult het met lege cellen."""
         rows, cols = (51, 51)
         arr = [["_" for _ in range(cols)] for _ in range(rows)]
         return arr
 
     def print_grid(self):
+        """Print het Smartgrid."""
         for row in self.grid:
             print(*row)
-            
+
     def add_houses(self, district):
+        """Voegt huizen toe aan het Smartgrid."""
         for house in district.losse_huizen:
             self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
+        """Voegt batterijen toe aan het Smartgrid."""
         for battery in district.batterijen:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
-        """Voegt kabel connecties toe aan grid."""
+        """Voegt een kabel toe aan het Smartgrid op de opgegeven positie."""
         if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
             return
         try:
@@ -35,6 +40,7 @@ class Smartgrid:
             self.grid[y][x] = 1
 
     def route_cable(self, wijk, batterij, huis):
+        """Bepaalt de route van de kabel tussen een batterij en een huis."""
         cursor_x, cursor_y = batterij.x_as, batterij.y_as
         while cursor_x < huis.x_as:
             huis.lay_cable((cursor_x), (cursor_y))
@@ -56,6 +62,7 @@ class Smartgrid:
         wijk.creer_connectie(batterij, huis)
 
 def huis_checker(huis, batterij):
+    """Controleert of een huis kan worden aangesloten op een batterij."""
     if not huis.linked:
         if batterij.resterende_capaciteit - huis.maxoutput >= 0:
             return True
@@ -63,6 +70,7 @@ def huis_checker(huis, batterij):
             return False
     else:
         return False
+
 
 if __name__ == "__main__":
     
