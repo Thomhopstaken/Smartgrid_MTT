@@ -52,7 +52,7 @@ class Smartgrid:
             self.add_cable((50 - cursor_y + 1), (cursor_x))
             cursor_y -= 1
         huis.lay_cable((cursor_x), (cursor_y))
-        wijk.make_connection(batterij, huis)
+        wijk.creer_connectie(batterij, huis)
 
 def huis_checker(huis, batterij):
     if not huis.linked:

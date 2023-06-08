@@ -93,7 +93,7 @@ class District:
             if huis.huis_id == id:
                 return huis
 
-    def make_connection(self, batterij, huis):
+    def creer_connectie(self, batterij, huis):
         huis.linked = True
         batterij.update_usage(huis.maxoutput)
         batterij.gelinkte_huizen.append(huis)
