@@ -17,7 +17,7 @@ class Smartgrid:
         for row in self.grid:
             print(*row)
     def add_houses(self, district):
-        for house in district.huizen:
+        for house in district.losse_huizen:
             self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
 
     def add_batteries(self, district):
@@ -25,23 +25,54 @@ class Smartgrid:
             self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
 
     def add_cable(self, y, x):
+        if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
+            return
         try:
             self.grid[y][x] += 1
         except TypeError:
             self.grid[y][x] = 1
 
-    def huizen_verdelen(self, wijk):
-        for batterij in wijk.batterijen:
-            for huis in batterij.afstand_huizen:
-                while huis.linked == False:
-                    batterij.gelinkte_huizen.append(huis)
-                    batterij.resterende_capaciteit -= huis.maxoutput 
-                    huis.afstand_batterij = batterij.afstand_huizen[huis]
-                    huis.linked == True
+    def make_connection(self, battery, house):
+        house.linked = True
+        #battery.update_usage(house.maxoutput)
+        battery.gelinkte_huizen.append(house)
 
-        
-                    
+    def route_cable(self, battery, house):
+        cursor_x, cursor_y = battery.x_as, battery.y_as
+        while cursor_x < house.x_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y), (cursor_x + 1))
+            cursor_x += 1
+        while cursor_x > house.x_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y), (cursor_x - 1))
+            cursor_x -= 1
+        while cursor_y < house.y_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y - 1), (cursor_x))
+            cursor_y += 1
+        while cursor_y > house.y_as:
+            house.lay_cable((cursor_x), (cursor_y))
+            self.add_cable((50 - cursor_y + 1), (cursor_x))
+            cursor_y -= 1
+        house.lay_cable((cursor_x), (cursor_y))
+        self.make_connection(battery, house)
+    
 
+    # to do: algo keuze maken huis naar batterij
+
+    # to do: huizen aan batterij verbinden.
+
+    # to do: kabels leggen.
+
+def huis_checker(huis, batterij):
+    if not huis.linked:
+        if batterij.gebruik + huis.maxoutput <= batterij.capaciteit:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 if __name__ == "__main__":
     
@@ -62,22 +93,27 @@ if __name__ == "__main__":
     grid = Smartgrid()
     grid.add_houses(wijk)
     grid.add_batteries(wijk)
-    grid.huizen_verdelen(wijk)
-    # grid.add_cable(0, 0)
-    # grid.add_cable(0, 0)
-    # grid.add_cable(0, 0)
-    # grid.print_grid()
 
-    # print(wijk.batterijen[0].afstand_huizen)
     # print(wijk.batterijen[0].x_as)
     # print(wijk.batterijen[0].y_as)
 
-    
+    # print(wijk.batterijen[0].closest_house().x_as)
+    # print(wijk.batterijen[0].closest_house().y_as)
+
+    while len(wijk.losse_huizen) > 0:
+        for batterij in wijk.batterijen:
+            for huis in wijk.losse_huizen:
+                if huis_checker(huis, batterij):
+                    batterij.gebruik += huis.maxoutput
+                    wijk.huis_linken(huis.huis_id)
+                    grid.route_cable(batterij, huis)
+ 
+    grid.print_grid()
     for batterij in wijk.batterijen:
-        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.resterende_capaciteit}')
+        print(F'Batterij {batterij.batterij_id} gebruik: {batterij.gebruik}')
         print(f'gelinkte huizen:')
-        for huis in batterij.gelinkte_huizen:
-            print(f' {huis.huis_id}|', end='')
-        print('')
+        print(f'{len(batterij.gelinkte_huizen)}')
+        #for huis in batterij.gelinkte_huizen:
+        #    print(f' {huis.huis_id}|', end='')
             
         
