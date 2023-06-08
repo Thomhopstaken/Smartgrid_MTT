@@ -67,13 +67,14 @@ if __name__ == "__main__":
     
     # vraag om district.
     wijknummer = input('Wijk 1, 2 of 3: ')
+    algoritme_keuze = input('Kies 1 (greedy algoritme) of 2 (random algoritme)')
     
     # maak een district aan. 
     wijk = District(wijknummer)
     grid = Smartgrid()
     grid.add_houses(wijk)
     grid.add_batteries(wijk)
-
+    
     while len(wijk.losse_huizen) > 0:
         for batterij in wijk.batterijen:
             for huis in wijk.losse_huizen:
