@@ -10,7 +10,16 @@ class Huizen:
         self.linked = False
 
     def lay_cable(self, x, y) -> None:
-        """Maakt connecties tussen batterijen en huizen."""
+        """Voegt kabels toe in self.kabels."""
         self.kabels.append((x, y))
+        # print(f"kabels: {self.kabels}")
 
-    
+    def kan_huis_aansluiten_op_batterij(self, batterij):
+        """Controleert of een huis kan worden aangesloten op een batterij."""
+        if not self.linked:
+            if batterij.resterende_capaciteit - self.maxoutput >= 0:
+                return True
+            else:
+                return False
+        else:
+            return False
