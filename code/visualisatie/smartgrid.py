@@ -4,8 +4,11 @@ import os
 
 def visualise(wijknummer, wijk):
     cwd = os.getcwd()
-    df = pd.read_csv(cwd + f'/Huizen&Batterijen/district_{wijknummer}/district-{wijknummer}_houses.csv')
-    df2 = pd.read_csv(cwd + f'/Huizen&Batterijen/district_{wijknummer}/district-{wijknummer}_batteries.csv')
+    sep = os.sep
+    pad1 = f'{sep}Huizen&Batterijen{sep}district_{wijknummer}{sep}district-{wijknummer}_houses.csv'
+    pad2 =f'{sep}Huizen&Batterijen{sep}district_{wijknummer}{sep}district-{wijknummer}_batteries.csv'
+    df = pd.read_csv(cwd + os.path.normpath(pad1))
+    df2 = pd.read_csv(cwd + os.path.normpath(pad2))
     colors = ['b', 'y', 'r', 'c', 'm']
     positions = []
     for i in range(len(df2)):

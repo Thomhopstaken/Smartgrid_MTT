@@ -55,7 +55,7 @@ class District:
                 if data[0].isnumeric():
                     self.losse_huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
-    def data_inladen(self, b: TextIO) -> list[str]:
+    def data_inladen(self, b: TextIO):
         """Neemt bestandlijn en converteert het naar een lijst.
 
         In: CSV bestand.
@@ -78,8 +78,9 @@ class District:
         # hoofdfolder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         # district_map = os.path.join(hoofdfolder, 'Huizen&Batterijen', f'district_{self.districtnummer}')
         # bestandnaam = f'district-{self.districtnummer}_{naam}.csv'
-
-        return cwd + f'\Huizen&Batterijen\district_{district}\district-{district}_{item}.csv'
+        sep = os.sep
+        pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
+        return cwd + os.path.normpath(pad)
 
     def link_huis(self, id):
         for huis in self.losse_huizen:
