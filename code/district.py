@@ -15,7 +15,6 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-       
 
 
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
@@ -80,18 +79,19 @@ class District:
         
         return os.path.join(district_map, bestandnaam)
     
-    def huis_linken(self, id):
+    def link_huis(self, id):
         for huis in self.losse_huizen:
             if huis.huis_id == id:
                 self.losse_huizen.remove(huis)
                 self.gelinkte_huizen.append(huis)
-                huis.linked = True
+                huis.linked == True
                 break
                     
-    def huis_vinden(self, id):
-        for huis in self.losse_huizen:
-            if huis.huis_id == id:
-                return huis
+    # def vind_los_huis(self, id):
+    #     """Returnt een ongekoppeld huis."""
+    #     for huis in self.losse_huizen:
+    #         if huis.huis_id == id:
+    #             return huis
 
     def creer_connectie(self, batterij, huis):
         huis.linked = True
