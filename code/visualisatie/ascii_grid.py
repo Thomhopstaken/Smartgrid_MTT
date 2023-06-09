@@ -1,6 +1,4 @@
-from batterijen import Batterijen
-from district import District
-from huizen import Huizen
+from code.klassen.district import District
 from termcolor import colored
 
 
