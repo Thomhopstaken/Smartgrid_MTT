@@ -1,11 +1,12 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 from district import District
-from algoritmes.random import random_alg
-from algoritmes.greedy import greedy_alg
+
 import os
-
-
+import sys
+sys.path.append('../..')
+from algoritmes import random
+from algoritmes import greedy
 
 wijknummer = input('Wijk 1, 2 of 3: ')
 colors = ['b', 'y', 'r', 'c', 'm']
@@ -46,7 +47,7 @@ for i in range(len(wijk.batterijen)):
     plt.plot(x_pos[i], y_pos[i], marker='s', ls='none', ms=10, color=colors[i])
 
 
-greedy_alg(wijk)
+greedy.greedy_alg(wijk)
 
 for i in range(len(wijk.gelinkte_huizen)):
     color = colors[i % len(colors)]
