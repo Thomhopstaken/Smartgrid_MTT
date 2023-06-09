@@ -84,8 +84,10 @@ class District:
             if huis.huis_id == id:
                 self.losse_huizen.remove(huis)
                 self.gelinkte_huizen.append(huis)
-                huis.linked == True
+                huis.linked = True
                 break
+
+
                     
     # def vind_los_huis(self, id):
     #     """Returnt een ongekoppeld huis."""
@@ -97,3 +99,20 @@ class District:
         huis.linked = True
         batterij.update_usage(huis.maxoutput)
         batterij.gelinkte_huizen.append(huis)
+
+    def route_cable(self, batterij, huis):
+        cursor_x, cursor_y = batterij.x_as, batterij.y_as
+        while cursor_x < huis.x_as:
+            huis.lay_cable((cursor_x), (cursor_y))
+            cursor_x += 1
+        while cursor_x > huis.x_as:
+            huis.lay_cable((cursor_x), (cursor_y))
+            cursor_x -= 1
+        while cursor_y < huis.y_as:
+            huis.lay_cable((cursor_x), (cursor_y))
+            cursor_y += 1
+        while cursor_y > huis.y_as:
+            huis.lay_cable((cursor_x), (cursor_y))
+            cursor_y -= 1
+        huis.lay_cable((cursor_x), (cursor_y))
+        self.creer_connectie(batterij, huis)
