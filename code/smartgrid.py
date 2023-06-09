@@ -47,13 +47,12 @@ for i in range(len(wijk.batterijen)):
 
 
 greedy_alg(wijk)
-
 for i in range(len(wijk.gelinkte_huizen)):
     color = colors[i % len(colors)]
     for j in range(len(wijk.gelinkte_huizen[i].kabels)):
         kabel= wijk.gelinkte_huizen[i].kabels
         try:
-            plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color)
+            plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color, linestyle='--')
             # print(wijk.gelinkte_huizen[i].kabels[j][0], wijk.gelinkte_huizen[i].kabels[j+1][0])
         except IndexError:
             break
