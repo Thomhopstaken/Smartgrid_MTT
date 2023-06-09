@@ -12,11 +12,11 @@ class District:
         In: wijknummer."""
 
         self.districtnummer = district
+        self.kosten = 0
+        self.aantal_kabels = 0
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-       
-
 
         self.laad_batterijen(f"{self.bestand_vinden('batteries')}")
         self.laad_huizen(f"{self.bestand_vinden('houses')}")
@@ -97,3 +97,8 @@ class District:
         huis.linked = True
         batterij.update_usage(huis.maxoutput)
         batterij.gelinkte_huizen.append(huis)
+        self.aantal_kabels += 1
+
+    def kosten_berekenen(self):
+        self.kosten += len(self.batterijen) * 5000
+        self.kosten += self.aantal_kabels * 9
