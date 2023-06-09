@@ -12,6 +12,7 @@ class Huizen:
     def lay_cable(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""
         self.kabels.append((x, y))
+
         # print(f"kabels: {self.kabels}")
 
     def kan_huis_aansluiten_op_batterij(self, batterij):
@@ -23,3 +24,4 @@ class Huizen:
                 return False
         else:
             return False
+
