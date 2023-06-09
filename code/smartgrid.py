@@ -49,12 +49,18 @@ for i in range(len(wijk.batterijen)):
 
 greedy.greedy_alg(wijk)
 
+batterij_coordinaten = []
+for batterij in wijk.batterijen:
+    coord = (batterij.x_as, batterij.y_as)
+    batterij_coordinaten.append(coord)
+
 for i in range(len(wijk.gelinkte_huizen)):
-    color = colors[i % len(colors)]
+    index = batterij_coordinaten.index(wijk.gelinkte_huizen[i].kabels[0])
+    color = colors[index]
     for j in range(len(wijk.gelinkte_huizen[i].kabels)):
-        kabel= wijk.gelinkte_huizen[i].kabels
+        kabel = wijk.gelinkte_huizen[i].kabels
         try:
-            plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color)
+            plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color, linestyle='--')
             # print(wijk.gelinkte_huizen[i].kabels[j][0], wijk.gelinkte_huizen[i].kabels[j+1][0])
         except IndexError:
             break
