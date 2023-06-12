@@ -13,6 +13,16 @@ def random_alg(wijk) -> bool:
                     wijk.link_huis(huis.huis_id)
                     wijk.leg_kabel_route(batterij, huis)
                     print(f"{counter}: yes")
+                else:
+                    if counter == 149 and batterij.resterende_capaciteit < huis.maxoutput:
+                        stop_counter += 1
+                    #print(f'{counter}: error on house {huis.huis_id}')
+                    #print(f'capaciteit batterij: {batterij.batterij_id}: {batterij.resterende_capaciteit}')
+        if stop_counter == 5:
+            print('run failed!')
+            return False
+    print('Run Succesvol!')    
+    return True
 '''
                 else:
                     if counter == 149 and batterij.resterende_capaciteit < huis.maxoutput:
