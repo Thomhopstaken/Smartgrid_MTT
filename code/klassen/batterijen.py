@@ -10,7 +10,12 @@ class Batterijen:
         self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
         self.afstand_huizen = {} 
-    
+
+    def delink_output(self, huis):
+        self.resterende_capaciteit -= huis.maxoutput
+        nieuwe_lijst = set(self.gelinkte_huizen) - set(huis)
+        self.gelinkte_huizen = list(nieuwe_lijst)
+
     def bereken_afstand(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
 

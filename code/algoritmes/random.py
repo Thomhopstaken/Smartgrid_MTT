@@ -13,13 +13,25 @@ def random_alg(wijk) -> None:
                     wijk.link_huis(huis.huis_id)
                     wijk.leg_kabel_route(batterij, huis)
                     print(f"{counter}: yes")
+'''
                 else:
                     if counter == 149 and batterij.resterende_capaciteit < huis.maxoutput:
-                        stop_counter += 1
-                    print(f'{counter}: error on house {huis.huis_id}')
+                    #     stop_counter += 1
+                        print(f'{counter}: error on house {huis.huis_id}')
                     #print(f'cordinates; {huis.x_as}|{huis.y_as}')
                     #print(f'output: {huis.maxoutput}')
-                    print(f'capaciteit batterij: {batterij.batterij_id}: {batterij.resterende_capaciteit}')
-        if stop_counter ==5:
+                        print(f'capaciteit batterij: {batterij.batterij_id}: {batterij.resterende_capaciteit}')
+                        try:
+                            random_huis = random.choice(wijk.gelinkte_huizen)
+                            wijk.delink_huis(random_huis.huis_id)
+                            random_huis.verwijder_kabels()
+                            batterij.delink_output(random_huis)
+                            counter = 148
+                            print("Delinked: ", random_huis.huis_id)
+                        except IndexError:
+                            print("Index Error")
+
+        if stop_counter == 5:
             print('run failed!')
-            break
+
+'''

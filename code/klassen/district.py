@@ -89,7 +89,15 @@ class District:
                 self.gelinkte_huizen.append(huis)
                 huis.aangesloten = True
                 break
-                    
+
+    def delink_huis(self, id):
+        for huis in self.gelinkte_huizen:
+            if huis.huis_id == id:
+                self.gelinkte_huizen.remove(huis)
+                self.losse_huizen.append(huis)
+                huis.aangesloten = False
+                continue
+
     # def vind_los_huis(self, id):
     #     """Returnt een ongekoppeld huis."""
     #     for huis in self.losse_huizen:
