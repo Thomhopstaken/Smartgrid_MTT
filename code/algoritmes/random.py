@@ -1,3 +1,5 @@
+import random
+
 def random_alg(wijk) -> None:
     """Willekeurig algoritme om huizen aan te sluiten op batterijen in een wijk."""
 
