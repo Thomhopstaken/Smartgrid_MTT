@@ -87,7 +87,7 @@ if __name__ == "__main__":
                     if huis.kan_huis_aansluiten_op_batterij(batterij):
                         # batterij.gebruik += huis.maxoutput
                         wijk.link_huis(huis.huis_id)
-                        grid.route_cable(wijk, batterij, huis)
+                        grid.leg_kabel_route(wijk, batterij, huis)
     
     elif algoritme_keuze == "g":
         while len(wijk.losse_huizen) > 0:
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 for huis in wijk.losse_huizen:
                     if kan_huis_aansluiten_op_batterij(huis, batterij):
                         wijk.link_huis(huis.huis_id)
-                        grid.route_cable(wijk, batterij, huis)
+                        grid.leg_kabel_route(wijk, batterij, huis)
     else:
         print("Ongeldig algoritme keuze.")
     

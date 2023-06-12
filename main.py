@@ -10,6 +10,6 @@ if __name__ == "__main__":
     # maak een district aan.
     wijk = district.District(wijknummer)
 
-    random.random_alg(wijk)
+    #random.random_alg(wijk)
 
-    smartgrid.visualise(wijknummer, wijk)
+    #smartgrid.visualise(wijknummer, wijk)
