@@ -1,6 +1,6 @@
 import random
 
-def random_alg(wijk) -> None:
+def random_alg(wijk) -> bool:
     """Willekeurig algoritme om huizen aan te sluiten op batterijen in een wijk."""
 
     counter = 0
