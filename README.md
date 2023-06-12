@@ -15,8 +15,9 @@ Requirements:
 
 - typing library
 - os library
-- termcolor
+- termcolor (bij ASCII_grid)
 - matplotlib
+- python3-tk (GUI-backend)
 
 to do:
 
