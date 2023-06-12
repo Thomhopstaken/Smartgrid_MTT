@@ -79,6 +79,11 @@ class District:
         return cwd + os.path.normpath(pad)
 
     def link_huis(self, id):
+        """Link een huis aan een batterij, verwijder het huis uit losse_huizen en
+        en voeg deze toe aan gelinkte_huizen. 
+        
+        In: Huis_id"""
+        
         for huis in self.losse_huizen:
             if huis.huis_id == id:
                 self.losse_huizen.remove(huis)
