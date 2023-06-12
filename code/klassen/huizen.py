@@ -7,7 +7,7 @@ class Huizen:
         self.y_as = y
         self.maxoutput = maxoutput
         self.kabels = []
-        self.linked = False
+        self.aangesloten = False
 
     def leg_kabel(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""
@@ -16,7 +16,7 @@ class Huizen:
 
     def kan_huis_aansluiten_op_batterij(self, batterij):
         """Controleert of een huis kan worden aangesloten op een batterij."""
-        if not self.linked:
+        if not self.aangesloten:
             if batterij.resterende_capaciteit - self.maxoutput >= 0:
                 return True
             else:
