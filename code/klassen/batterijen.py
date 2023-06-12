@@ -18,7 +18,7 @@ class Batterijen:
         for huis in huizen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             self.afstand_huizen[huis.huis_id] = afstand
-            self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda x: x[1], reverse=True))
+     
 
     def dichtstbijzijnde_huis(self) -> int:
         """Neemt het dichtstbijzijnde huis vanaf een batterij."""
