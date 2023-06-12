@@ -1,4 +1,6 @@
-def greedy_alg(wijk):
+def greedy_alg(wijk) -> None:
+    """Greedy algoritme om huizen aan te sluiten op batterijen in een wijk."""
+    
     while len(wijk.losse_huizen) > 0:
         for batterij in wijk.batterijen:
             for huis in wijk.losse_huizen:
