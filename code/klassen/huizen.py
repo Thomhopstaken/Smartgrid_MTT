@@ -19,10 +19,4 @@ class Huizen:
     def kan_huis_aansluiten_op_batterij(self, batterij) -> bool:
         """Controleert of een huis kan worden aangesloten op een batterij."""
         
-        if not self.aangesloten:
-            if batterij.resterende_capaciteit - self.maxoutput >= 0:
-                return True
-            else:
-                return False
-        else:
-            return False
+        return not self.aangesloten and batterij.resterende_capaciteit - self.maxoutput >= 0

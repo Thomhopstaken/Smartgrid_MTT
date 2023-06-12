@@ -6,4 +6,4 @@ def random_alg(wijk) -> None:
             for huis in wijk.losse_huizen:
                 if huis.kan_huis_aansluiten_op_batterij(batterij):
                     wijk.link_huis(huis.huis_id)
-                    wijk.route_cable(batterij, huis)
+                    wijk.leg_kabel_route(batterij, huis)
