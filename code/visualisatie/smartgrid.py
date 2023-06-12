@@ -54,5 +54,4 @@ def visualise(wijknummer, wijk):
             except IndexError:
                 break
 
-    # Display the plot
-    plt.show()
+    plt.savefig('smartgrid.png')
