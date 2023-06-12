@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
+import matplotlib
 import pandas as pd
 import os
+matplotlib.use('TkAgg')
 
 def visualise(wijknummer, wijk):
     cwd = os.getcwd()
@@ -52,4 +54,4 @@ def visualise(wijknummer, wijk):
                 break
 
     # Display the plot
-    #plt.show()
+    plt.show()
