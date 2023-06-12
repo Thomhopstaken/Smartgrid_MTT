@@ -2,7 +2,7 @@ import random
 
 def random_alg(wijk) -> bool:
     """Willekeurig algoritme om huizen aan te sluiten op batterijen in een wijk."""
-
+    random.shuffle(wijk.losse_huizen)
     counter = 0
     stop_counter = 0
     while len(wijk.losse_huizen) > 0:
