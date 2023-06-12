@@ -8,28 +8,28 @@ class Smartgrid:
         """Initialiseert het Smartgrid-object."""
         self.grid = self.create_grid()
 
-    def init_grid(self):
+    def initialiseer_grid(self):
         """Initialiseert een 2D-array voor het grid en vult het met lege cellen."""
-        rows, cols = (51, 51)
-        arr = [["_" for _ in range(cols)] for _ in range(rows)]
+        rij, kolom = (51, 51)
+        arr = [["_" for _ in range(kolom)] for _ in range(rij)]
         return arr
 
     def print_grid(self):
         """Print het Smartgrid."""
-        for row in self.grid:
-            print(*row)
+        for rij in self.grid:
+            print(*rij)
 
-    def add_houses(self, district):
+    def huizen_toevoegen(self, district):
         """Voegt huizen toe aan het Smartgrid."""
-        for house in district.losse_huizen:
-            self.grid[(50 - house.y_as)][house.x_as] = colored('H', 'blue')
+        for huis in district.losse_huizen:
+            self.grid[(50 - huis.y_as)][huis.x_as] = colored('H', 'blue')
 
-    def add_batteries(self, district):
+    def batterijen_toevoegen(self, district):
         """Voegt batterijen toe aan het Smartgrid."""
-        for battery in district.batterijen:
-            self.grid[(50 - battery.y_as)][battery.x_as] = colored('B', 'red')
+        for batterij in district.batterijen:
+            self.grid[(50 - batterij.y_as)][batterij.x_as] = colored('B', 'red')
 
-    def add_cable(self, y, x):
+    def kabel_toevoegen(self, y, x):
         """Geeft kleur aan huis en batterij in grid."""
         if self.grid[y][x] == colored('H', 'blue') or self.grid[y][x] == colored('B', 'red'):
             return
@@ -38,26 +38,26 @@ class Smartgrid:
         except TypeError:
             self.grid[y][x] = 1
 
-    def route_cable(self, wijk, batterij, huis):
+    def leg_kabel_route(self, wijk, batterij, huis):
         """Bepaalt de route van de kabel tussen een batterij en een huis."""
         cursor_x, cursor_y = batterij.x_as, batterij.y_as
         while cursor_x < huis.x_as:
-            huis.lay_cable((cursor_x), (cursor_y))
-            self.add_cable((50 - cursor_y), (cursor_x + 1))
+            huis.leg_kabel((cursor_x), (cursor_y))
+            self.kabel_toevoegen((50 - cursor_y), (cursor_x + 1))
             cursor_x += 1
         while cursor_x > huis.x_as:
-            huis.lay_cable((cursor_x), (cursor_y))
-            self.add_cable((50 - cursor_y), (cursor_x - 1))
+            huis.leg_kabel((cursor_x), (cursor_y))
+            self.kabel_toevoegen((50 - cursor_y), (cursor_x - 1))
             cursor_x -= 1
         while cursor_y < huis.y_as:
-            huis.lay_cable((cursor_x), (cursor_y))
-            self.add_cable((50 - cursor_y - 1), (cursor_x))
+            huis.leg_kabel((cursor_x), (cursor_y))
+            self.kabel_toevoegen((50 - cursor_y - 1), (cursor_x))
             cursor_y += 1
         while cursor_y > huis.y_as:
-            huis.lay_cable((cursor_x), (cursor_y))
-            self.add_cable((50 - cursor_y + 1), (cursor_x))
+            huis.leg_kabel((cursor_x), (cursor_y))
+            self.kabel_toevoegen((50 - cursor_y + 1), (cursor_x))
             cursor_y -= 1
-        huis.lay_cable((cursor_x), (cursor_y))
+        huis.leg_kabel((cursor_x), (cursor_y))
         wijk.creer_connectie(batterij, huis)
 
 
@@ -75,8 +75,8 @@ if __name__ == "__main__":
         # maak een smartgrid aan
         grid = Smartgrid()
     
-    grid.add_houses(wijk)
-    grid.add_batteries(wijk)
+    grid.huizen_bijvoegen(wijk)
+    grid.batterijen_bijvoegen(wijk)
 
     algoritme_keuze = input('Kies (g)reedy algoritme of (r)andom algoritme: ')
     
