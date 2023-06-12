@@ -17,6 +17,7 @@ Requirements:
 - os library
 - termcolor (bij ASCII_grid)
 - matplotlib
+- pandas
 - python3-tk (GUI-backend)
 
 to do:
