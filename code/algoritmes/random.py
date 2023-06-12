@@ -10,18 +10,22 @@ def random_alg(wijk) -> bool:
             for huis in wijk.losse_huizen:
                 if huis.kan_huis_aansluiten_op_batterij(batterij):
                     counter += 1
+                    stop_counter = 0
                     wijk.link_huis(huis.huis_id)
                     wijk.leg_kabel_route(batterij, huis)
                     print(f"{counter}: yes")
                 else:
-                    if counter == 149 and batterij.resterende_capaciteit < huis.maxoutput:
-                        stop_counter += 1
-                    #print(f'{counter}: error on house {huis.huis_id}')
-                    #print(f'capaciteit batterij: {batterij.batterij_id}: {batterij.resterende_capaciteit}')
-        if stop_counter == 5:
-            print('run failed!')
-            return False
-    print('Run Succesvol!')    
+                    stop_counter += 1
+                    print(f'{counter}: error on house {huis.huis_id}')
+                    print(f'capaciteit batterij: {batterij.batterij_id}: {batterij.resterende_capaciteit}')
+                    print(f'stop counter: {stop_counter}')
+                    if counter >= 148 and stop_counter == 5:
+                        return False
+
+            if stop_counter == 5:
+                print('run failed!')
+                return False
+    print('Run Succesvol!')
     return True
 '''
                 else:

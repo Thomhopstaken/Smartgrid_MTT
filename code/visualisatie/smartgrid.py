@@ -55,4 +55,5 @@ def visualise(wijknummer, wijk):
                 break
 
     # Display the plot
-    plt.show()
+    # plt.show()
+    
