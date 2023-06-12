@@ -5,7 +5,6 @@ import os
 
 
 class District:
-
     def __init__(self, district: int) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 

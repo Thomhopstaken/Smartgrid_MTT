@@ -1,4 +1,5 @@
 class Batterijen:
+    
     def __init__(self, i, x, y, capaciteit) -> None:
         """Neemt gegevens van batterijen uit district en slaat het op in batterij object."""
 
@@ -27,5 +28,5 @@ class Batterijen:
     
     def update_verbruik(self, output) -> None:
         """Update de resterende capaciteit van de batterij na het aansluiten van een huis."""
-        
+
         self.resterende_capaciteit -= output
