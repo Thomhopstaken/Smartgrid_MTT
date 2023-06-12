@@ -54,4 +54,4 @@ def visualise(wijknummer, wijk):
             except IndexError:
                 break
 
-    plt.savefig('smartgrid.png')
+    plt.savefig('figures/smartgrid.png')
