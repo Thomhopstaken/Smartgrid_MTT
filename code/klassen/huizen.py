@@ -9,7 +9,7 @@ class Huizen:
         self.kabels = []
         self.linked = False
 
-    def lay_cable(self, x, y) -> None:
+    def leg_kabel(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""
         self.kabels.append((x, y))
         # print(f"kabels: {self.kabels}")
