@@ -1,8 +1,9 @@
-from matplotlib import pyplot as plt
 import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 import pandas as pd
 import os
-matplotlib.use('TkAgg')
+
 
 def visualise(wijknummer, wijk):
     cwd = os.getcwd()
