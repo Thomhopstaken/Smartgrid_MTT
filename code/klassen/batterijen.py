@@ -10,7 +10,7 @@ class Batterijen:
         self.gelinkte_huizen = []
         self.afstand_huizen = {} 
     
-    def afstand_berekenen(self, huizen) -> None:
+    def bereken_afstand(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
         
         # itereer over ongekoppelde huizen, voeg deze toe aan dictionary en geef afstand tot batterij als waarde mee
@@ -20,10 +20,10 @@ class Batterijen:
             self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda x: x[1], reverse=True))
             #print(self.afstand_huizen)
 
-    def closest_house(self):
+    def dichstbijzijnde_huis(self) -> int:
         distance = self.afstand_huizen
         return min(distance, key=distance.get)
     
-    def update_usage(self, output):
+    def update_verbruik(self, output) -> None:
         self.resterende_capaciteit -= output
 

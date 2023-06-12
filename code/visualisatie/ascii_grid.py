@@ -3,12 +3,13 @@ from termcolor import colored
 
 
 class Smartgrid:
+
     def __init__(self):
         """Initialiseert het Smartgrid-object."""
         self.grid = self.create_grid()
 
-    def create_grid(self):
-        """Maakt een 2D-array voor het grid en vult het met lege cellen."""
+    def init_grid(self):
+        """Initialiseert een 2D-array voor het grid en vult het met lege cellen."""
         rows, cols = (51, 51)
         arr = [["_" for _ in range(cols)] for _ in range(rows)]
         return arr
