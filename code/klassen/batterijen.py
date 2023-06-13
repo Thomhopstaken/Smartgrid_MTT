@@ -9,7 +9,8 @@ class Batterijen:
         self.capaciteit = capaciteit
         self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
-        self.afstand_huizen = {} 
+        self.afstand_huizen = {}
+        self.gelegde_kabels = []
 
     # def delink_output(self, huis):
     #     self.resterende_capaciteit -= huis.maxoutput
@@ -23,7 +24,7 @@ class Batterijen:
         for huis in huizen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             self.afstand_huizen[huis.huis_id] = afstand
-        print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+        # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
      
 
     def dichtstbijzijnde_huis(self) -> int:
@@ -36,3 +37,6 @@ class Batterijen:
         """Update de resterende capaciteit van de batterij na het aansluiten van een huis."""
 
         self.resterende_capaciteit -= output
+
+    def kabel_toevoegen(self, kabel):
+        self.gelegde_kabels.append(kabel)

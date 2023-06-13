@@ -14,7 +14,6 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-        self.kabel_lijst = []
 
 
         self.laad_batterijen(self.data_pad(district, 'batteries'))
@@ -112,18 +111,28 @@ class District:
 
     def leg_kabel_route(self, batterij, huis):
         cursor_x, cursor_y = batterij.x_as, batterij.y_as
+        huis.leg_kabel((cursor_x), (cursor_y))
         while cursor_x < huis.x_as:
-            huis.leg_kabel((cursor_x), (cursor_y))
+            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
+                huis.leg_kabel((cursor_x), (cursor_y))
+                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x += 1
         while cursor_x > huis.x_as:
-            huis.leg_kabel((cursor_x), (cursor_y))
+            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
+                huis.leg_kabel((cursor_x), (cursor_y))
+                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x -= 1
         while cursor_y < huis.y_as:
-            huis.leg_kabel((cursor_x), (cursor_y))
+            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
+                huis.leg_kabel((cursor_x), (cursor_y))
+                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y += 1
         while cursor_y > huis.y_as:
-            huis.leg_kabel((cursor_x), (cursor_y))
+            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
+                huis.leg_kabel((cursor_x), (cursor_y))
+                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y -= 1
+
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
     
@@ -134,11 +143,7 @@ class District:
 
         for batterij in self.batterijen:
             for huis in batterij.gelinkte_huizen:
-                for i in range(len(huis.kabels)):
-                    if huis.kabels[i] not in self.kabel_lijst:
-                        self.kabel_lijst.append(huis.kabels[i])
-
-            prijskaartje += (len(self.kabel_lijst)) * 9
+                prijskaartje += (len(huis.kabels)) * 9
 
         return prijskaartje
 
