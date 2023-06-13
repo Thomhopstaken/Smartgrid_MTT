@@ -8,7 +8,14 @@ class Huizen:
         self.y_as = y
         self.maxoutput = maxoutput
         self.kabels = []
+        self.afstand_batterijen = {}
         self.aangesloten = False
+    
+    def bereken_afstand(self, batterijen):
+        for batterij in batterijen:
+            afstand = abs(batterij.x_as - self.x_as) + abs(batterij.y_as - self.y_as)
+            self.afstand_batterijen[batterij] = afstand
+        self.afstand_batterijen = dict(sorted(self.afstand_batterijen.items(), key=lambda item:item[1]))
 
     def leg_kabel(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""

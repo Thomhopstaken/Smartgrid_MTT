@@ -19,8 +19,8 @@ class District:
         self.laad_batterijen(self.data_pad(district, 'batteries'))
         self.laad_huizen(self.data_pad(district, 'houses'))
         
-        for batterij in self.batterijen:
-            batterij.bereken_afstand(self.losse_huizen)
+        for huis in self.losse_huizen:
+            huis.bereken_afstand(self.batterijen)
 
     def laad_batterijen(self, bestand: str) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
