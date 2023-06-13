@@ -14,6 +14,7 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
+        self.prijskaartje = 0
 
 
         self.laad_batterijen(self.data_pad(district, 'batteries'))
@@ -125,3 +126,10 @@ class District:
             cursor_y -= 1
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
+    
+    def kosten_berekening(self):
+        self.prijskaartje += (len(self.batterijen)) * 5000
+        for huis in self.gelinkte_huizen:
+            self.prijskaartje += (len(huis.kabels)) * 9
+
+        
