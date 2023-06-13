@@ -3,8 +3,6 @@ from code.algoritmes import greedy
 from code.klassen import district
 from code.visualisatie import smartgrid
 
-def check_succes():
-
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
@@ -24,11 +22,13 @@ if __name__ == "__main__":
                 succesvolle_runs[wijk] = wijk.prijskaartje
             else: 
                 mislukte_runs += 1
+                
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
         wijk = district.District(wijk_kiezen, 1)
         run = greedy.greedy_alg(wijk)
         wijk.kosten_berekening()
-        succesvolle_runs = wijk.prijskaartje   
+        succesvolle_runs[wijk] = wijk.prijskaartje   
+        
     else: 
         print('Invalid Argument')
     
@@ -46,6 +46,6 @@ if __name__ == "__main__":
         
     else:
         print('Geen succesvolle runs!')
-    
+
 
     
