@@ -27,5 +27,5 @@ class Huizen:
         else:
             return False
 
-    def verwijder_kabels(self) -> None:
-        self.kabels = []
+    # def verwijder_kabels(self) -> None:
+    #     self.kabels = []
