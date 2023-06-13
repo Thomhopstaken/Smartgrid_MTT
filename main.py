@@ -17,6 +17,8 @@ if __name__ == "__main__":
         succesvolle_run = random.random_alg(wijk)
         counter += 1
         print(counter)
+    wijk.kosten_berekening()
+    print(wijk.prijskaartje)
         
 
     smartgrid.visualise(wijknummer, wijk)
