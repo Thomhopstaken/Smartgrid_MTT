@@ -11,7 +11,6 @@ def random_alg(wijk) -> bool:
                 if huis.kan_huis_aansluiten_op_batterij(batterij):
                     counter += 1
                     stop_counter = 0
-                    wijk.link_huis(huis.huis_id)
                     wijk.leg_kabel_route(batterij, huis)
                     #print(f"{counter}: yes")
                 else:
