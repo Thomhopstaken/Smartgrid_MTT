@@ -5,20 +5,40 @@ from code.visualisatie import smartgrid
 
 if __name__ == "__main__":
 
-    wijknummer = input('Wijk 1, 2 of 3: ')
-    colors = ['b', 'y', 'r', 'c', 'm']
-    # maak een district aan.
+    wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
+    algoritme_kiezen = input('Kies uit algoritme (R)andom: ')
+    aantal_runs = int(input('geef aantal runs: '))
     
+    run_succesvol = False
+    succesvolle_runs = {}
+    mislukte_runs = 0
     
-    counter = 0
-    succesvolle_run = False
-    while succesvolle_run == False:
-        wijk = district.District(wijknummer)
-        succesvolle_run = random.random_alg(wijk)
-        counter += 1
-        print(counter)
-    wijk.kosten_berekening()
-    print(wijk.prijskaartje)
+    if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
+        for x in range (0, aantal_runs):
+            wijk = district.District(wijk_kiezen, x)
+            run_succesvol = random.random_alg(wijk)
+            if run_succesvol:
+                wijk.kosten_berekening()
+                succesvolle_runs[wijk] = wijk.prijskaartje
+            else: 
+                mislukte_runs += 1
+    else: 
+        print('Invalid Argument')
+    
+    if len(succesvolle_runs) > 0:
+        goedkoopste_run = min(succesvolle_runs, key=lambda x: succesvolle_runs[x])
+        gemiddelde_prijs = int(sum(succesvolle_runs.values()) / len(succesvolle_runs))
         
+        print('')
+        print('Resultaten: ')
+        print(f'Succesvolle runs:   {len(succesvolle_runs)}')
+        print(f'Mislukte_runs:      {mislukte_runs}')
+        print(f'goedkoopste run:    {goedkoopste_run.id} | {succesvolle_runs[goedkoopste_run]}')
+        print(f'gemiddelde:         {gemiddelde_prijs}')
+        smartgrid.visualise(wijk_kiezen, goedkoopste_run)
+        
+    else:
+        print('Geen succesvolle runs!')
+    
 
-    smartgrid.visualise(wijknummer, wijk)
+    
