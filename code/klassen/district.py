@@ -5,11 +5,11 @@ import os
 
 
 class District:
-    def __init__(self, district: int) -> None:
+    def __init__(self, district: int, id: int) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
-
+        self.id = id
         self.districtnummer = district
         self.batterijen = []
         self.losse_huizen = []
