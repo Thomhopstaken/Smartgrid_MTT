@@ -14,7 +14,7 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-        self.prijskaartje = 0
+        self.kabel_lijst = []
 
 
         self.laad_batterijen(self.data_pad(district, 'batteries'))
@@ -128,8 +128,18 @@ class District:
         self.creer_connectie(batterij, huis)
     
     def kosten_berekening(self):
-        self.prijskaartje += (len(self.batterijen)) * 5000
-        for huis in self.gelinkte_huizen:
-            self.prijskaartje += (len(huis.kabels)) * 9
+        prijskaartje = 0
+        # Kost batterijen
+        prijskaartje += (len(self.batterijen)) * 5000
+
+        for batterij in self.batterijen:
+            for huis in batterij.gelinkte_huizen:
+                for i in range(len(batterij.gelinkte_huizen)):
+                    if huis.kabels[i] not in self.kabel_lijst:
+                        self.kabel_lijst.append(huis.kabels[i])
+
+            prijskaartje += (len(self.kabel_lijst)) * 9
+
+        return prijskaartje
 
         
