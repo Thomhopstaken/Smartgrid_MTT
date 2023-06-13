@@ -25,8 +25,7 @@ if __name__ == "__main__":
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
         wijk = district.District(wijk_kiezen, 1)
         run = greedy.greedy_alg(wijk)
-        wijk.kosten_berekening()
-        succesvolle_runs[wijk] = wijk.prijskaartje   
+        succesvolle_runs[wijk] = wijk.kosten_berekening()   
         
     else: 
         print('Invalid Argument')
