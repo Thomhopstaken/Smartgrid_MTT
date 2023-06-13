@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy: ')
-    aantal_runs = int(input('geef aantal runs: '))
+    
     
     run_succesvol = False
     succesvolle_runs = {}
@@ -18,6 +18,7 @@ if __name__ == "__main__":
     
 
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
+        aantal_runs = int(input('geef aantal runs: '))
         for x in range (0, aantal_runs):
             wijk = district.District(wijk_kiezen, x)
             run_succesvol = random.random_alg(wijk)
@@ -28,7 +29,8 @@ if __name__ == "__main__":
                 mislukte_runs += 1
                 
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
-        wijk = district.District(wijk_kiezen, 1)
+        aantal_runs = 1
+        wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
         succesvolle_runs[wijk] = wijk.kosten_berekening()   
         
