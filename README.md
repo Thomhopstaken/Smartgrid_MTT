@@ -15,6 +15,7 @@ Requirements:
 
 - typing library
 - os library
+- json
 - matplotlib
 - pandas
 - python3-tk (GUI-backend)
