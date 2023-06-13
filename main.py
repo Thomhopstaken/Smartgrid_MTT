@@ -18,8 +18,7 @@ if __name__ == "__main__":
             wijk = district.District(wijk_kiezen, x)
             run_succesvol = random.random_alg(wijk)
             if run_succesvol:
-                wijk.kosten_berekening()
-                succesvolle_runs[wijk] = wijk.prijskaartje
+                succesvolle_runs[wijk] = wijk.kosten_berekening()
             else: 
                 mislukte_runs += 1
     else: 

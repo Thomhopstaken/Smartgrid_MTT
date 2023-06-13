@@ -134,7 +134,7 @@ class District:
 
         for batterij in self.batterijen:
             for huis in batterij.gelinkte_huizen:
-                for i in range(len(batterij.gelinkte_huizen)):
+                for i in range(len(huis.kabels)):
                     if huis.kabels[i] not in self.kabel_lijst:
                         self.kabel_lijst.append(huis.kabels[i])
 
