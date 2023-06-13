@@ -6,10 +6,8 @@ def greedy_alg(wijk) -> None:
         for huis in wijk.losse_huizen:
             for batterij in huis.afstand_batterijen:
                 if huis.kan_huis_aansluiten_op_batterij(batterij):
-                    batterij.update_verbruik(huis.maxoutput)
-                    wijk.link_huis(huis.huis_id)
                     wijk.leg_kabel_route(batterij, huis)
-                
+                    print(counter)
                 else:
                     stop_counter += 1
                     print(f'{counter}: error on house {huis.huis_id}')
