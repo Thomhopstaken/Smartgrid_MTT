@@ -3,6 +3,9 @@ from code.algoritmes import greedy
 from code.klassen import district
 from code.visualisatie import smartgrid
 
+def run_printer(x):
+    print(f'run: {x}', end='\r', flush=True)
+
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
@@ -13,10 +16,12 @@ if __name__ == "__main__":
     succesvolle_runs = {}
     mislukte_runs = 0
     
+
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
         for x in range (0, aantal_runs):
             wijk = district.District(wijk_kiezen, x)
             run_succesvol = random.random_alg(wijk)
+            run_printer(x)
             if run_succesvol:
                 succesvolle_runs[wijk] = wijk.kosten_berekening()
             else: 
