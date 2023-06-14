@@ -39,7 +39,7 @@ if __name__ == "__main__":
         aantal_runs = 1
         while not run_succesvol: 
             wijk = district.District(wijk_kiezen, aantal_runs)
-            run_succesvol = random.random_alg(wijk)
+            run_succesvol = random_alg.random_alg(wijk)
         kosten_randomrun = wijk.kosten_berekening()
         hill_climbing.hill_climbing_alg(wijk)
         succesvolle_runs[wijk] = wijk.kosten_berekening()
