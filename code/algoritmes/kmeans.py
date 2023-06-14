@@ -3,12 +3,12 @@ from code.klassen import district
 from sklearn.cluster import KMeans
 from matplotlib import pyplot as plt
 from matplotlib import cm
+from code.visualisatie import smartgrid
 import numpy as np
 import csv
 import os
 
 def kmeans_alg(wijknummer):
-    wijken = []
     cwd = os.getcwd()
     sep = os.sep
     pad = f'{sep}Huizen&Batterijen{sep}district_{wijknummer}{sep}district-{wijknummer}_houses.csv'
@@ -59,8 +59,16 @@ def kmeans_alg(wijknummer):
             write_csv_batterij(f'Huizen&Batterijen/k_means/batterij_{i}.csv', batterijen, cluster_cents)
             for m in range(len(filtered_output)):
                 write_csv_huizen(f'Huizen&Batterijen/k_means/batterij_{i}_cluster_{m}.csv', filtered_combined[m])
-            wijk = district.District(wijknummer, i, False)
+            wijk = district.District(wijknummer, i, False, False)
             wijk.laad_batterijen(wijk.data_pad(wijknummer, i, kmeans=True))
+
+            for n in range(i):
+                wijk.laad_huizen(wijk.data_pad(wijknummer, i, n, huizen=True))
+                for huis in wijk.losse_huizen:
+                    wijk.leg_kabel_route(wijk.batterijen[n], huis)
+            plt.clf()
+            smartgrid.visualise(i, wijk, k_means=True, k=k)
+
 
 
         plt.clf()
