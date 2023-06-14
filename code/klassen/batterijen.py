@@ -9,7 +9,7 @@ class Batterijen:
         self.capaciteit = capaciteit
         self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []
-        #self.afstand_huizen = {}
+        self.afstand_huizen = {}
         self.gelegde_kabels = []
 
     # def delink_output(self, huis):
@@ -17,14 +17,15 @@ class Batterijen:
     #     nieuwe_lijst = set(self.gelinkte_huizen) - set(huis)
     #     self.gelinkte_huizen = list(nieuwe_lijst)
 
-    #def bereken_afstand(self, huizen) -> None:
+    def bereken_afstand(self, huizen) -> None:
         """Berekent afstand van batterijen tot huizen."""
 
         # itereer over ongekoppelde huizen, voeg deze toe aan dictionary en geef afstand tot batterij als waarde mee
-        # for huis in huizen:
-        #    afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
-        #   self.afstand_huizen[huis.huis_id] = afstand
-        # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+        for huis in huizen:
+            afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
+            self.afstand_huizen[huis.huis_id] = afstand
+            self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
+            print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
      
 
     def dichtstbijzijnde_huis(self) -> int:
