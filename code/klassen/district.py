@@ -6,7 +6,7 @@ import os
 
 
 class District:
-    def __init__(self, district: int, id: int) -> None:
+    def __init__(self, district: int, id: int, laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
@@ -16,8 +16,10 @@ class District:
         self.losse_huizen = []
         self.gelinkte_huizen = []
 
-        self.laad_batterijen(self.data_pad(district, 'batteries'))
         self.laad_huizen(self.data_pad(district, 'houses'))
+
+        if laad_batterij:
+            self.laad_batterijen(self.data_pad(district, 'batteries'))
 
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)

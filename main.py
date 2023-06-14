@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
         aantal_runs = 1
-        wijk = district.District(wijk_kiezen, aantal_runs)
+        wijk = district.District(wijk_kiezen, aantal_runs, laad_batterij=False)
         run = kmeans.kmeans_alg(wijk_kiezen)
         succesvolle_runs[wijk] = wijk.kosten_berekening()
         
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         print(f'goedkoopste run:    {goedkoopste_run.id} | {succesvolle_runs[goedkoopste_run]}')
         print(f'gemiddelde:         {gemiddelde_prijs}')
         
-        print(f'random run:         {kosten_randomrun}')
+        # print(f'random run:         {kosten_randomrun}')
         smartgrid.visualise(wijk_kiezen, goedkoopste_run)
         goedkoopste_run.jsonify(wijk_kiezen)
         

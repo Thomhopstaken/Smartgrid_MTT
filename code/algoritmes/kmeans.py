@@ -26,7 +26,7 @@ def kmeans_alg(wijknummer):
         filtered_labels = []
         for j in range(i):
             filtered_labels.append(df[label == j])
-
+        print(filtered_labels)
         centroids = km.cluster_centers_
         print(centroids)
         for l in range(i):
