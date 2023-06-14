@@ -109,8 +109,9 @@ class District:
 
     def creer_connectie(self, batterij, huis):
         huis.aangesloten = batterij
-        self.losse_huizen.remove(huis)
-        self.gelinkte_huizen.append(huis)
+        if huis in self.losse_huizen:
+            self.losse_huizen.remove(huis)
+            self.gelinkte_huizen.append(huis)
         batterij.update_verbruik(huis.maxoutput)
         batterij.gelinkte_huizen.append(huis)
 

@@ -40,3 +40,12 @@ class Batterijen:
 
     def kabel_toevoegen(self, kabel):
         self.gelegde_kabels.append(kabel)
+        
+    def overbodige_kabels_verwijderen(self):
+        huis_kabels = set()
+        for huis in self.gelinkte_huizen:
+            for kabel in huis.kabels:
+                huis_kabels.add(kabel)
+        overbodige_kabels = [kabel for kabel in self.gelegde_kabels if kabel not in huis_kabels]
+        self.gelegde_kabels = [kabel for kabel in self.gelegde_kabels if kabel not in overbodige_kabels]
+                

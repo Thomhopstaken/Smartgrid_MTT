@@ -1,7 +1,9 @@
 from code.algoritmes import random
 from code.algoritmes import greedy
+from code.algoritmes import hill_climbing
 from code.klassen import district
 from code.visualisatie import smartgrid
+
 
 def run_printer(x):
     print(f'run: {x + 1}', end='\r', flush=True)
@@ -9,7 +11,7 @@ def run_printer(x):
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
-    algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy: ')
+    algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (H)ill: ')
     
     
     run_succesvol = False
@@ -33,7 +35,15 @@ if __name__ == "__main__":
         wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
         succesvolle_runs[wijk] = wijk.kosten_berekening()
-        
+    
+    elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
+        aantal_runs = 1
+        while not run_succesvol: 
+            wijk = district.District(wijk_kiezen, aantal_runs)
+            run_succesvol = random.random_alg(wijk)
+        kosten_randomrun = wijk.kosten_berekening()
+        hill_climbing.hill_climbing_alg(wijk)
+        succesvolle_runs[wijk] = wijk.kosten_berekening()
     else: 
         print('Invalid Argument')
     
@@ -47,6 +57,8 @@ if __name__ == "__main__":
         print(f'Mislukte_runs:      {mislukte_runs}')
         print(f'goedkoopste run:    {goedkoopste_run.id} | {succesvolle_runs[goedkoopste_run]}')
         print(f'gemiddelde:         {gemiddelde_prijs}')
+        
+        print(f'random run:         {kosten_randomrun}')
         smartgrid.visualise(wijk_kiezen, goedkoopste_run)
         goedkoopste_run.jsonify(wijk_kiezen)
         
