@@ -15,6 +15,8 @@ Requirements:
 - os library
 - json
 - matplotlib
+- scikit-learn
+- numpy
 - pandas
 - python3-tk (GUI-backend)
 

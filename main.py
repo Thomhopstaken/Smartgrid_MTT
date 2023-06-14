@@ -1,5 +1,4 @@
-from code.algoritmes import random
-from code.algoritmes import greedy
+from code.algoritmes import random_alg, greedy, kmeans
 from code.algoritmes import hill_climbing
 from code.klassen import district
 from code.visualisatie import smartgrid
@@ -11,7 +10,7 @@ def run_printer(x):
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
-    algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (H)ill: ')
+    algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
     
     
     run_succesvol = False
@@ -23,7 +22,7 @@ if __name__ == "__main__":
         aantal_runs = int(input('geef aantal runs: '))
         for x in range (0, aantal_runs):
             wijk = district.District(wijk_kiezen, x)
-            run_succesvol = random.random_alg(wijk)
+            run_succesvol = random_alg.random_alg(wijk)
             run_printer(x)
             if run_succesvol:
                 succesvolle_runs[wijk] = wijk.kosten_berekening()
@@ -44,6 +43,13 @@ if __name__ == "__main__":
         kosten_randomrun = wijk.kosten_berekening()
         hill_climbing.hill_climbing_alg(wijk)
         succesvolle_runs[wijk] = wijk.kosten_berekening()
+
+    elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
+        aantal_runs = 1
+        wijk = district.District(wijk_kiezen, aantal_runs)
+        run = kmeans.kmeans_alg(wijk_kiezen)
+        succesvolle_runs[wijk] = wijk.kosten_berekening()
+        
     else: 
         print('Invalid Argument')
     
