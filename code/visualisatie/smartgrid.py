@@ -63,5 +63,5 @@ def visualise(wijknummer, wijk):
 
     # Display the plot
     # plt.show()
-    plt.savefig("figures/smartgrid.png")
+    plt.savefig(f"figures/smartgrid_{wijknummer}_{wijk.id}.png")
 

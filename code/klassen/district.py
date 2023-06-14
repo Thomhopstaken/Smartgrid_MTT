@@ -71,7 +71,7 @@ class District:
 
         return line.split(",")
 
-    def data_pad(self, district, item) -> str:
+    def data_pad(self, district, item, kmeans=False) -> str:
         """Vind het juist bestandspad naar opgevraagde bestand.
 
         In: bestaandsnaam
@@ -79,6 +79,10 @@ class District:
 
         cwd = os.getcwd()
         sep = os.sep
+        if kmeans == True:
+            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
+            return cwd + os.path.normpath(pad)
+
         pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
         return cwd + os.path.normpath(pad)
 
