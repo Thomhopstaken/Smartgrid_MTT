@@ -1,6 +1,7 @@
 from .batterijen import Batterijen
 from .huizen import Huizen
 from typing import TextIO
+import json
 import os
 
 
@@ -15,10 +16,9 @@ class District:
         self.losse_huizen = []
         self.gelinkte_huizen = []
 
-
         self.laad_batterijen(self.data_pad(district, 'batteries'))
         self.laad_huizen(self.data_pad(district, 'houses'))
-        
+
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
@@ -28,21 +28,23 @@ class District:
 
         In: CSV bestand"""
 
-    # neemt file eindigend op batteries.csv als input. 
+        # neemt file eindigend op batteries.csv als input.
         with open(bestand, 'r') as b:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
                 data = self.data_inladen(b)
-        # voeg batterij object aan batterij-lijst toe.
+                # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
-                    self.batterijen.append(Batterijen(i, int(data[0]), int(data[1]), float(data[2])))
+                    self.batterijen.append(
+                        Batterijen(i, int(data[0]), int(data[1]),
+                                   float(data[2])))
 
     def laad_huizen(self, bestand: str) -> None:
         """Neemt data van bestand en maakt daarna huisobjecten.
         Deze worden ondergebracht in huislijst.
 
-        In: CSV bestand"""    
+        In: CSV bestand"""
 
         # neemt file eindigend op houses.csv als input. 
         with open(bestand, 'r') as b:
@@ -50,9 +52,10 @@ class District:
         with open(bestand, 'r') as b:
             for i in range(0, teller):
                 data = self.data_inladen(b)
-        # voeg batterij object aan huizen-lijst toe.
+                # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
-                    self.losse_huizen.append(Huizen(i, int(data[0]), int(data[1]), float(data[2])))
+                    self.losse_huizen.append(
+                        Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def data_inladen(self, b: TextIO):
         """Neemt bestandlijn en converteert het naar een lijst.
@@ -62,10 +65,10 @@ class District:
 
         line = b.readline()
         line = line.replace("\n", '')
-        line = line.replace('\"','')
+        line = line.replace('\"', '')
 
         return line.split(",")
-    
+
     def data_pad(self, district, item) -> str:
         """Vind het juist bestandspad naar opgevraagde bestand.
 
@@ -134,7 +137,7 @@ class District:
                 batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y -= 1
         self.creer_connectie(batterij, huis)
-    
+
     def kosten_berekening(self):
         prijskaartje = 0
         # Kost batterijen
@@ -145,4 +148,30 @@ class District:
 
         return prijskaartje
 
-        
+    def jsonify(self, wijk_nummer):
+        json_dict = []
+        district = {"district": int(wijk_nummer), "costs-shared": self.kosten_berekening()}
+        json_dict.append(district)
+        batterij_data = {}
+        for batterij in self.batterijen:
+            lokatie_bat = f"{batterij.x_as},{batterij.y_as}"
+            capaciteit = batterij.capaciteit
+            huizen = []
+            for huis in batterij.gelinkte_huizen:
+                huis_data = {}
+                lokatie_huis = f"{huis.x_as},{huis.y_as}"
+                output = huis.maxoutput
+                kabels = []
+                for i in range(len(huis.kabels)):
+                    kabels.append(f"{huis.kabels[i][0]},{huis.kabels[i][1]}")
+                huis_data["location"] = lokatie_huis
+                huis_data["output"] = output
+                huis_data["cables"] = kabels
+                huizen.append(huis_data)
+            batterij_data["location"] = lokatie_bat
+            batterij_data["capacity"] = capaciteit
+            batterij_data["houses"] = huizen
+            json_dict.append(batterij_data)
+            batterij_data = {}
+        with open("output.json", "w") as outfile:
+            json.dump(json_dict, outfile)

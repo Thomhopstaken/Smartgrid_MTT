@@ -41,13 +41,18 @@ def visualise(wijknummer, wijk):
 
     for i in range(len(wijk.gelinkte_huizen)):
         index = wijk.batterijen.index(wijk.gelinkte_huizen[i].aangesloten)
+        batterij = wijk.gelinkte_huizen[i].aangesloten
         color = colors[index]
         for j in range(len(wijk.gelinkte_huizen[i].kabels)):
             kabel = wijk.gelinkte_huizen[i].kabels
             if len(kabel) != 1:
                 try:
                     plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color, linestyle='dotted')
-                    # print(wijk.gelinkte_huizen[i].kabels[j][0], wijk.gelinkte_huizen[i].kabels[j+1][0])
+                    if (kabel[j][1], kabel[j+1][1]) in batterij.gelegde_kabels:
+                        plt.plot([kabel[j][0], kabel[j + 1][0]],
+                                 [kabel[j][1], kabel[j + 1][1]], color=color,
+                                 linestyle='dotted')
+
                 except IndexError:
                     plt.plot(wijk.gelinkte_huizen[i].x_as, wijk.gelinkte_huizen[i].y_as, color=color, marker='p')
                     break

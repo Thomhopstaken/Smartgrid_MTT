@@ -4,7 +4,7 @@ from code.klassen import district
 from code.visualisatie import smartgrid
 
 def run_printer(x):
-    print(f'run: {x}', end='\r', flush=True)
+    print(f'run: {x + 1}', end='\r', flush=True)
 
 if __name__ == "__main__":
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         aantal_runs = 1
         wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
-        succesvolle_runs[wijk] = wijk.kosten_berekening()   
+        succesvolle_runs[wijk] = wijk.kosten_berekening()
         
     else: 
         print('Invalid Argument')
@@ -48,6 +48,7 @@ if __name__ == "__main__":
         print(f'goedkoopste run:    {goedkoopste_run.id} | {succesvolle_runs[goedkoopste_run]}')
         print(f'gemiddelde:         {gemiddelde_prijs}')
         smartgrid.visualise(wijk_kiezen, goedkoopste_run)
+        goedkoopste_run.jsonify(wijk_kiezen)
         
     else:
         print('Geen succesvolle runs!')
