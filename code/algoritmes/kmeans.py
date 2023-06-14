@@ -12,19 +12,9 @@ def kmeans_alg(wijknummer):
     df = pd.read_csv(cwd + os.path.normpath(pad), usecols=['x', 'y'])
 
     k = range(2, 11)
-    # ssd = []
-    # score = []
-    #
-    # for i in k:
-    #     km = KMeans(n_clusters=i, n_init='auto', random_state=1).fit(df)
-    #     ssd.append(km.inertia_)
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
-    # print(ssd)
-    # print(score)
-    # plt.plot(k, ssd)
-    # plt.show()
 
     colors = cm.rainbow(np.linspace(0, 1, len(k) + 1))
     for i in k:
@@ -46,4 +36,8 @@ def kmeans_alg(wijknummer):
         # plt.show()
         plt.savefig(f"figures/kmeans{i}.png")
         plt.clf()
+        plt.rcParams["figure.figsize"] = [8.00, 6.00]
+        plt.rcParams["figure.autolayout"] = True
+        plt.grid()
+
 

@@ -174,5 +174,5 @@ class District:
             batterij_data["houses"] = huizen
             json_dict.append(batterij_data)
             batterij_data = {}
-        with open("output.json", "w") as outfile:
+        with open("figures/output.json", "w") as outfile:
             json.dump(json_dict, outfile)
