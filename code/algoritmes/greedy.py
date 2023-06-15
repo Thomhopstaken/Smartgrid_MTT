@@ -10,13 +10,17 @@ def greedy_alg(wijk) -> None:
     #print(afstanden)
 
     huis_en_afstand = list(afstanden.items())
-    #print(huizen)
+    #print(huis_en_afstand)
+
+    # for huis in huis_en_afstand:
+    #     print(huis[0])
     
     while len(wijk.losse_huizen) > 0:
         for batterij in wijk.batterijen:
-            for huizen in huis_en_afstand:
-                if huizen[0].kan_aansluiten(batterij):
-                    wijk.leg_route(batterij, huizen[0])
+            for huis in huis_en_afstand:
+                if huis[0].kan_aansluiten(batterij):
+                    #print(huis)
+                    wijk.leg_route(batterij, huis[0])
                     counter += 1
                     stop_counter = 0
                 else:
