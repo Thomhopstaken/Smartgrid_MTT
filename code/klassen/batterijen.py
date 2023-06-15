@@ -18,14 +18,14 @@ class Batterijen:
     #     self.gelinkte_huizen = list(nieuwe_lijst)
 
     def bereken_afstand(self, huizen) -> None:
-        """Berekent afstand van batterijen tot huizen."""
+        """Berekent afstand van batterij tot huis."""
 
         # itereer over ongekoppelde huizen, voeg deze toe aan dictionary en geef afstand tot batterij als waarde mee
         for huis in huizen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
-            self.afstand_huizen[huis.huis_id] = afstand
-            self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-            print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+            self.afstand_huizen[huis] = afstand
+        return dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
+        #print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
             
 
     def dichtstbijzijnde_huis(self) -> int:

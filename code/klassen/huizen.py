@@ -23,7 +23,7 @@ class Huizen:
         self.kabels.append((x, y))
         # print(f"kabels: {self.kabels}")
 
-    def kan_huis_aansluiten_op_batterij(self, batterij) -> bool:
+    def kan_aansluiten(self, batterij) -> bool:
         """Controleert of een huis kan worden aangesloten op een batterij."""
         
         if not self.aangesloten:

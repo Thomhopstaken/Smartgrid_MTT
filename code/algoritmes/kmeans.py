@@ -65,7 +65,7 @@ def kmeans_alg(wijknummer):
             for n in range(i):
                 wijk.laad_huizen(wijk.data_pad(wijknummer, i, n, huizen=True))
                 for huis in wijk.losse_huizen:
-                    wijk.leg_kabel_route(wijk.batterijen[n], huis)
+                    wijk.leg_route(wijk.batterijen[n], huis)
             plt.clf()
             smartgrid.visualise(i, wijk, k_means=True, k=k)
 

@@ -42,8 +42,6 @@ def visualise(wijknummer, wijk, k_means=False, k=None):
         coord = (batterij.x_as, batterij.y_as)
         batterij_coordinaten.append(coord)
 
-
-
     for i in range(len(wijk.gelinkte_huizen)):
         index = wijk.batterijen.index(wijk.gelinkte_huizen[i].aangesloten)
         batterij = wijk.gelinkte_huizen[i].aangesloten
