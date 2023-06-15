@@ -1,4 +1,4 @@
-def kan_huizen_verwisselen(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_huis_y_bat_x, 
+def kan_huizen_verwisselen_1(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_huis_y_bat_x, 
                            afstand_huis_y_bat_y, huis_x, huis_y, batterij_x, batterij_y):
     if afstand_huis_x_bat_x > afstand_huis_y_bat_x and afstand_huis_y_bat_y > afstand_huis_x_bat_y:
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
@@ -8,6 +8,18 @@ def kan_huizen_verwisselen(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_h
         else: return False
     else:
         return False
+
+def kan_huizen_verwisselen_2(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_huis_y_bat_x, 
+                           afstand_huis_y_bat_y, huis_x, huis_y, batterij_x, batterij_y):
+    if afstand_huis_x_bat_x > afstand_huis_y_bat_x and afstand_huis_y_bat_y > afstand_huis_x_bat_y:
+        nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
+        nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
+        if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
+            return True
+        else: return False
+    else:
+        return False
+
 
 def hill_climbing_alg(wijk) -> None:
     counter = 1
@@ -28,7 +40,8 @@ def hill_climbing_alg(wijk) -> None:
                         afstand_huis_x_bat_y = huis_x.afstand_batterijen[batterij_y]
                         afstand_huis_y_bat_x = huis_y.afstand_batterijen[batterij_x]
                         afstand_huis_y_bat_y = huis_y.afstand_batterijen[batterij_y]
-                        if kan_huizen_verwisselen(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_huis_y_bat_x, afstand_huis_y_bat_y, huis_x, huis_y, batterij_x, batterij_y):
+                        if kan_huizen_verwisselen_1(afstand_huis_x_bat_x, afstand_huis_x_bat_y, afstand_huis_y_bat_x, 
+                                                  afstand_huis_y_bat_y, huis_x, huis_y, batterij_x, batterij_y):
                             huis_x.verwijder_kabels()
                             huis_y.verwijder_kabels()
                             wijk.leg_kabel_route(batterij_x, huis_y)    
