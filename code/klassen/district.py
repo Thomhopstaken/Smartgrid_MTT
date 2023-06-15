@@ -126,6 +126,7 @@ class District:
                 huis.leg_kabel((cursor_x), (cursor_y))
                 batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y -= 1
+        huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
 
 
