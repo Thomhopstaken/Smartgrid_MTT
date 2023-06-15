@@ -48,10 +48,13 @@ if __name__ == "__main__":
         
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
-        aantal_runs = 1
-        run = kmeans.kmeans_alg(wijk_kiezen)
-        # succesvolle_runs[wijk] = wijk.kosten_berekening()
-        
+
+        run = kmeans.kmeans_alg(wijk_kiezen, n_runs=20)
+
+        run[0][0].jsonify(wijk_kiezen)
+        smartgrid.visualise(run[0][1], run[0][0], k_means=True, k=run[0][1])
+        print(run[1])
+        print(run[2])
 
     else: 
         print('Invalid Argument')
