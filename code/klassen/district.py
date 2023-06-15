@@ -15,6 +15,7 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
+        
 
         self.laad_huizen(self.data_pad(district, 'houses'))
 
@@ -82,32 +83,21 @@ class District:
         pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
         return cwd + os.path.normpath(pad)
 
-    # def link_huis(self, id):
-    #     """Link een huis aan een batterij, verwijder het huis uit losse_huizen en
-    #     en voeg deze toe aan gelinkte_huizen.
-    #
-    #     In: Huis_id"""
-    #
-    #     for huis in self.losse_huizen:
-    #         if huis.huis_id == id:
-    #             self.losse_huizen.remove(huis)
-    #             self.gelinkte_huizen.append(huis)
-    #             huis.aangesloten = True
-    #             break
+    def bereken_afstand(self):
+        count = 0 
+        for batterij in self.batterijen:
+            for huis in self.losse_huizen:
+                afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
 
-    # def delink_huis(self, id):
-    #     for huis in self.gelinkte_huizen:
-    #         if huis.huis_id == id:
-    #             self.gelinkte_huizen.remove(huis)
-    #             self.losse_huizen.append(huis)
-    #             huis.aangesloten = False
-    #             continue
 
-    # def vind_los_huis(self, id):
-    #     """Returnt een ongekoppeld huis."""
-    #     for huis in self.losse_huizen:
-    #         if huis.huis_id == id:
-    #             return huis
+                count += 1
+                print(afstand)
+        print(count)
+                # self.afstand_huizen[huis.huis_id] = afstand
+                # self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
+                # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+            
+        
 
     def creer_connectie(self, batterij, huis):
         huis.aangesloten = batterij
