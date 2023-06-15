@@ -25,3 +25,6 @@ Todo:
 - random algoritme (teun)
 - andere soort algoritmen schrijven (komt later)
 - opschonen code
+- grafieken toevoeggen
+- let op engels namen, functie, parameters
+- 

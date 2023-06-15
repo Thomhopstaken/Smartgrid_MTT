@@ -15,8 +15,7 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
-        
-
+    
         if laad_huis:
             self.laad_huizen(self.data_pad(district, 'houses'))
 
@@ -97,26 +96,15 @@ class District:
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
-
-
                 count += 1
                 print(afstand)
         print(count)
                 # self.afstand_huizen[huis.huis_id] = afstand
                 # self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
                 # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
-            
-        
 
-    def creer_connectie(self, batterij, huis):
-        huis.aangesloten = batterij
-        if huis in self.losse_huizen:
-            self.losse_huizen.remove(huis)
-            self.gelinkte_huizen.append(huis)
-        batterij.update_verbruik(huis.maxoutput)
-        batterij.gelinkte_huizen.append(huis)
 
-    def leg_kabel_route(self, batterij, huis):
+    def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
         while cursor_x < batterij.x_as:
             if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
@@ -140,15 +128,25 @@ class District:
             cursor_y -= 1
         self.creer_connectie(batterij, huis)
 
+
+    def creer_connectie(self, batterij, huis):
+        huis.aangesloten = batterij
+        if huis in self.losse_huizen:
+            self.losse_huizen.remove(huis)
+            self.gelinkte_huizen.append(huis)
+        batterij.update_verbruik(huis.maxoutput)
+        batterij.gelinkte_huizen.append(huis)
+
+
     def kosten_berekening(self):
         prijskaartje = 0
-        # Kost batterijen
+        # Kosten batterijen
         prijskaartje += (len(self.batterijen)) * 5000
 
         for batterij in self.batterijen:
             prijskaartje += (len(batterij.gelegde_kabels)) * 9
-
         return prijskaartje
+
 
     def jsonify(self, wijk_nummer):
         json_dict = []

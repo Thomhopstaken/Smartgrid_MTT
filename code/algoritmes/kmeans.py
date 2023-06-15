@@ -40,8 +40,6 @@ def kmeans_alg(wijknummer, n_runs):
                 filtered_combined.append(df_combined[label == i])
             # print(filtered_labels)
             centroids = km.cluster_centers_
-
-
             # print(centroids)
             outputs = []
             cluster_cents = []
@@ -67,7 +65,7 @@ def kmeans_alg(wijknummer, n_runs):
                     wijk.laad_huizen(wijk.data_pad(wijknummer, k_hat, i, huizen=True))
                     while len(wijk.losse_huizen) > 0:
                         for huis in wijk.losse_huizen:
-                            wijk.leg_kabel_route(wijk.batterijen[i], huis)
+                            wijk.leg_route(wijk.batterijen[i], huis)
 
                 # plt.clf()
                 # smartgrid.visualise(k_hat, wijk, k_means=True, k=k_hat)
