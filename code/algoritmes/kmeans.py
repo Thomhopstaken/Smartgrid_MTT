@@ -19,7 +19,7 @@ def kmeans_alg(wijknummer, n_runs):
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
-    goedkoopste_run = 9999999
+    goedkoopste_run = [0, 9999999]
     goedkoopste_wijk = None
     run_lijst = []
 
@@ -71,9 +71,9 @@ def kmeans_alg(wijknummer, n_runs):
                 # smartgrid.visualise(k_hat, wijk, k_means=True, k=k_hat)
 
                 huidige_run = wijk.kosten_berekening()
-                run_lijst.append(huidige_run)
-                if huidige_run < goedkoopste_run:
-                    goedkoopste_run = huidige_run
+                run_lijst.append({k_hat:huidige_run})
+                if huidige_run < goedkoopste_run[1]:
+                    goedkoopste_run = [k_hat, huidige_run]
                     goedkoopste_wijk = (wijk, k_hat)
                     write_csv_batterij(
                         f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}.csv', batterijen,
