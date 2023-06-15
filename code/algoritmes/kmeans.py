@@ -21,22 +21,23 @@ def kmeans_alg(wijknummer):
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
 
-    colors = cm.rainbow(np.linspace(0, 1, len(k) + 3))
 
-    for i in k:
+
+    for k_hat in k:
+        colors = cm.rainbow(np.linspace(0, 1, len(range(k_hat))))
         # wijk = district.District(wijk_kiezen, aantal_runs, laad_batterij=False)
         # Centroids vinden met k clusters
-        km = KMeans(n_clusters=i, n_init='auto')
+        km = KMeans(n_clusters=k_hat, n_init='auto')
         # print(km)
         label = km.fit_predict(df_coords)
 
         filtered_labels = []
         filtered_output = []
         filtered_combined = []
-        for j in range(i):
-            filtered_labels.append(df_coords[label == j])
-            filtered_output.append(df_output[label == j])
-            filtered_combined.append(df_combined[label == j])
+        for i in range(k_hat):
+            filtered_labels.append(df_coords[label == i])
+            filtered_output.append(df_output[label == i])
+            filtered_combined.append(df_combined[label == i])
         # print(filtered_labels)
         centroids = km.cluster_centers_
 
@@ -44,30 +45,32 @@ def kmeans_alg(wijknummer):
         # print(centroids)
         outputs = []
         cluster_cents = []
-        for l in range(i):
-            plt.scatter(filtered_labels[l]['x'], filtered_labels[l]['y'], color=colors[l])
-            plt.scatter(centroids[l][0], centroids[l][1], color='k')
-            # print(f'sum of output for {i} clusters: {sum(filtered_output[l]["maxoutput"])}')
-            outputs.append(sum(filtered_output[l]["maxoutput"]))
-            cluster_cents.append(f'{round(centroids[l][0])}, {round(centroids[l][1])}')
+        for i in range(k_hat):
+            plt.scatter(filtered_labels[i]['x'], filtered_labels[i]['y'], color=colors[i])
+            plt.scatter(centroids[i][0], centroids[i][1], color='k')
+            # print(f'sum of output for {i} clusters: {sum(filtered_output[i]["maxoutput"])}')
+            outputs.append(sum(filtered_output[i]["maxoutput"]))
+            cluster_cents.append(f'{round(centroids[i][0])}, {round(centroids[i][1])}')
 
         if max(outputs) <= 1800:
             # print(outputs)
             # plt.show()
-            plt.savefig(f"figures/k_means/kmeans{i}.png")
+            plt.savefig(f"figures/k_means/kmeans{k_hat}.png")
             batterijen = batterij_keuze(outputs)
-            write_csv_batterij(f'Huizen&Batterijen/k_means/batterij_{i}.csv', batterijen, cluster_cents)
-            for m in range(len(filtered_output)):
-                write_csv_huizen(f'Huizen&Batterijen/k_means/batterij_{i}_cluster_{m}.csv', filtered_combined[m])
-            wijk = district.District(wijknummer, i, False, False)
-            wijk.laad_batterijen(wijk.data_pad(wijknummer, i, kmeans=True))
+            write_csv_batterij(f'Huizen&Batterijen/k_means/batterij_{k_hat}.csv', batterijen, cluster_cents)
+            for i in range(len(filtered_output)):
+                write_csv_huizen(f'Huizen&Batterijen/k_means/batterij_{k_hat}_cluster_{i}.csv', filtered_combined[i])
+            wijk = district.District(wijknummer, k_hat, False, False)
+            wijk.laad_batterijen(wijk.data_pad(wijknummer, k_hat, kmeans=True))
 
-            for n in range(i):
-                wijk.laad_huizen(wijk.data_pad(wijknummer, i, n, huizen=True))
+            for i in range(k_hat):
+                wijk.laad_huizen(wijk.data_pad(wijknummer, k_hat, i, huizen=True))
                 for huis in wijk.losse_huizen:
-                    wijk.leg_kabel_route(wijk.batterijen[n], huis)
+                    wijk.leg_kabel_route(wijk.batterijen[i], huis)
+                # print(f'1: {len(wijk.losse_huizen)}')
+                # print(f'2: {len(wijk.gelinkte_huizen)}')
             plt.clf()
-            smartgrid.visualise(i, wijk, k_means=True, k=k)
+            smartgrid.visualise(k_hat, wijk, k_means=True, k=k_hat)
 
 
 

@@ -14,7 +14,7 @@ def visualise(wijknummer, wijk, k_means=False, k=None):
     colors = ['b', 'y', 'r', 'c', 'm']
     if k_means == True:
         pad2 = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{wijknummer}.csv'
-        colors = cm.rainbow(np.linspace(0, 1, len(k) + 3))
+        colors = cm.rainbow(np.linspace(0, 1, len(range(k))))
     df = pd.read_csv(cwd + os.path.normpath(pad2))
     positions = []
     for i in range(len(df)):
