@@ -70,3 +70,4 @@ def visualise(wijknummer, wijk, k_means=False, k=None):
     # plt.show()
     plt.savefig(f"figures/smartgrid_{wijknummer}_{wijk.id}.png")
 
+
