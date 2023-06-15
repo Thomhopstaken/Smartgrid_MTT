@@ -11,8 +11,9 @@ if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
-    
-    
+
+    algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
+
     run_succesvol = False
     succesvolle_runs = {}
     mislukte_runs = 0
@@ -48,10 +49,10 @@ if __name__ == "__main__":
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
         aantal_runs = 1
-        wijk = district.District(wijk_kiezen, aantal_runs, laad_batterij=False)
         run = kmeans.kmeans_alg(wijk_kiezen)
-        succesvolle_runs[wijk] = wijk.kosten_berekening()
+        # succesvolle_runs[wijk] = wijk.kosten_berekening()
         
+
     else: 
         print('Invalid Argument')
     
