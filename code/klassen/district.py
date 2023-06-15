@@ -6,7 +6,7 @@ import os
 
 
 class District:
-    def __init__(self, district: int, id: int, laad_batterij=True) -> None:
+    def __init__(self, district: int, id: int, laad_huis=True, laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
@@ -17,7 +17,8 @@ class District:
         self.gelinkte_huizen = []
         
 
-        self.laad_huizen(self.data_pad(district, 'houses'))
+        if laad_huis:
+            self.laad_huizen(self.data_pad(district, 'houses'))
 
         if laad_batterij:
             self.laad_batterijen(self.data_pad(district, 'batteries'))
@@ -72,7 +73,7 @@ class District:
 
         return line.split(",")
 
-    def data_pad(self, district, item) -> str:
+    def data_pad(self, district, item, item2=None, kmeans=False, huizen=False) -> str:
         """Vind het juist bestandspad naar opgevraagde bestand.
 
         In: bestaandsnaam
@@ -80,6 +81,14 @@ class District:
 
         cwd = os.getcwd()
         sep = os.sep
+        if kmeans == True:
+            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
+            return cwd + os.path.normpath(pad)
+
+        if huizen == True:
+            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
+            return cwd + os.path.normpath(pad)
+
         pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
         return cwd + os.path.normpath(pad)
 

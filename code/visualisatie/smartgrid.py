@@ -1,16 +1,21 @@
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
+from matplotlib import cm
+import numpy as np
 import pandas as pd
 import os
 
 
-def visualise(wijknummer, wijk):
+def visualise(wijknummer, wijk, k_means=False, k=None):
     cwd = os.getcwd()
     sep = os.sep
     pad2 = f'{sep}Huizen&Batterijen{sep}district_{wijknummer}{sep}district-{wijknummer}_batteries.csv'
-    df = pd.read_csv(cwd + os.path.normpath(pad2))
     colors = ['b', 'y', 'r', 'c', 'm']
+    if k_means == True:
+        pad2 = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{wijknummer}.csv'
+        colors = cm.rainbow(np.linspace(0, 1, len(k) + 3))
+    df = pd.read_csv(cwd + os.path.normpath(pad2))
     positions = []
     for i in range(len(df)):
         positions.append(df.positie[i])
@@ -63,5 +68,5 @@ def visualise(wijknummer, wijk):
 
     # Display the plot
     # plt.show()
-    plt.savefig("figures/smartgrid.png")
+    plt.savefig(f"figures/smartgrid_{wijknummer}_{wijk.id}.png")
 

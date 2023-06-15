@@ -42,14 +42,17 @@ if __name__ == "__main__":
             wijk = district.District(wijk_kiezen, aantal_runs)
             run_succesvol = random_alg.random_alg(wijk)
         kosten_randomrun = wijk.kosten_berekening()
+        print(f'kosten random:      {kosten_randomrun}')
         hill_climbing.hill_climbing_alg(wijk)
         succesvolle_runs[wijk] = wijk.kosten_berekening()
+        
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
         aantal_runs = 1
-        wijk = district.District(wijk_kiezen, aantal_runs, laad_batterij=False)
         run = kmeans.kmeans_alg(wijk_kiezen)
-        succesvolle_runs[wijk] = wijk.kosten_berekening()
+        # succesvolle_runs[wijk] = wijk.kosten_berekening()
+        
+
     else: 
         print('Invalid Argument')
     
@@ -60,11 +63,10 @@ if __name__ == "__main__":
         print('')
         print('Resultaten: ')
         print(f'Succesvolle runs:   {len(succesvolle_runs)}')
-        print(f'Mislukte_runs:      {mislukte_runs}')
+        print(f'Mislukte runs:      {mislukte_runs}')
         print(f'goedkoopste run:    {goedkoopste_run.id} | {succesvolle_runs[goedkoopste_run]}')
         print(f'gemiddelde:         {gemiddelde_prijs}')
         
-        # print(f'random run:         {kosten_randomrun}')
         smartgrid.visualise(wijk_kiezen, goedkoopste_run)
         goedkoopste_run.jsonify(wijk_kiezen)
         
