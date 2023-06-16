@@ -59,7 +59,7 @@ def kmeans_alg(wijknummer, n_runs):
                 for i in range(len(filtered_output)):
                     write_csv_huizen(f'Huizen&Batterijen/k_means/batterij_{k_hat}_cluster_{i}.csv', filtered_combined[i])
                 wijk = district.District(wijknummer, k_hat, False, False)
-                wijk.laad_batterijen(wijk.data_pad(wijknummer, k_hat, kmeans=True), 1800)
+                wijk.laad_batterijen(wijk.data_pad(wijknummer, k_hat, kmeans=True))
 
                 for i in range(k_hat):
                     wijk.laad_huizen(wijk.data_pad(wijknummer, k_hat, i, huizen=True))
