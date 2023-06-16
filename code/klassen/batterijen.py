@@ -1,11 +1,12 @@
 class Batterijen:
     
-    def __init__(self, i, x, y, capaciteit) -> None:
+    def __init__(self, i, x, y, capaciteit, prijs:int) -> None:
         """Neemt gegevens van batterijen uit district en slaat het op in batterij object."""
 
         self.batterij_id = i
         self.x_as = x
         self.y_as = y
+        self.prijs = prijs
         self.capaciteit = capaciteit
         self.resterende_capaciteit = capaciteit
         self.gelinkte_huizen = []

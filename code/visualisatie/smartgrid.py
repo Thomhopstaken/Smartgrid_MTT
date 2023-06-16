@@ -27,13 +27,13 @@ def visualise(wijknummer, wijk, k_means=False, k=None):
         y_pos.append(int(pos[1]))
 
 
-    # Set the figure size
+    # Grid parameters
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
 
 
-    # Scatter plot with x and y
+    # Batterijen
     for i in range(len(wijk.batterijen)):
         plt.plot(x_pos[i], y_pos[i], marker='s', ls='none', ms=10, color=colors[i])
 
@@ -42,6 +42,7 @@ def visualise(wijknummer, wijk, k_means=False, k=None):
         coord = (batterij.x_as, batterij.y_as)
         batterij_coordinaten.append(coord)
 
+    # Huizen aansluiten
     for i in range(len(wijk.gelinkte_huizen)):
         index = wijk.batterijen.index(wijk.gelinkte_huizen[i].aangesloten)
         batterij = wijk.gelinkte_huizen[i].aangesloten

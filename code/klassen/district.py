@@ -25,7 +25,7 @@ class District:
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
-    def laad_batterijen(self, bestand: str) -> None:
+    def laad_batterijen(self, bestand: str, prijs:int=5000) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
         deze worden ongebracht in batterijlijst.
 
@@ -41,7 +41,8 @@ class District:
                 if data[0].isnumeric():
                     self.batterijen.append(
                         Batterijen(i, int(data[0]), int(data[1]),
-                                   float(data[2])))
+                                   float(data[2]), prijs))
+
 
     def laad_huizen(self, bestand: str) -> None:
         """Neemt data van bestand en maakt daarna huisobjecten.
@@ -107,24 +108,32 @@ class District:
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
         while cursor_x < batterij.x_as:
-            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
-                huis.leg_kabel((cursor_x), (cursor_y))
-                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
+            if ((cursor_x), (cursor_y))  in batterij.gelegde_kabels:
+                self.creer_connectie(batterij, huis)
+                return
+            huis.leg_kabel((cursor_x), (cursor_y))
+            batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x += 1
         while cursor_x > batterij.x_as:
-            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
-                huis.leg_kabel((cursor_x), (cursor_y))
-                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
+            if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
+                self.creer_connectie(batterij, huis)
+                return
+            huis.leg_kabel((cursor_x), (cursor_y))
+            batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x -= 1
         while cursor_y < batterij.y_as:
-            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
-                huis.leg_kabel((cursor_x), (cursor_y))
-                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
+            if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
+                self.creer_connectie(batterij, huis)
+                return
+            huis.leg_kabel((cursor_x), (cursor_y))
+            batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y += 1
         while cursor_y > batterij.y_as:
-            if ((cursor_x), (cursor_y)) not in batterij.gelegde_kabels:
-                huis.leg_kabel((cursor_x), (cursor_y))
-                batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
+            if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
+                self.creer_connectie(batterij, huis)
+                return
+            huis.leg_kabel((cursor_x), (cursor_y))
+            batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y -= 1
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
@@ -142,10 +151,12 @@ class District:
     def kosten_berekening(self):
         prijskaartje = 0
         # Kosten batterijen
-        prijskaartje += (len(self.batterijen)) * 5000
-
         for batterij in self.batterijen:
-            prijskaartje += (len(batterij.gelegde_kabels)) * 9
+            prijskaartje += batterij.prijs
+        len_kabels = 0
+        for batterij in self.batterijen:
+            len_kabels += len(batterij.gelegde_kabels)
+        prijskaartje += len_kabels * 9
         return prijskaartje
 
 
