@@ -54,7 +54,8 @@ if __name__ == "__main__":
         aantal_runs = 1
         wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
-        succesvolle_runs[wijk] = wijk.kosten_berekening()
+        goedkoopste_kosten = wijk.kosten_berekening()
+        print(goedkoopste_kosten)
     
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
         aantal_runs = 1
