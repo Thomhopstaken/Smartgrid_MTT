@@ -107,28 +107,32 @@ class District:
 
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
-        while cursor_x < batterij.x_as:
+        target = [batterij.x_as, batterij.y_as]
+        for kabel in batterij.gelegde_kabels:
+            if (abs(cursor_x - kabel[0]) + abs(cursor_x - kabel[1])) < (abs(cursor_x - target[0]) + abs(cursor_x - target[1])):
+                target = [kabel[0], kabel[1]]
+        while cursor_x < target[0]:
             if ((cursor_x), (cursor_y))  in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x += 1
-        while cursor_x > batterij.x_as:
+        while cursor_x > target[0]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x -= 1
-        while cursor_y < batterij.y_as:
+        while cursor_y < target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y += 1
-        while cursor_y > batterij.y_as:
+        while cursor_y > target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
