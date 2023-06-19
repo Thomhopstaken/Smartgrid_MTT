@@ -179,21 +179,6 @@ class District:
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
 
-
-def data_inladen(b: TextIO):
-    """Neemt bestandlijn en converteert het naar een lijst.
-
-    In: CSV bestand.
-    Uit: lijst met 3 variabelen."""
-
-    line = b.readline()
-    line = line.replace("\n", '')
-    line = line.replace('\"', '')
-
-    return line.split(",")
-
-
-
     def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
         """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
         huis_x.verwijder_kabels()
@@ -210,6 +195,20 @@ def data_inladen(b: TextIO):
 
         batterij_x.overbodige_kabels_verwijderen()
         batterij_y.overbodige_kabels_verwijderen()
+
+
+def data_inladen(b: TextIO):
+    """Neemt bestandlijn en converteert het naar een lijst.
+
+    In: CSV bestand.
+    Uit: lijst met 3 variabelen."""
+
+    line = b.readline()
+    line = line.replace("\n", '')
+    line = line.replace('\"', '')
+
+    return line.split(",")
+
 
 def data_pad(district, item, item2=None, kmeans=False,
              huizen=False) -> str:
