@@ -122,15 +122,6 @@ def hill_climbing_alg(wijk) -> None:
         #print(f'{batterij.batterij_id} : {batterij.gelegde_kabels}')
     print(teller)             
                 
-        
-    
-    
-    
-    
-
-        
-
-
 # idee:
 
 """ run een random algoritme totdat het een succesvolle run geeft. 
