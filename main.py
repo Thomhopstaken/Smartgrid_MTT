@@ -65,7 +65,9 @@ if __name__ == "__main__":
         kosten_randomrun = wijk.kosten_berekening()
         print(f'kosten random:      {kosten_randomrun}')
         hillclimber = hill_climbing.Hill_climber(wijk)
-        hillclimber.draai_hillclimber(50)
+        hillclimber.draai_hillclimber()
+        print(hillclimber.kosten)
+        
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":

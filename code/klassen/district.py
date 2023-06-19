@@ -195,7 +195,10 @@ class District:
             json.dump(json_dict, outfile)
 
     def hc_verwissel_huizen(self):
-        self.hc_kabels_verleggen(self.hc_kies_willekeurige_huizen)
+        huis_x, huis_y, batterij_x, batterij_y = self.hc_kies_willekeurige_huizen()
+        if self.check_capaciteit(huis_x, huis_y, batterij_x, batterij_y):
+            self.hc_kabels_verleggen(huis_x, huis_y, batterij_x, batterij_y)
+    
     
     def hc_kies_willekeurige_huizen(self):
      
@@ -224,6 +227,15 @@ class District:
         
         batterij_x.overbodige_kabels_verwijderen()
         batterij_y.overbodige_kabels_verwijderen()
+    
+    def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
+        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
+        nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
+        nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
+        if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
+            return True
+        else: 
+            return False
         
 
 

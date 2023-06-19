@@ -7,6 +7,8 @@ class Hill_climber:
         
         self.oude_wijk = copy.deepcopy(wijk)
         self.kosten = wijk.kosten_berekening()
+        
+        self.counter = 0
     
     def kies_willekeurige_huizen(self, wijk):
         
@@ -25,19 +27,23 @@ class Hill_climber:
         nieuwe_kosten = nieuwe_wijk.kosten_berekening()
         oude_kosten = self.kosten
         
-        if nieuwe_kosten <= oude_kosten:
+        if nieuwe_kosten < oude_kosten:
             self.oude_wijk = nieuwe_wijk
             self.kosten = nieuwe_kosten
+            self.counter = 0
+        else: 
+            self.counter += 1
             
     
-    def draai_hillclimber(self, iteraties):
+    def draai_hillclimber(self):
         
-        for x in range(iteraties):
+        while self.counter <= 100:
             nieuwe_wijk = copy.deepcopy(self.oude_wijk)
             nieuwe_wijk.hc_verwissel_huizen()
             
             self.check_uitkomst(nieuwe_wijk)
-            print(self.kosten)
+            print(self.counter)
+    
     
             
             
@@ -79,14 +85,7 @@ class Hill_climber:
 #     else:
 #         return False, huis_y
 
-# def check_capaciteit(huis_x, huis_y, batterij_x, batterij_y):
-#     """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-#     nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
-#     nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
-#     if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
-#         return True
-#     else: 
-#         return False
+
 
 
 
