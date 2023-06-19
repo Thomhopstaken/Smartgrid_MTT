@@ -3,6 +3,7 @@ from .huizen import Huizen
 from typing import TextIO
 import json
 import os
+import random
 
 
 class District:
@@ -162,6 +163,7 @@ class District:
         with open("figures/output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
+
 def data_inladen(b: TextIO):
     """Neemt bestandlijn en converteert het naar een lijst.
 
@@ -173,6 +175,39 @@ def data_inladen(b: TextIO):
     line = line.replace('\"', '')
 
     return line.split(",")
+
+    def hc_verwissel_huizen(self):
+        self.hc_kabels_verleggen(self.hc_kies_willekeurige_huizen)
+
+    def hc_kies_willekeurige_huizen(self):
+
+        huizen_gevonden = False
+
+        while not huizen_gevonden:
+            x = self.gelinkte_huizen[random.randint(0, 149)]
+            y = self.gelinkte_huizen[random.randint(0, 149)]
+            if x.aangesloten != y.aangesloten:
+                huis_x, huis_y = x, y
+                batterij_x, batterij_y = x.aangesloten, y.aangesloten
+                huizen_gevonden = True
+        return huis_x, huis_y, batterij_x, batterij_y
+
+    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
+        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
+        huis_x.verwijder_kabels()
+        huis_y.verwijder_kabels()
+        self.leg_route(batterij_x, huis_y)
+        self.leg_route(batterij_y, huis_x)
+
+        index_x = batterij_x.gelinkte_huizen.index(huis_x)
+        index_y = batterij_y.gelinkte_huizen.index(huis_y)
+        batterij_x.gelinkte_huizen.append(
+            batterij_y.gelinkte_huizen.pop(index_y))
+        batterij_y.gelinkte_huizen.append(
+            batterij_x.gelinkte_huizen.pop(index_x))
+
+        batterij_x.overbodige_kabels_verwijderen()
+        batterij_y.overbodige_kabels_verwijderen()
 
 def data_pad(district, item, item2=None, kmeans=False,
              huizen=False) -> str:
@@ -193,3 +228,6 @@ def data_pad(district, item, item2=None, kmeans=False,
 
     pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
     return cwd + os.path.normpath(pad)
+
+
+
