@@ -59,14 +59,21 @@ if __name__ == "__main__":
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
-        aantal_runs = 1
-        while not run_succesvol: 
-            wijk = district.District(wijk_kiezen, aantal_runs)
-            run_succesvol = random_alg.random_alg(wijk)
-        kosten_randomrun = wijk.kosten_berekening()
-        print(f'kosten random:      {kosten_randomrun}')
-        hillclimber = hill_climbing.Hill_climber(wijk)
-        hillclimber.draai_hillclimber(50)
+        aantal_runs = 10
+        runs = 0
+        while runs <= aantal_runs: 
+            while not run_succesvol:
+                wijk = district.District(wijk_kiezen, 1)
+                run_succesvol = random_alg.random_alg(wijk)
+            kosten_randomrun = wijk.kosten_berekening()
+            print(f'kosten random:      {kosten_randomrun}')
+            hillclimber = hill_climbing.Hill_climber(wijk)
+            hillclimber.draai_hillclimber()
+            print(hillclimber.kosten)
+            runs += 1
+            run_succesvol = False
+            
+        
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":

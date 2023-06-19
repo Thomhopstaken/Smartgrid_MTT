@@ -163,8 +163,11 @@ class District:
             json.dump(json_dict, outfile)
 
     def hc_verwissel_huizen(self):
-        self.hc_kabels_verleggen(self.hc_kies_willekeurige_huizen)
-
+        huis_x, huis_y, batterij_x, batterij_y = self.hc_kies_willekeurige_huizen()
+        if self.check_capaciteit(huis_x, huis_y, batterij_x, batterij_y):
+            self.hc_kabels_verleggen(huis_x, huis_y, batterij_x, batterij_y)
+    
+    
     def hc_kies_willekeurige_huizen(self):
 
         huizen_gevonden = False
@@ -177,21 +180,6 @@ class District:
                 batterij_x, batterij_y = x.aangesloten, y.aangesloten
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
-
-
-def data_inladen(b: TextIO):
-    """Neemt bestandlijn en converteert het naar een lijst.
-
-    In: CSV bestand.
-    Uit: lijst met 3 variabelen."""
-
-    line = b.readline()
-    line = line.replace("\n", '')
-    line = line.replace('\"', '')
-
-    return line.split(",")
-
-
 
 def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
     """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
@@ -209,6 +197,32 @@ def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
 
     batterij_x.overbodige_kabels_verwijderen()
     batterij_y.overbodige_kabels_verwijderen()
+    
+    def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
+        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
+        nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
+        nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
+        # Nieuw cap - maxoutput zal bijna nooit allebei >= 0 zijn omdat de resterende capaciteiten
+        # zo dichtbij 0 zijn. Als je bijvoorbeeld twee blokken van 5 huizen gebruikt in plaats van twee
+        # willekeurige huizen gebruikt, is de kans aanzienelijk groter dat je de huizen kan wisselen
+        if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
+            return True
+        else: 
+            return False
+        
+
+def data_inladen(b: TextIO):
+    """Neemt bestandlijn en converteert het naar een lijst.
+
+    In: CSV bestand.
+    Uit: lijst met 3 variabelen."""
+
+    line = b.readline()
+    line = line.replace("\n", '')
+    line = line.replace('\"', '')
+
+    return line.split(",")
+
 
 def data_pad(district, item, item2=None, kmeans=False,
              huizen=False) -> str:
