@@ -42,7 +42,6 @@ class Hill_climber:
             nieuwe_wijk.hc_verwissel_huizen()
             
             self.check_uitkomst(nieuwe_wijk)
-            print(self.counter)
     
     
             
