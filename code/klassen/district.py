@@ -68,11 +68,11 @@ class District:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 count += 1
-                print(afstand)
-        print(count)
-                # self.afstand_huizen[huis.huis_id] = afstand
-                # self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-                # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+                #print(afstand)
+        #print(count)
+                self.afstand_batterij_huis[huis.huis_id] = afstand
+                self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
+                print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
 
 
     def leg_route(self, batterij, huis):

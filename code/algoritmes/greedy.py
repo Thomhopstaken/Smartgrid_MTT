@@ -7,20 +7,20 @@ def greedy_alg(wijk) -> None:
 
     for batterij in wijk.batterijen:
         afstanden = batterij.bereken_afstand(wijk.losse_huizen)
-    #print(afstanden)
+    print(afstanden)
 
-    huis_en_afstand = list(afstanden.items())
+    #huis_en_afstand = list(afstanden.items())
     #print(huis_en_afstand)
 
     # for huis in huis_en_afstand:
     #     print(huis[0])
     
-    while len(wijk.losse_huizen) > 0:
+    while wijk.losse_huizen:
         for batterij in wijk.batterijen:
-            for huis in huis_en_afstand:
-                if huis[0].kan_aansluiten(batterij):
-                    #print(huis)
-                    wijk.leg_route(batterij, huis[0])
+            for huis in afstanden:
+                #print(huis)
+                if huis.kan_aansluiten(batterij):
+                    wijk.leg_route(batterij, huis)
                     counter += 1
                     stop_counter = 0
                 else:
