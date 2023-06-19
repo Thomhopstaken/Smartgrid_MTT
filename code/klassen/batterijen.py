@@ -25,8 +25,8 @@ class Batterijen:
         for huis in huizen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             self.afstand_huizen[huis] = afstand
+        print(f"AFSTAND HUIZEN: {dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))}")
         return dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-        #print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
             
 
     def dichtstbijzijnde_huis(self) -> int:

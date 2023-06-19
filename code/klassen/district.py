@@ -16,6 +16,7 @@ class District:
         self.batterijen = []
         self.losse_huizen = []
         self.gelinkte_huizen = []
+        self.afstanden_batterij_huis = []
     
         if laad_huis:
             self.laad_huizen(data_pad(district, 'houses'))
@@ -63,16 +64,14 @@ class District:
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def bereken_afstand(self):
-        count = 0 
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
-                count += 1
-                #print(afstand)
-        #print(count)
-                self.afstand_batterij_huis[huis.huis_id] = afstand
-                self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-                print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+                self.afstanden_batterij_huis.append((batterij, huis, afstand))
+                self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
+        return(self.afstanden_batterij_huis)
+        # print(f"AFSTAND HUIZEN: {self.afstanden_batterij_huis}")
+        # print(len(self.afstanden_batterij_huis))
 
 
     def leg_route(self, batterij, huis):
@@ -194,22 +193,22 @@ def data_inladen(b: TextIO):
 
 
 
-    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
-        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
-        huis_x.verwijder_kabels()
-        huis_y.verwijder_kabels()
-        self.leg_route(batterij_x, huis_y)
-        self.leg_route(batterij_y, huis_x)
+def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
+    """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
+    huis_x.verwijder_kabels()
+    huis_y.verwijder_kabels()
+    self.leg_route(batterij_x, huis_y)
+    self.leg_route(batterij_y, huis_x)
 
-        index_x = batterij_x.gelinkte_huizen.index(huis_x)
-        index_y = batterij_y.gelinkte_huizen.index(huis_y)
-        batterij_x.gelinkte_huizen.append(
-            batterij_y.gelinkte_huizen.pop(index_y))
-        batterij_y.gelinkte_huizen.append(
-            batterij_x.gelinkte_huizen.pop(index_x))
+    index_x = batterij_x.gelinkte_huizen.index(huis_x)
+    index_y = batterij_y.gelinkte_huizen.index(huis_y)
+    batterij_x.gelinkte_huizen.append(
+        batterij_y.gelinkte_huizen.pop(index_y))
+    batterij_y.gelinkte_huizen.append(
+        batterij_x.gelinkte_huizen.pop(index_x))
 
-        batterij_x.overbodige_kabels_verwijderen()
-        batterij_y.overbodige_kabels_verwijderen()
+    batterij_x.overbodige_kabels_verwijderen()
+    batterij_y.overbodige_kabels_verwijderen()
 
 def data_pad(district, item, item2=None, kmeans=False,
              huizen=False) -> str:
