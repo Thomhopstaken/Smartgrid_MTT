@@ -3,6 +3,7 @@ from .huizen import Huizen
 from typing import TextIO
 import json
 import os
+import random
 
 
 class District:
@@ -17,10 +18,10 @@ class District:
         self.gelinkte_huizen = []
     
         if laad_huis:
-            self.laad_huizen(self.data_pad(district, 'houses'))
+            self.laad_huizen(data_pad(district, 'houses'))
 
         if laad_batterij:
-            self.laad_batterijen(self.data_pad(district, 'batteries'))
+            self.laad_batterijen(data_pad(district, 'batteries'))
 
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
@@ -36,7 +37,7 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = self.data_inladen(b)
+                data = data_inladen(b)
                 # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
                     self.batterijen.append(
@@ -55,42 +56,11 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = self.data_inladen(b)
+                data = data_inladen(b)
                 # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
                     self.losse_huizen.append(
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
-
-    def data_inladen(self, b: TextIO):
-        """Neemt bestandlijn en converteert het naar een lijst.
-
-        In: CSV bestand.
-        Uit: lijst met 3 variabelen."""
-
-        line = b.readline()
-        line = line.replace("\n", '')
-        line = line.replace('\"', '')
-
-        return line.split(",")
-
-    def data_pad(self, district, item, item2=None, kmeans=False, huizen=False) -> str:
-        """Vind het juist bestandspad naar opgevraagde bestand.
-
-        In: bestaandsnaam
-        Uit: pad naar opgevraagde bestand."""
-
-        cwd = os.getcwd()
-        sep = os.sep
-        if kmeans == True:
-            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
-            return cwd + os.path.normpath(pad)
-
-        if huizen == True:
-            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
-            return cwd + os.path.normpath(pad)
-
-        pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
-        return cwd + os.path.normpath(pad)
 
     def bereken_afstand(self):
         count = 0 
@@ -107,28 +77,32 @@ class District:
 
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
-        while cursor_x < batterij.x_as:
+        target = [batterij.x_as, batterij.y_as]
+        for kabel in batterij.gelegde_kabels:
+            if (abs(cursor_x - kabel[0]) + abs(cursor_y - kabel[1])) < (abs(cursor_x - target[0]) + abs(cursor_y - target[1])):
+                target = [kabel[0], kabel[1]]
+        while cursor_x < target[0]:
             if ((cursor_x), (cursor_y))  in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x += 1
-        while cursor_x > batterij.x_as:
+        while cursor_x > target[0]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x -= 1
-        while cursor_y < batterij.y_as:
+        while cursor_y < target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y += 1
-        while cursor_y > batterij.y_as:
+        while cursor_y > target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
@@ -137,6 +111,7 @@ class District:
             cursor_y -= 1
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
+
 
 
     def creer_connectie(self, batterij, huis):
@@ -187,3 +162,74 @@ class District:
             batterij_data = {}
         with open("figures/output.json", "w") as outfile:
             json.dump(json_dict, outfile)
+
+    def hc_verwissel_huizen(self):
+        self.hc_kabels_verleggen(self.hc_kies_willekeurige_huizen)
+
+    def hc_kies_willekeurige_huizen(self):
+
+        huizen_gevonden = False
+
+        while not huizen_gevonden:
+            x = self.gelinkte_huizen[random.randint(0, 149)]
+            y = self.gelinkte_huizen[random.randint(0, 149)]
+            if x.aangesloten != y.aangesloten:
+                huis_x, huis_y = x, y
+                batterij_x, batterij_y = x.aangesloten, y.aangesloten
+                huizen_gevonden = True
+        return huis_x, huis_y, batterij_x, batterij_y
+
+
+def data_inladen(b: TextIO):
+    """Neemt bestandlijn en converteert het naar een lijst.
+
+    In: CSV bestand.
+    Uit: lijst met 3 variabelen."""
+
+    line = b.readline()
+    line = line.replace("\n", '')
+    line = line.replace('\"', '')
+
+    return line.split(",")
+
+
+
+    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
+        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
+        huis_x.verwijder_kabels()
+        huis_y.verwijder_kabels()
+        self.leg_route(batterij_x, huis_y)
+        self.leg_route(batterij_y, huis_x)
+
+        index_x = batterij_x.gelinkte_huizen.index(huis_x)
+        index_y = batterij_y.gelinkte_huizen.index(huis_y)
+        batterij_x.gelinkte_huizen.append(
+            batterij_y.gelinkte_huizen.pop(index_y))
+        batterij_y.gelinkte_huizen.append(
+            batterij_x.gelinkte_huizen.pop(index_x))
+
+        batterij_x.overbodige_kabels_verwijderen()
+        batterij_y.overbodige_kabels_verwijderen()
+
+def data_pad(district, item, item2=None, kmeans=False,
+             huizen=False) -> str:
+    """Vind het juist bestandspad naar opgevraagde bestand.
+
+    In: bestaandsnaam
+    Uit: pad naar opgevraagde bestand."""
+
+    cwd = os.getcwd()
+    sep = os.sep
+    if kmeans == True:
+        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
+        return cwd + os.path.normpath(pad)
+
+    if huizen == True:
+        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
+        return cwd + os.path.normpath(pad)
+
+    pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
+    return cwd + os.path.normpath(pad)
+
+
+

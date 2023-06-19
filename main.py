@@ -55,6 +55,7 @@ if __name__ == "__main__":
         wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
         # succesvolle_runs[wijk] = wijk.kosten_berekening()
+        smartgrid.visualise(wijk_kiezen, wijk)
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
@@ -64,9 +65,9 @@ if __name__ == "__main__":
             run_succesvol = random_alg.random_alg(wijk)
         kosten_randomrun = wijk.kosten_berekening()
         print(f'kosten random:      {kosten_randomrun}')
-        hill_climbing.hill_climbing_alg(wijk)
-        print(f'hill climbing kosten: {wijk.kosten_berekening()}')
-        
+        hillclimber = hill_climbing.Hill_climber(wijk)
+        hillclimber.draai_hillclimber(50)
+    
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
 
