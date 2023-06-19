@@ -18,10 +18,10 @@ class District:
         self.gelinkte_huizen = []
     
         if laad_huis:
-            self.laad_huizen(self.data_pad(district, 'houses'))
+            self.laad_huizen(data_pad(district, 'houses'))
 
         if laad_batterij:
-            self.laad_batterijen(self.data_pad(district, 'batteries'))
+            self.laad_batterijen(data_pad(district, 'batteries'))
 
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
@@ -37,7 +37,7 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = self.data_inladen(b)
+                data = data_inladen(b)
                 # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
                     self.batterijen.append(
@@ -56,42 +56,11 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = self.data_inladen(b)
+                data = data_inladen(b)
                 # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
                     self.losse_huizen.append(
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
-
-    def data_inladen(self, b: TextIO):
-        """Neemt bestandlijn en converteert het naar een lijst.
-
-        In: CSV bestand.
-        Uit: lijst met 3 variabelen."""
-
-        line = b.readline()
-        line = line.replace("\n", '')
-        line = line.replace('\"', '')
-
-        return line.split(",")
-
-    def data_pad(self, district, item, item2=None, kmeans=False, huizen=False) -> str:
-        """Vind het juist bestandspad naar opgevraagde bestand.
-
-        In: bestaandsnaam
-        Uit: pad naar opgevraagde bestand."""
-
-        cwd = os.getcwd()
-        sep = os.sep
-        if kmeans == True:
-            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
-            return cwd + os.path.normpath(pad)
-
-        if huizen == True:
-            pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
-            return cwd + os.path.normpath(pad)
-
-        pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
-        return cwd + os.path.normpath(pad)
 
     def bereken_afstand(self):
         count = 0 
@@ -99,11 +68,11 @@ class District:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 count += 1
-                print(afstand)
-        print(count)
-                # self.afstand_huizen[huis.huis_id] = afstand
-                # self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-                # print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
+                #print(afstand)
+        #print(count)
+                self.afstand_batterij_huis[huis.huis_id] = afstand
+                self.afstand_huizen = dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
+                print(f"AFSTAND HUIZEN: {self.afstand_huizen}")
 
 
     def leg_route(self, batterij, huis):
@@ -201,15 +170,15 @@ class District:
     
     
     def hc_kies_willekeurige_huizen(self):
-     
+
         huizen_gevonden = False
-        
+
         while not huizen_gevonden:
             x = self.gelinkte_huizen[random.randint(0, 149)]
             y = self.gelinkte_huizen[random.randint(0, 149)]
             if x.aangesloten != y.aangesloten:
                 huis_x, huis_y = x, y
-                batterij_x, batterij_y  = x.aangesloten, y.aangesloten
+                batterij_x, batterij_y = x.aangesloten, y.aangesloten
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
 
@@ -217,14 +186,16 @@ class District:
         """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
         huis_x.verwijder_kabels()
         huis_y.verwijder_kabels()
-        self.leg_route(batterij_x, huis_y)    
+        self.leg_route(batterij_x, huis_y)
         self.leg_route(batterij_y, huis_x)
-        
+
         index_x = batterij_x.gelinkte_huizen.index(huis_x)
         index_y = batterij_y.gelinkte_huizen.index(huis_y)
-        batterij_x.gelinkte_huizen.append(batterij_y.gelinkte_huizen.pop(index_y))
-        batterij_y.gelinkte_huizen.append(batterij_x.gelinkte_huizen.pop(index_x))
-        
+        batterij_x.gelinkte_huizen.append(
+            batterij_y.gelinkte_huizen.pop(index_y))
+        batterij_y.gelinkte_huizen.append(
+            batterij_x.gelinkte_huizen.pop(index_x))
+
         batterij_x.overbodige_kabels_verwijderen()
         batterij_y.overbodige_kabels_verwijderen()
     
@@ -237,5 +208,39 @@ class District:
         else: 
             return False
         
+
+def data_inladen(b: TextIO):
+    """Neemt bestandlijn en converteert het naar een lijst.
+
+    In: CSV bestand.
+    Uit: lijst met 3 variabelen."""
+
+    line = b.readline()
+    line = line.replace("\n", '')
+    line = line.replace('\"', '')
+
+    return line.split(",")
+
+
+def data_pad(district, item, item2=None, kmeans=False,
+             huizen=False) -> str:
+    """Vind het juist bestandspad naar opgevraagde bestand.
+
+    In: bestaandsnaam
+    Uit: pad naar opgevraagde bestand."""
+
+    cwd = os.getcwd()
+    sep = os.sep
+    if kmeans == True:
+        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
+        return cwd + os.path.normpath(pad)
+
+    if huizen == True:
+        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
+        return cwd + os.path.normpath(pad)
+
+    pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
+    return cwd + os.path.normpath(pad)
+
 
 
