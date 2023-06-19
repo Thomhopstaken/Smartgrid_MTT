@@ -163,19 +163,6 @@ class District:
         with open("figures/output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
-
-def data_inladen(b: TextIO):
-    """Neemt bestandlijn en converteert het naar een lijst.
-
-    In: CSV bestand.
-    Uit: lijst met 3 variabelen."""
-
-    line = b.readline()
-    line = line.replace("\n", '')
-    line = line.replace('\"', '')
-
-    return line.split(",")
-
     def hc_verwissel_huizen(self):
         self.hc_kabels_verleggen(self.hc_kies_willekeurige_huizen)
 
@@ -191,6 +178,21 @@ def data_inladen(b: TextIO):
                 batterij_x, batterij_y = x.aangesloten, y.aangesloten
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
+
+
+def data_inladen(b: TextIO):
+    """Neemt bestandlijn en converteert het naar een lijst.
+
+    In: CSV bestand.
+    Uit: lijst met 3 variabelen."""
+
+    line = b.readline()
+    line = line.replace("\n", '')
+    line = line.replace('\"', '')
+
+    return line.split(",")
+
+
 
     def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
         """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
