@@ -12,16 +12,27 @@ def greedy_alg(wijk) -> None:
     afstanden = wijk.bereken_afstand()
     #print(afstanden)
 
+    #while len(wijk.losse_huizen): 
+    # Combinatie: batterij, huis, afstand
     for combinatie in afstanden:
-        print(combinatie)
-        if combinatie[1].kan_aansluiten(combinatie[0]):
+        batterij, huis, afstand = combinatie
+        print(batterij, huis, afstand)
+        if huis.kan_aansluiten(batterij):
             print("kan aansluiten")
             counter += 1
-            wijk.leg_route(combinatie[0], combinatie[1])
+            wijk.leg_route(batterij, huis)
 
-    if len(wijk.losse_huizen) == 1:
-        print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
-
+    if len(wijk.losse_huizen) != 0:
+        #print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
+        batterij_met_max_capaciteit = max(wijk.batterijen, key=lambda x: x.resterende_capaciteit)
+        resterende_huis = wijk.losse_huizen[0]
+        #print(f'MAX BATTERIJ: {batterij_met_max_capaciteit.resterende_capaciteit}')
+        for combinatie in afstanden:
+            batterij, huis, afstand = combinatie
+            if resterende_huis.kan_aansluiten(batterij):
+                wijk.leg_route(batterij_met_max_capaciteit, huis)
+                counter += 1
+            
     print(counter)
 
     for batterij in wijk.batterijen:
