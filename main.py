@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
         aantal_runs = int(input('geef aantal runs: '))
-        bestandsnaam = f'figures/data_random/kosten_wijk:_{wijk_kiezen}_|runs:_{aantal_runs}.csv'
+        bestandsnaam = f'figures/data_random/kosten_wijk_{wijk_kiezen}_runs:_{aantal_runs}.csv'
         grafiek.schrijf_csv_kosten(bestandsnaam)
         for x in range (0, aantal_runs):
             wijk = district.District(wijk_kiezen, x)
@@ -88,24 +88,24 @@ if __name__ == "__main__":
     else: 
         print('Invalid Argument')
     
-    # if succesvolle_runs > 0:
-    #     #goedkoopste_run = min(succesvolle_runs, key= lambda x: succesvolle_runs[x])
-    #     #gemiddelde_prijs = int(sum(succesvolle_runs.values()) / succesvolle_runs)
-    #     #duurste_run = max(succesvolle_runs, key= lambda x: succesvolle_runs[x])
-        
-    #     print('')
-    #     print('Resultaten: ')
-    #     print(f'Succesvolle runs:   {succesvolle_runs}')
-    #     print(f'Mislukte runs:      {mislukte_runs}')
-    #     print(f'Goedkoopste run:    {goedkoopste_run.id} | {goedkoopste_kosten}')
-    #     print(f'Gemiddelde:         {gemiddelde_prijs}')
-    #     print(f'Duurste run:        {duurste_kosten}')
-        
-    #     smartgrid.visualise(wijk_kiezen, goedkoopste_run)
-    #     goedkoopste_run.jsonify(wijk_kiezen)
-        
-    # else:
-    #     print('Geen succesvolle runs!')
+    if succesvolle_runs > 0:
+        # goedkoopste_run = min(succesvolle_runs, key= lambda x: succesvolle_runs[x])
+        # gemiddelde_prijs = int(sum(succesvolle_runs.values()) / succesvolle_runs)
+        # duurste_run = max(succesvolle_runs, key= lambda x: succesvolle_runs[x])
+
+        print('')
+        print('Resultaten: ')
+        print(f'Succesvolle runs:   {succesvolle_runs}')
+        print(f'Mislukte runs:      {mislukte_runs}')
+        print(f'Goedkoopste run:    {goedkoopste_run.id} | {goedkoopste_kosten}')
+        print(f'Gemiddelde:         {gemiddelde_prijs}')
+        print(f'Duurste run:        {duurste_kosten}')
+
+        smartgrid.visualise(wijk_kiezen, goedkoopste_run)
+        goedkoopste_run.jsonify(wijk_kiezen)
+
+    else:
+        print('Geen succesvolle runs!')
 
 
     
