@@ -68,7 +68,7 @@ class District:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
-                self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
+        self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
         # print(f"AFSTAND HUIZEN: {self.afstanden_batterij_huis}")
         # print(len(self.afstanden_batterij_huis))

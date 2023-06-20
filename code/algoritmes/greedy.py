@@ -1,6 +1,6 @@
 
 def greedy_alg(wijk) -> None:
-    print("greedy")
+    # print("greedy")
     """Greedy algoritme om huizen aan te sluiten op batterijen in een wijk."""
     counter = 0
     stop_counter = 0
@@ -22,10 +22,11 @@ def greedy_alg(wijk) -> None:
         
             wijk.leg_route(combinatie[0], combinatie[1])
     #print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
-    print(counter)
+    return wijk
+    # print(counter)
 
-    for batterij in wijk.batterijen:
-        print(batterij.resterende_capaciteit)
+    # for batterij in wijk.batterijen:
+    #     print(batterij.resterende_capaciteit)
 
     #         #print(huis)
     #         if huis.kan_aansluiten(batterij):

@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
 
-        run = kmeans.kmeans_alg(wijk_kiezen, n_runs=100)
+        run = kmeans.kmeans_alg(wijk_kiezen, n_runs=100, algoritme='clusters')
 
         run[0][0].jsonify(wijk_kiezen)
         smartgrid.visualise(run[0][1], run[0][0], k_means=True, k=run[0][1])
