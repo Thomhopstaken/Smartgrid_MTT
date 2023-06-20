@@ -70,9 +70,7 @@ class District:
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
-        # print(f"AFSTAND HUIZEN: {self.afstanden_batterij_huis}")
-        # print(len(self.afstanden_batterij_huis))
-
+    
 
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
@@ -110,7 +108,6 @@ class District:
             cursor_y -= 1
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
-
 
 
     def creer_connectie(self, batterij, huis):
@@ -181,34 +178,34 @@ class District:
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
 
-def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
-    """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
-    huis_x.verwijder_kabels()
-    huis_y.verwijder_kabels()
-    self.leg_route(batterij_x, huis_y)
-    self.leg_route(batterij_y, huis_x)
+    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
+        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
+        huis_x.verwijder_kabels()
+        huis_y.verwijder_kabels()
+        self.leg_route(batterij_x, huis_y)
+        self.leg_route(batterij_y, huis_x)
 
-    index_x = batterij_x.gelinkte_huizen.index(huis_x)
-    index_y = batterij_y.gelinkte_huizen.index(huis_y)
-    batterij_x.gelinkte_huizen.append(
-        batterij_y.gelinkte_huizen.pop(index_y))
-    batterij_y.gelinkte_huizen.append(
-        batterij_x.gelinkte_huizen.pop(index_x))
+        index_x = batterij_x.gelinkte_huizen.index(huis_x)
+        index_y = batterij_y.gelinkte_huizen.index(huis_y)
+        batterij_x.gelinkte_huizen.append(
+            batterij_y.gelinkte_huizen.pop(index_y))
+        batterij_y.gelinkte_huizen.append(
+            batterij_x.gelinkte_huizen.pop(index_x))
 
-    batterij_x.overbodige_kabels_verwijderen()
-    batterij_y.overbodige_kabels_verwijderen()
+        batterij_x.overbodige_kabels_verwijderen()
+        batterij_y.overbodige_kabels_verwijderen()
     
-    def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
-        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-        nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
-        nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
-        # Nieuw cap - maxoutput zal bijna nooit allebei >= 0 zijn omdat de resterende capaciteiten
-        # zo dichtbij 0 zijn. Als je bijvoorbeeld twee blokken van 5 huizen gebruikt in plaats van twee
-        # willekeurige huizen gebruikt, is de kans aanzienelijk groter dat je de huizen kan wisselen
-        if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
-            return True
-        else: 
-            return False
+def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
+    """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
+    nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
+    nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
+    # Nieuw cap - maxoutput zal bijna nooit allebei >= 0 zijn omdat de resterende capaciteiten
+    # zo dichtbij 0 zijn. Als je bijvoorbeeld twee blokken van 5 huizen gebruikt in plaats van twee
+    # willekeurige huizen gebruikt, is de kans aanzienelijk groter dat je de huizen kan wisselen
+    if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
+        return True
+    else: 
+        return False
         
 
 def data_inladen(b: TextIO):
