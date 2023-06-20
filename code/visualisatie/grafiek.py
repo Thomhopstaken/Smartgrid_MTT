@@ -37,6 +37,6 @@ def grafiek_maken(data, wijk_kiezen, aantal_runs):
     
     plt.plot(x, y)
     plt.hist(data, bins=20, density=True, alpha=0.5)
-    plt.title('normaal verdeelt random')
+    plt.title(f'Wijk {wijk_kiezen}')
     
     plt.savefig(f'figures/data_random/grafiek_wijk:_{wijk_kiezen}|runs:_{aantal_runs}')
