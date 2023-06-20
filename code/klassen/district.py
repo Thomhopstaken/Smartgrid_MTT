@@ -27,6 +27,11 @@ class District:
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
+    def ontkoppel_huis(self, huis):
+        self.gelinkte_huizen.remove(huis)
+        self.losse_huizen.append(huis)
+        huis.aangesloten = False
+
     def laad_batterijen(self, bestand: str, prijs:int=5000) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
         deze worden ongebracht in batterijlijst.
