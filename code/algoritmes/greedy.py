@@ -24,13 +24,21 @@ def greedy_alg(wijk) -> None:
 
     if len(wijk.losse_huizen) != 0:
         #print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
-        batterij_met_max_capaciteit = max(wijk.batterijen, key=lambda x: x.resterende_capaciteit)
+        batterij_maxcap = max(wijk.batterijen, key=lambda x: x.resterende_capaciteit)
         resterende_huis = wijk.losse_huizen[0]
         #print(f'MAX BATTERIJ: {batterij_met_max_capaciteit.resterende_capaciteit}')
+        verschil = batterij_maxcap.resterende_capaciteit - resterende_huis.maxoutput
+        te_ontkoppelen_huis = None
         for combinatie in afstanden:
             batterij, huis, afstand = combinatie
+            print(f"HUIS {huis}")
+            if huis.maxoutput >= verschil and huis.maxoutput <= batterij_maxcap.resterende_capaciteit:
+                te_ontkoppelen_huis = huis
+            print(f"ONTKOPPEL: {te_ontkoppelen_huis}")
+            wijk.ontkoppel_huis(te_ontkoppelen_huis)
+            
             if resterende_huis.kan_aansluiten(batterij):
-                wijk.leg_route(batterij_met_max_capaciteit, huis)
+                wijk.leg_route(batterij_maxcap, huis)
                 counter += 1
             
     print(counter)
