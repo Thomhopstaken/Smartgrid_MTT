@@ -68,11 +68,9 @@ class District:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
-                self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
+        self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
-        # print(f"AFSTAND HUIZEN: {self.afstanden_batterij_huis}")
-        # print(len(self.afstanden_batterij_huis))
-
+    
 
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
@@ -110,7 +108,6 @@ class District:
             cursor_y -= 1
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
-
 
 
     def creer_connectie(self, batterij, huis):
@@ -181,22 +178,22 @@ class District:
                 huizen_gevonden = True
         return huis_x, huis_y, batterij_x, batterij_y
 
-def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
-    """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
-    huis_x.verwijder_kabels()
-    huis_y.verwijder_kabels()
-    self.leg_route(batterij_x, huis_y)
-    self.leg_route(batterij_y, huis_x)
+    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
+        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
+        huis_x.verwijder_kabels()
+        huis_y.verwijder_kabels()
+        self.leg_route(batterij_x, huis_y)
+        self.leg_route(batterij_y, huis_x)
 
-    index_x = batterij_x.gelinkte_huizen.index(huis_x)
-    index_y = batterij_y.gelinkte_huizen.index(huis_y)
-    batterij_x.gelinkte_huizen.append(
-        batterij_y.gelinkte_huizen.pop(index_y))
-    batterij_y.gelinkte_huizen.append(
-        batterij_x.gelinkte_huizen.pop(index_x))
+        index_x = batterij_x.gelinkte_huizen.index(huis_x)
+        index_y = batterij_y.gelinkte_huizen.index(huis_y)
+        batterij_x.gelinkte_huizen.append(
+            batterij_y.gelinkte_huizen.pop(index_y))
+        batterij_y.gelinkte_huizen.append(
+            batterij_x.gelinkte_huizen.pop(index_x))
 
-    batterij_x.overbodige_kabels_verwijderen()
-    batterij_y.overbodige_kabels_verwijderen()
+        batterij_x.overbodige_kabels_verwijderen()
+        batterij_y.overbodige_kabels_verwijderen()
     
     def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """

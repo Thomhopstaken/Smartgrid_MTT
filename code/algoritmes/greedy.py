@@ -10,18 +10,18 @@ def greedy_alg(wijk) -> None:
     # print(afstanden)
     
     afstanden = wijk.bereken_afstand()
-    print(afstanden)
+    #print(afstanden)
 
-    #while wijk.losse_huizen:
-    #print(len(wijk.losse_huizen))
     for combinatie in afstanden:
-        print(combinatie[1])
+        print(combinatie)
         if combinatie[1].kan_aansluiten(combinatie[0]):
             print("kan aansluiten")
             counter += 1
-        
             wijk.leg_route(combinatie[0], combinatie[1])
-    #print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
+
+    if len(wijk.losse_huizen) == 1:
+        print(f"OUTPUT: {wijk.losse_huizen[0].maxoutput}")
+
     print(counter)
 
     for batterij in wijk.batterijen:
