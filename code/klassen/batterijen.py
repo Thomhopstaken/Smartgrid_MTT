@@ -27,7 +27,6 @@ class Batterijen:
             self.afstand_huizen[huis] = afstand
         print(f"AFSTAND HUIZEN: {dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))}")
         return dict(sorted(self.afstand_huizen.items(), key=lambda item:item[1]))
-            
 
     def dichtstbijzijnde_huis(self) -> int:
         """Neemt het dichtstbijzijnde huis vanaf een batterij."""

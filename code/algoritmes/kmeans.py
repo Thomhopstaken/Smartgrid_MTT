@@ -1,5 +1,6 @@
 import pandas as pd
 from code.klassen import district
+from code.algoritmes import greedy
 from sklearn.cluster import KMeans
 from matplotlib import pyplot as plt
 from matplotlib import cm
@@ -7,8 +8,9 @@ import numpy as np
 import csv
 import os
 
+## Make a maak_clusters function an use that to create csv etc.
 
-def kmeans_alg(wijknummer, n_runs):
+def kmeans_alg(wijknummer, n_runs, algoritme='clusters'):
     pad = district.data_pad(wijknummer, 'houses')
     df_coords = pd.read_csv(pad, usecols=['x', 'y'])
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
@@ -54,47 +56,75 @@ def kmeans_alg(wijknummer, n_runs):
                 # print(outputs)
                 # plt.show()
                 # plt.savefig(f"figures/k_means/kmeans{k_hat}.png")
-                batterijen = kies_batterij(outputs)
-                write_csv_batterij(
-                    f'Huizen&Batterijen/k_means/batterij_{k_hat}.csv',
-                    batterijen, cluster_cents)
-                for i in range(len(filtered_output)):
-                    write_csv_huizen(
-                        f'Huizen&Batterijen/k_means/batterij_{k_hat}_cluster_{i}.csv',
-                        filtered_combined[i])
-                wijk = district.District(wijknummer, k_hat, False, False)
-                wijk.laad_batterijen(
-                    district.data_pad(wijknummer, k_hat, kmeans=True), 5000)
-
-                for i in range(k_hat):
-                    wijk.laad_huizen(
-                        district.data_pad(wijknummer, k_hat, i, huizen=True))
-                    # Vermijd overlap tussen batterij en huizen
-                    for huis in wijk.losse_huizen:
-                        if wijk.batterijen[i].x_as == huis.x_as and \
-                                wijk.batterijen[i].y_as == huis.y_as:
-                            wijk.batterijen[i].x_as += 1
-                    # Alle losse huizen aan batterij verbinden
-                    while len(wijk.losse_huizen) > 0:
-                        for huis in wijk.losse_huizen:
-                            wijk.leg_route(wijk.batterijen[i], huis)
-
-                    # plt.clf()
-                    # smartgrid.visualise(k_hat, wijk, k_means=True, k=k_hat)
-
-                    huidige_run = wijk.kosten_berekening()
-                run_lijst.append({k_hat: huidige_run})
-                if huidige_run < goedkoopste_run[1]:
-                    goedkoopste_run = [k_hat, huidige_run]
-                    goedkoopste_wijk = (wijk, k_hat)
+                if algoritme == 'clusters':
+                    batterijen = kies_batterij(outputs)
                     write_csv_batterij(
-                        f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}.csv',
-                        batterijen,
-                        cluster_cents)
+                        f'Huizen&Batterijen/k_means/batterij_{k_hat}.csv',
+                        batterijen, cluster_cents)
                     for i in range(len(filtered_output)):
                         write_csv_huizen(
-                            f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}_cluster_{i}.csv',
+                            f'Huizen&Batterijen/k_means/batterij_{k_hat}_cluster_{i}.csv',
                             filtered_combined[i])
+                    wijk = district.District(wijknummer, k_hat, False, False)
+                    wijk.laad_batterijen(
+                        district.data_pad(wijknummer, k_hat, kmeans=True), 5000)
+
+                    for i in range(k_hat):
+                        wijk.laad_huizen(
+                            district.data_pad(wijknummer, k_hat, i, huizen=True))
+                        # Vermijd overlap tussen batterij en huizen
+                        for huis in wijk.losse_huizen:
+                            if wijk.batterijen[i].x_as == huis.x_as and \
+                                    wijk.batterijen[i].y_as == huis.y_as:
+                                wijk.batterijen[i].x_as += 1
+                        # Alle losse huizen aan batterij verbinden
+                        while len(wijk.losse_huizen) > 0:
+                            for huis in wijk.losse_huizen:
+                                wijk.leg_route(wijk.batterijen[i], huis)
+
+                        # plt.clf()
+                        # smartgrid.visualise(k_hat, wijk, k_means=True, k=k_hat)
+
+                        huidige_run = wijk.kosten_berekening()
+                    run_lijst.append({k_hat: huidige_run})
+                    if huidige_run < goedkoopste_run[1]:
+                        goedkoopste_run = [k_hat, huidige_run]
+                        goedkoopste_wijk = (wijk, k_hat)
+                        write_csv_batterij(
+                            f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}.csv',
+                            batterijen,
+                            cluster_cents)
+                        for i in range(len(filtered_output)):
+                            write_csv_huizen(
+                                f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}_cluster_{i}.csv',
+                                filtered_combined[i])
+                else:
+                    batterijen = kies_batterij(outputs)
+                    batterijen[outputs.index(min(outputs))] = 900
+                    write_csv_batterij(
+                        f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}.csv',
+                        batterijen, cluster_cents)
+                    wijk = district.District(wijknummer, k_hat, True, False)
+                    wijk.laad_batterijen(
+                        district.data_pad(wijknummer, k_hat, kmeans=True),
+                        5000)
+                    for i in range(k_hat):
+                        # Vermijd overlap tussen batterij en huizen
+                        for huis in wijk.losse_huizen:
+                            if wijk.batterijen[i].x_as == huis.x_as and \
+                                    wijk.batterijen[i].y_as == huis.y_as:
+                                wijk.batterijen[i].x_as += 1
+                        wijk = greedy.greedy_alg(wijk)
+                        huidige_run = wijk.kosten_berekening()
+                    run_lijst.append({k_hat: huidige_run})
+                    if huidige_run < goedkoopste_run[1]:
+                        goedkoopste_run = [k_hat, huidige_run]
+                        goedkoopste_wijk = (wijk, k_hat)
+                        write_csv_batterij(
+                            f'Huizen&Batterijen/k_means/beste_run/batterij_{k_hat}.csv',
+                            batterijen,
+                            cluster_cents)
+
 
         # plt.clf()
         # plt.rcParams["figure.figsize"] = [8.00, 6.00]
