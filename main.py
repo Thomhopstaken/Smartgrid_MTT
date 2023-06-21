@@ -81,7 +81,7 @@ if __name__ == "__main__":
         run = kmeans.kmeans_alg(wijk_kiezen, n_runs=100, algoritme='clusters')
 
         run[0][0].jsonify(wijk_kiezen)
-        smartgrid.visualise(run[0][1], run[0][0], k_means=True, k=run[0][1])
+        smartgrid.visualise('kmeans')
         print(run[1])
         print(run[2])
 
