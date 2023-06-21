@@ -1,4 +1,5 @@
 import matplotlib
+
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from matplotlib import cm
@@ -7,8 +8,8 @@ import pandas as pd
 import os
 import json
 
-def visualise(methode):
 
+def visualise(methode):
     cwd = os.getcwd()
     sep = os.sep
     pad = f'{sep}figures{sep}output.json'
@@ -30,9 +31,9 @@ def visualise(methode):
         x_batterijen.append(int(data[i]['location'].split(',')[0]))
         y_batterijen.append(int(data[i]['location'].split(',')[1]))
 
-
     for i in range(len(x_batterijen)):
-        plt.plot(x_batterijen[i], y_batterijen[i], marker='s', ls='none', ms=10, color=colors[i])
+        plt.plot(x_batterijen[i], y_batterijen[i], marker='s', ls='none',
+                 ms=10, color=colors[i])
 
     for i in range(1, len(data)):
         color = colors[i - 1]
@@ -40,19 +41,16 @@ def visualise(methode):
             kabels = (data[i]['houses'][j]['cables'])
             huis = data[i]['houses'][j]['location'].split(',')
             if len(kabels) != 1:
-                for k in range(len(kabels)):
-                    try:
-                        plt.plot([int(kabels[k].split(',')[0]), int(kabels[k + 1].split(',')[0])], [int(kabels[k].split(',')[1]), int(kabels[k + 1].split(',')[1])], color=color, linestyle='dotted')
+                for k in range(len(kabels) - 1):
+                    # try:
+                    plt.plot([int(kabels[k].split(',')[0]),
+                              int(kabels[k + 1].split(',')[0])],
+                             [int(kabels[k].split(',')[1]),
+                              int(kabels[k + 1].split(',')[1])],
+                             color=color, linestyle='dotted')
 
-                    except IndexError:
-                        plt.plot(int(huis[0]), int(huis[1]), color=color, marker='p')
-                        break
-            else:
-                plt.plot(int(huis[0]), int(huis[1]), color=color, marker='p')
+            plt.plot(int(huis[0]), int(huis[1]), color=color,
+                     marker='p')
 
     wijknummer = data[0]['district']
     plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png")
-
-
-
-

@@ -8,6 +8,7 @@ import numpy as np
 import csv
 import os
 
+## Make a maak_clusters function an use that to create csv etc.
 
 def kmeans_alg(wijknummer, n_runs, algoritme='clusters'):
     pad = district.data_pad(wijknummer, 'houses')
