@@ -19,6 +19,8 @@ class Wijk:
         self.losse_huizen: list[Huizen] = []
         self.gelinkte_huizen: list[Huizen] = []
         self.afstanden_batterij_huis:list[tuple[Batterijen, Huizen, int]] = []
+        self.geshuffelde_afstanden = []
+
     
         if laad_huis:
             self.laad_huizen(helpers.data_pad(district, 'houses'))
@@ -79,7 +81,7 @@ class Wijk:
         return(self.afstanden_batterij_huis)
     
 
-    def leg_route(self, batterij: Batterijen, huis: Huizen) -> None:
+    def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
         for kabel in batterij.gelegde_kabels:

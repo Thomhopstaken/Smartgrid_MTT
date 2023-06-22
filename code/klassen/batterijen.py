@@ -16,11 +16,22 @@ class Batterijen:
         self.gelinkte_huizen: list[Huizen] = []
         self.gelegde_kabels: list[tuple[int, int]] = []
 
-    def update_verbruik(self, output) -> None:
-        """Update de resterende capaciteit van de batterij
-        na het aansluiten van een huis."""
+    def ontkoppel_huis(self, huis, wijk):
+        """Ontkoppelt een willekeurig huis."""
+        #huis = random.choice(self.gelinkte_huizen)
+        self.gelinkte_huizen.remove(huis)
+        wijk.gelinkte_huizen.remove(huis)
+        wijk.losse_huizen.append(huis)
+        self.update_verbruik(huis.maxoutput, ontkoppeling=True)
+        huis.aangesloten = False
 
-        self.resterende_capaciteit -= output
+
+    def update_verbruik(self, output, ontkoppeling=False) -> None:
+        """Update de resterende capaciteit van de batterij na het aansluiten van een huis."""
+        if ontkoppeling:
+            self.resterende_capaciteit += output
+        else:
+            self.resterende_capaciteit -= output
 
     def kabel_toevoegen(self, kabel) -> None:
         """Voegt een kabel toe aan batterij."""
