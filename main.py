@@ -15,7 +15,7 @@ def gemiddelde_berekenen(data):
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
-    wijk = district.District(wijk_kiezen, wijk_kiezen)
+    wijk = district.Wijk(wijk_kiezen, wijk_kiezen)
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
 
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         # bestandsnaam = helpers.data_pad(wijk_nummer, algoritme, experiment=True))
         # grafiek.schrijf_csv_kosten(bestandsnaam)
         # for x in range (0, aantal_runs):
-        #     wijk = district.District(wijk_kiezen, x)
+        #     wijk = district.Wijk(wijk_kiezen, x)
         #     run_succesvol = random_alg.random_alg(wijk)
         #     run_printer(x)
         #     if run_succesvol:
@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
         aantal_runs = 1
-        wijk = district.District(wijk_kiezen, aantal_runs)
+        wijk = district.Wijk(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
         # succesvolle_runs[wijk] = wijk.kosten_berekening()
         run.jsonify(wijk_kiezen)
@@ -73,10 +73,10 @@ if __name__ == "__main__":
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
-        aantal_runs = 100
+        aantal_runs = 10
         runs = 0
         while runs <= aantal_runs: 
-            wijk = district.District(wijk_kiezen, 1)
+            wijk = district.Wijk(wijk_kiezen, 1)
             wijk = random_alg.random_alg(wijk)
             kosten_randomrun = wijk.kosten_berekening()
             print(f'kosten random:      {kosten_randomrun}')
