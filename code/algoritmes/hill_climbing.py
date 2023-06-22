@@ -9,6 +9,7 @@ class Hill_climber:
         self.kosten = wijk.kosten_berekening()
         
         self.counter = 0
+        self.aanpassingen = 0
                 
     def check_uitkomst(self, nieuwe_wijk):
         
@@ -19,6 +20,7 @@ class Hill_climber:
             self.oude_wijk = nieuwe_wijk
             self.kosten = nieuwe_kosten
             self.counter = 0
+            self.aanpassingen += 1
         else: 
             self.counter += 1
             
@@ -30,8 +32,7 @@ class Hill_climber:
             nieuwe_wijk.hc_verwissel_huizen()
             
             self.check_uitkomst(nieuwe_wijk)
-            print(self.kosten)
-
+            
 
 # def vind_batterij_y(huis_x, batterij_x):
 #     """zoekt de batterij die het dichtste bij huis_x ligt"""
