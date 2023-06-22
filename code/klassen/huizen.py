@@ -2,7 +2,6 @@ class Huizen:
 
     def __init__(self, i, x, y, maxoutput) -> None:
         """Neemt gegevens van Huizen uit district en slaat ze op in een Huizen object."""
-        
         self.huis_id = i
         self.x_as = x
         self.y_as = y
@@ -10,8 +9,9 @@ class Huizen:
         self.kabels = []
         self.afstand_batterijen = {}
         self.aangesloten = False
-    
-    def bereken_afstand(self, batterijen):
+
+    def bereken_afstand(self, batterijen) -> None:
+        """berekent de afstand tussen huis en alle batterijen."""
         for batterij in batterijen:
             afstand = abs(batterij.x_as - self.x_as) + abs(batterij.y_as - self.y_as)
             self.afstand_batterijen[batterij] = afstand
@@ -19,13 +19,10 @@ class Huizen:
 
     def leg_kabel(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""
-        
         self.kabels.append((x, y))
-        # print(f"kabels: {self.kabels}")
 
     def kan_aansluiten(self, batterij) -> bool:
-        """Controleert of een huis kan worden aangesloten op een batterij."""
-        
+        """Controleert of een huis kan worden aangesloten op een batterij.""" 
         if not self.aangesloten:
             if batterij.resterende_capaciteit - self.maxoutput >= 0:
                 return True
@@ -35,4 +32,5 @@ class Huizen:
             return False
 
     def verwijder_kabels(self) -> None:
-         self.kabels = []
+        """verwijderd alle kabels in kabels."""
+        self.kabels = []

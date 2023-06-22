@@ -127,6 +127,7 @@ class District:
 
 
     def kosten_berekening(self):
+        """Berekent de prijs van alle batterijen en kabels in wijk."""
         prijskaartje = 0
         # Kosten batterijen
         for batterij in self.batterijen:
@@ -166,7 +167,9 @@ class District:
         with open(f"figures/{algoritme}_{wijk_nummer}_output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
-    def hc_verwissel_huizen(self):
+    def hillclimber_wissel(self):
+        """checkt over 3 huizen van de ene batterij gewisseld
+        kunnen worden met 3 huizen van een andere batterij."""
         batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
         huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
@@ -174,73 +177,41 @@ class District:
             for x in range(len(huizen_x)):
                 self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
                 self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
-    
+            batterij_x.herbereken_capaciteit()
+            batterij_y.herbereken_capaciteit()
+            return True
+        else:
+            return False
+                   
     def hc_kies_willekeurige_huizen(self, batterij):
-        
-        afstanden = batterij.afstanden_gelinkte_huizen()
-        huizen = []
-        print(batterij.gelinkte_huizen)
-        while len(huizen) < 3:
-            x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
-            if x not in huizen:
-                huizen.append(x)
+        """Kiest drie willekeurige huizen uit de lijst.
+        van gelinkte huizen aan de aangegeven batterij."""
+        huizen = random.sample(batterij.gelinkte_huizen, k=3)    
         return huizen
     
     def hc_kies_willekeurige_batterijen(self):
-        
-        batterijen_gevonden = False
-        while not batterijen_gevonden:
-            x = random.choice(list(self.batterijen))
-            y = random.choice(list(self.batterijen))
-            if x != y:
-                batterijen_gevonden = True
-                return x, y
+        """Kiest twee willekeurige batterijen uit batterijen."""
+        batterijen = random.sample(self.batterijen, k=2)
+        return batterijen
 
     def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
         """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
+        oude_batterij.gelinkte_huizen.remove(huis)
         huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
-        
-        index = oude_batterij.gelinkte_huizen.index(huis)
-        nieuwe_batterij.gelinkte_huizen.append(
-            oude_batterij.gelinkte_huizen.pop(index))
-
         oude_batterij.overbodige_kabels_verwijderen()
     
     def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-        huizen_x_output = 0
-        huizen_y_output = 0
-    
-        for x in range(3):
-            huizen_x_output += huizen_x[x].maxoutput
-            huizen_y_output += huizen_y[x].maxoutput
+        huizen_x_output = sum(huis.maxoutput for huis in huizen_x)
+        huizen_y_output = sum(huis.maxoutput for huis in huizen_y)
         
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
         nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
-        
         if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
             return True
         else: 
             return False
-    
-    def hc_verwissel_alle_huizen(self):
-        batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
-        aantal_y = len(batterij_y.gelinkte_huizen)
-        self.hc_wissel_gelinkte_huizen_bat1(batterij_x, batterij_y)
-        self.hc_wissel_gelinkte_huizen_bat2(batterij_y, batterij_x, aantal_y)
-        
-    def hc_wissel_gelinkte_huizen_bat1(self, oude_batterij, nieuwe_batterij):
-        for huis in oude_batterij.gelinkte_huizen:
-            self.hc_kabels_verleggen(huis, nieuwe_batterij, oude_batterij)
-            print(len(nieuwe_batterij.gelinkte_huizen))        
-                
-    def hc_wissel_gelinkte_huizen_bat2(self, oude_batterij, nieuwe_batterij, aantal):
-        for x in range(aantal):
-            self.hc_kabels_verleggen(oude_batterij.gelinkte_huizen[x], nieuwe_batterij, oude_batterij)
-        
-        
-        
             
 
 def parse_csv(b: TextIO):
