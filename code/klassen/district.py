@@ -7,11 +7,12 @@ import random
 
 
 class District:
-    def __init__(self, district: int, id: int, laad_huis=True, laad_batterij=True) -> None:
+    def __init__(self, district: str, id: str, laad_huis=True, laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
         self.id = id
+        self.wijk = district
         self.districtnummer = district
         self.batterijen = []
         self.losse_huizen = []
