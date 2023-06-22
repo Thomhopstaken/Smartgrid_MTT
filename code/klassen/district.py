@@ -165,23 +165,34 @@ class District:
             json.dump(json_dict, outfile)
 
     def hc_verwissel_huizen(self):
-        huis_x, huis_y, batterij_x, batterij_y = self.hc_kies_willekeurige_huizen()
-        if self.check_capaciteit(huis_x, huis_y, batterij_x, batterij_y):
-            self.hc_kabels_verleggen(huis_x, huis_y, batterij_x, batterij_y)
+        batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
+        huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
+        huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
+        if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
+            for x in range(len(huizen_x)):
+                self.hc_kabels_verleggen(huizen_x[x], huizen_y[x], batterij_x, batterij_y)
+        # for batterij in self.batterijen:
+        #     print(batterij.)
     
+    def hc_kies_willekeurige_huizen(self, batterij):
+
+        huizen = []
+        
+        while len(huizen) != 3:
+            x = random.choice(list(batterij.gelinkte_huizen))
+            if x not in huizen:
+                huizen.append(x)
+        return huizen
     
-    def hc_kies_willekeurige_huizen(self):
-
-        huizen_gevonden = False
-
-        while not huizen_gevonden:
-            x = self.gelinkte_huizen[random.randint(0, 149)]
-            y = self.gelinkte_huizen[random.randint(0, 149)]
-            if x.aangesloten != y.aangesloten:
-                huis_x, huis_y = x, y
-                batterij_x, batterij_y = x.aangesloten, y.aangesloten
-                huizen_gevonden = True
-        return huis_x, huis_y, batterij_x, batterij_y
+    def hc_kies_willekeurige_batterijen(self):
+        
+        batterijen_gevonden = False
+        while not batterijen_gevonden:
+            x = random.choice(list(self.batterijen))
+            y = random.choice(list(self.batterijen))
+            if x != y:
+                batterijen_gevonden = True
+                return x, y
 
     def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
         """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
@@ -200,20 +211,25 @@ class District:
         batterij_x.overbodige_kabels_verwijderen()
         batterij_y.overbodige_kabels_verwijderen()
     
-def check_capaciteit(self, huis_x, huis_y, batterij_x, batterij_y):
-    """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-    nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huis_x.maxoutput
-    nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huis_y.maxoutput
-    # Nieuw cap - maxoutput zal bijna nooit allebei >= 0 zijn omdat de resterende capaciteiten
-    # zo dichtbij 0 zijn. Als je bijvoorbeeld twee blokken van 5 huizen gebruikt in plaats van twee
-    # willekeurige huizen gebruikt, is de kans aanzienelijk groter dat je de huizen kan wisselen
-    if nieuwe_cap_bat_x - huis_y.maxoutput >= 0 and nieuwe_cap_bat_y - huis_x.maxoutput >= 0:
-        return True
-    else: 
-        return False
+    def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
+        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
+        huizen_x_output = 0
+        huizen_y_output = 0
+    
+        for x in range(3):
+            huizen_x_output += huizen_x[x].maxoutput
+            huizen_y_output += huizen_y[x].maxoutput
         
+        nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
+        nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
+        
+        if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
+            return True
+        else: 
+            return False
+            
 
-def data_inladen(b: TextIO):
+def data_inladen(b: TextIO): 
     """Neemt bestandlijn en converteert het naar een lijst.
 
     In: CSV bestand.
