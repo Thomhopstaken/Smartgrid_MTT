@@ -39,4 +39,4 @@ def grafiek_maken(data, wijk_kiezen, aantal_runs):
     plt.hist(data, bins=20, density=True, alpha=0.5)
     plt.title(f'Wijk {wijk_kiezen}')
     
-    plt.savefig(f'figures/data_random/grafiek_wijk:_{wijk_kiezen}|runs:_{aantal_runs}')
+    plt.savefig(f'figures/data_random/grafiek_wijk_{wijk_kiezen}_runs:_{aantal_runs}')

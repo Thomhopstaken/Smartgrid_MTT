@@ -1,72 +1,54 @@
 import matplotlib
 matplotlib.use('Agg')
+
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import numpy as np
-import pandas as pd
 import os
+import json
 
 
-def visualise(wijknummer, wijk, k_means=False, k=None):
+def visualise(methode):
     cwd = os.getcwd()
     sep = os.sep
-    pad2 = f'{sep}Huizen&Batterijen{sep}district_{wijknummer}{sep}district-{wijknummer}_batteries.csv'
-    colors = ['b', 'y', 'r', 'c', 'm']
-    if k_means == True:
-        pad2 = f'{sep}Huizen&Batterijen{sep}k_means{sep}beste_run{sep}batterij_{wijknummer}.csv'
-        colors = cm.rainbow(np.linspace(0, 1, len(range(k))))
-    df = pd.read_csv(cwd + os.path.normpath(pad2))
-    positions = []
-    for i in range(len(df)):
-        positions.append(df.positie[i])
-    x_pos = []
-    y_pos = []
-    for pos in positions:
-        pos = pos.split(",")
-        x_pos.append(int(pos[0]))
-        y_pos.append(int(pos[1]))
+    pad = f'{sep}figures{sep}output.json'
 
+    file = open(cwd + pad)
+    data = json.load(file)
+
+    colors = cm.rainbow(np.linspace(0, 1, len(data) - 1))
 
     # Grid parameters
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
 
+    x_batterijen = []
+    y_batterijen = []
 
-    # Batterijen
-    for i in range(len(wijk.batterijen)):
-        plt.plot(x_pos[i], y_pos[i], marker='s', ls='none', ms=10, color=colors[i])
+    for i in range(1, len(data)):
+        x_batterijen.append(int(data[i]['location'].split(',')[0]))
+        y_batterijen.append(int(data[i]['location'].split(',')[1]))
 
-    batterij_coordinaten = []
-    for batterij in wijk.batterijen:
-        coord = (batterij.x_as, batterij.y_as)
-        batterij_coordinaten.append(coord)
+    for i in range(len(x_batterijen)):
+        plt.plot(x_batterijen[i], y_batterijen[i], marker='s', ls='none',
+                 ms=10, color=colors[i])
 
-    # Huizen aansluiten
-    for i in range(len(wijk.gelinkte_huizen)):
-        index = wijk.batterijen.index(wijk.gelinkte_huizen[i].aangesloten)
-        batterij = wijk.gelinkte_huizen[i].aangesloten
-        color = colors[index]
-        for j in range(len(wijk.gelinkte_huizen[i].kabels)):
-            kabel = wijk.gelinkte_huizen[i].kabels
-            if len(kabel) != 1:
-                try:
-                    plt.plot([kabel[j][0], kabel[j+1][0]], [kabel[j][1], kabel[j+1][1]], color=color, linestyle='dotted')
-                    if (kabel[j][1], kabel[j+1][1]) in batterij.gelegde_kabels:
-                        plt.plot([kabel[j][0], kabel[j + 1][0]],
-                                 [kabel[j][1], kabel[j + 1][1]], color=color,
-                                 linestyle='dotted')
+    for i in range(1, len(data)):
+        color = colors[i - 1]
+        for j in range(len(data[i]['houses'])):
+            kabels = (data[i]['houses'][j]['cables'])
+            huis = data[i]['houses'][j]['location'].split(',')
+            if len(kabels) != 1:
+                for k in range(len(kabels) - 1):
+                    plt.plot([int(kabels[k].split(',')[0]),
+                              int(kabels[k + 1].split(',')[0])],
+                             [int(kabels[k].split(',')[1]),
+                              int(kabels[k + 1].split(',')[1])],
+                             color=color, linestyle='dotted')
 
-                except IndexError:
-                    plt.plot(wijk.gelinkte_huizen[i].x_as, wijk.gelinkte_huizen[i].y_as, color=color, marker='p')
-                    break
-            else:
-                plt.plot(wijk.gelinkte_huizen[i].x_as,
-                         wijk.gelinkte_huizen[i].y_as, color=color, marker='p')
+            plt.plot(int(huis[0]), int(huis[1]), color=color,
+                     marker='p')
 
-
-    # Display the plot
-    # plt.show()
-    plt.savefig(f"figures/smartgrid_{wijknummer}_{wijk.id}.png")
-
-
+    wijknummer = data[0]['district']
+    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png")
