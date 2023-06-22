@@ -1,3 +1,5 @@
+import copy
+
 import pandas as pd
 from code.visualisatie import smartgrid
 from code.helpers import csv_writer, helpers
@@ -16,12 +18,11 @@ def run_experiment(algoritme, wijk, runs=1):
         csv_writer.Write_csv(bestand).maak_kosten()
         df = pd.read_csv(bestand)
 
-
+    algoritmes = {'Random': random_alg.random_alg,
+                  'KMeans': kmeans.kmeans_alg}
     for _ in range(runs + 1):
-        algoritmes = {'Random': random_alg.random_alg(wijk),
-                      'KMeans': kmeans.kmeans_alg(wijk)}
-        run = algoritmes[algoritme]
-        print(run)
+        run = algoritmes[algoritme](wijk)
+        # print(run)
         print(run.kosten_berekening())
         csv_writer.Write_csv(bestand).append_kosten(run.kosten_berekening())
         if run.kosten_berekening() < df['kosten'].min() or not os.path.isfile(helpers.data_pad(wijk.wijk, algoritme)):

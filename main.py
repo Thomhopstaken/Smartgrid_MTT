@@ -29,7 +29,7 @@ if __name__ == "__main__":
     
 
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
-        wijk = helpers.wijk_lader("Random", wijk_kiezen)
+        # wijk = helpers.wijk_lader("Random", wijk_kiezen)
         # kmeans.gebruik_clusters(wijk, 5)
         # for _ in range(5):
         #     run = random_alg.random_alg(wijk)
@@ -88,9 +88,11 @@ if __name__ == "__main__":
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
-        wijk = helpers.wijk_lader("KMeans", wijk_kiezen)
-        experiment.run_experiment("KMeans", 5)
-        # run = kmeans.kmeans_alg(wijk)
+        # wijk = helpers.wijk_lader("KMeans", wijk_kiezen)
+        experiment.run_experiment("KMeans", wijk_kiezen, 5)
+        # for _ in range(5):
+        #     run = kmeans.kmeans_alg(wijk)
+        #     print(run.kosten_berekening())
         # run.jsonify(wijk_kiezen, "KMeans")
         # smartgrid.visualise("KMeans", wijk_kiezen)
 
