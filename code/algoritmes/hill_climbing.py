@@ -29,8 +29,7 @@ class Hill_climber:
     
     def draai_hillclimber(self):
         
-        while self.counter < 1:
-            print(f'counter: {self.counter}', end='\r', flush=True)
+        while self.counter < 100:
             if self.nieuwe_wijk.hc_verwissel_huizen():
                 self.check_uitkomst()
             else:
@@ -38,12 +37,4 @@ class Hill_climber:
             
         print(self.kosten)
         for batterij in self.oude_wijk.batterijen:
-                print(f'{batterij.batterij_id} | {batterij.resterende_capaciteit}')    
-        
-            # self.check_uitkomst(nieuwe_wijk)
-            # if self.counter == 100:
-            #     print(self.kosten)
-            #     nieuwe_wijk = copy.deepcopy(self.oude_wijk)
-            #     nieuwe_wijk.hc_verwissel_alle_huizen()
-            #     self.counter = 0
-            #     print(self.kosten)
+                print(f'{batterij.batterij_id} | {batterij.resterende_capaciteit}')

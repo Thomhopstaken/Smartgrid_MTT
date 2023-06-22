@@ -67,7 +67,7 @@ if __name__ == "__main__":
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
-        aantal_runs = 1
+        aantal_runs = 10
         runs = 0
         while runs <= aantal_runs: 
             wijk = district.District(wijk_kiezen, 1)

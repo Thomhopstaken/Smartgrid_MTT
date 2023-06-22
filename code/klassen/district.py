@@ -172,9 +172,7 @@ class District:
         if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
             for x in range(len(huizen_x)):
                 self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
-                print(len(batterij_x.gelinkte_huizen))
                 self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
-                print(len(batterij_y.gelinkte_huizen))
             batterij_x.herbereken_capaciteit()
             batterij_y.herbereken_capaciteit()
             return True
@@ -193,13 +191,9 @@ class District:
 
     def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
         """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
+        oude_batterij.gelinkte_huizen.remove(huis)
         huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
-        
-        index = oude_batterij.gelinkte_huizen.index(huis)
-        nieuwe_batterij.gelinkte_huizen.append(
-            oude_batterij.gelinkte_huizen.pop(index))
-
         oude_batterij.overbodige_kabels_verwijderen()
     
     def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
