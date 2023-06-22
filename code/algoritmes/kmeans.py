@@ -18,28 +18,24 @@ def maak_clusters(wijknummer, k):
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
     df_combined = pd.read_csv(pad)
 
+    cluster_outputs = [9999, 9999]
+    while not max(cluster_outputs) <= 1800:
+        km = KMeans(n_clusters=k, n_init='auto')
+        cluster_id = km.fit_predict(df_coords)
 
-    plt.rcParams["figure.figsize"] = [8.00, 6.00]
-    plt.rcParams["figure.autolayout"] = True
-    plt.grid()
+        filtered_output = []
+        filtered_combined = []
+        for i in range(k):
+            filtered_output.append(df_output[cluster_id == i])
+            filtered_combined.append(df_combined[cluster_id == i])
+        centroids = km.cluster_centers_
+        cluster_outputs = []
+        cluster_cents = []
+        for i in range(k):
+            cluster_outputs.append(sum(filtered_output[i]["maxoutput"]))
+            cluster_cents.append(
+                f'{round(centroids[i][0])}, {round(centroids[i][1])}')
 
-    km = KMeans(n_clusters=k, n_init='auto')
-    cluster_id = km.fit_predict(df_coords)
-
-    filtered_output = []
-    filtered_combined = []
-    for i in range(k):
-        filtered_output.append(df_output[cluster_id == i])
-        filtered_combined.append(df_combined[cluster_id == i])
-    centroids = km.cluster_centers_
-    cluster_outputs = []
-    cluster_cents = []
-    for i in range(k):
-        cluster_outputs.append(sum(filtered_output[i]["maxoutput"]))
-        cluster_cents.append(
-            f'{round(centroids[i][0])}, {round(centroids[i][1])}')
-
-    if max(cluster_outputs) <= 1800:
         batterijen = kies_batterij(cluster_outputs)
         write_csv_batterij(
             f'Huizen&Batterijen/k_means/batterij_{k}.csv',
@@ -61,8 +57,9 @@ def kmeans_alg(wijknummer, k=5):
     wijk.laad_batterijen(
         district.data_pad(wijknummer, k, kmeans=True), 5000)
 
+
     for i in range(k):
-    batterij = wijk.batterijen.x_as
+
         wijk.laad_huizen(
             district.data_pad(wijknummer, k, i, huizen=True))
         # Vermijd overlap tussen batterij en huizen
@@ -75,7 +72,6 @@ def kmeans_alg(wijknummer, k=5):
         while len(wijk.losse_huizen) > 0:
             for huis in wijk.losse_huizen:
                 wijk.leg_route(wijk.batterijen[i], huis)
-
     return wijk
 
 
@@ -94,7 +90,7 @@ def kmeans_alg(wijknummer, k=5):
     #             f'Huizen&Batterijen/k_means/beste_run/batterij_{k}_cluster_{i}.csv',
     #             filtered_huizen[i])
 
-    return [goedkoopste_wijk, goedkoopste_run, run_lijst]
+    # return [goedkoopste_wijk, goedkoopste_run, run_lijst]
 
 def write_csv_batterij(filename, batterijen, centroids):
     with open(filename, 'w', newline='') as file:
