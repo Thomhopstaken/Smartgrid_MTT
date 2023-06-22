@@ -1,12 +1,13 @@
 from .batterijen import Batterijen
 from .huizen import Huizen
 from typing import TextIO
+from code.helpers import helpers
 import json
 import os
 import random
 
 
-class District:
+class Wijk:
     def __init__(self, district: str, id: str, laad_huis=True, laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
@@ -22,14 +23,18 @@ class District:
 
     
         if laad_huis:
-            self.laad_huizen(data_pad(district, 'houses'))
+            self.laad_huizen(helpers.data_pad(district, 'houses'))
 
         if laad_batterij:
-            self.laad_batterijen(data_pad(district, 'batteries'))
+            self.laad_batterijen(helpers.data_pad(district, 'batteries'))
 
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
+    def ontkoppel_huis(self, huis: Huizen) -> None:
+        self.gelinkte_huizen.remove(huis)
+        self.losse_huizen.append(huis)
+        huis.aangesloten = False
 
     def laad_batterijen(self, bestand: str, prijs:int=5000) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
@@ -42,7 +47,7 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = data_inladen(b)
+                data = parse_csv(b)
                 # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
                     self.batterijen.append(
@@ -61,32 +66,21 @@ class District:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = data_inladen(b)
+                data = parse_csv(b)
                 # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
                     self.losse_huizen.append(
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
-    def bereken_afstand(self):
+    def bereken_afstand(self) -> list[int]:
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
-        return self.afstanden_batterij_huis
+        return(self.afstanden_batterij_huis)
     
-    def shuffle_afstanden(self):
-        """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
-        self.bereken_afstand()
-        for i in range(0, len(self.afstanden_batterij_huis), 3):
-            sublijst = self.afstanden_batterij_huis[i:i+3]
-            #print(f"SUBLIJST: {sublijst}")
-            random.shuffle(sublijst)
-            self.geshuffelde_afstanden.append(sublijst)
-            #print(F"GESHUFFELDE AFSTANDEN: {self.geshuffelde_afstanden}")
-        return self.geshuffelde_afstanden
-        
-        
+
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
@@ -125,7 +119,7 @@ class District:
         self.creer_connectie(batterij, huis)
 
 
-    def creer_connectie(self, batterij, huis):
+    def creer_connectie(self, batterij: Batterijen, huis: Huizen) -> None:
         huis.aangesloten = batterij
         if huis in self.losse_huizen:
             self.losse_huizen.remove(huis)
@@ -134,7 +128,8 @@ class District:
         batterij.gelinkte_huizen.append(huis)
 
 
-    def kosten_berekening(self):
+    def kosten_berekening(self) -> int:
+        """Berekent de prijs van alle batterijen en kabels in wijk."""
         prijskaartje = 0
         # Kosten batterijen
         for batterij in self.batterijen:
@@ -146,111 +141,107 @@ class District:
         return prijskaartje
 
 
-    def jsonify(self, wijk_nummer):
+    def jsonify(self, wijk_nummer: int, algoritme: str) -> None:
+        """Print de informatie van de wijk naar een json bestand
+        
+        In: wijknummer, algoritme naam."""
         json_dict = []
         district = {"district": int(wijk_nummer), "costs-shared": self.kosten_berekening()}
         json_dict.append(district)
         batterij_data = {}
         for batterij in self.batterijen:
-            lokatie_bat = f"{batterij.x_as},{batterij.y_as}"
+            locatie_bat = f"{batterij.x_as},{batterij.y_as}"
             capaciteit = batterij.capaciteit
             huizen = []
             for huis in batterij.gelinkte_huizen:
                 huis_data = {}
-                lokatie_huis = f"{huis.x_as},{huis.y_as}"
+                locatie_huis = f"{huis.x_as},{huis.y_as}"
                 output = huis.maxoutput
                 kabels = []
                 for i in range(len(huis.kabels)):
                     kabels.append(f"{huis.kabels[i][0]},{huis.kabels[i][1]}")
-                huis_data["location"] = lokatie_huis
+                huis_data["location"] = locatie_huis
                 huis_data["output"] = output
                 huis_data["cables"] = kabels
                 huizen.append(huis_data)
-            batterij_data["location"] = lokatie_bat
+            batterij_data["location"] = locatie_bat
             batterij_data["capacity"] = capaciteit
             batterij_data["houses"] = huizen
             json_dict.append(batterij_data)
             batterij_data = {}
-        with open("figures/output.json", "w") as outfile:
+        with open(f"figures/{algoritme}_{wijk_nummer}_output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
-    def hc_verwissel_huizen(self):
+    def hill_climber(self) -> bool:
+        """Checkt of 3 huizen van de ene batterij gewisseld
+        kunnen worden met 3 huizen van een andere batterij.
+
+        Uit: True als huizen verwisselt kunnen worden. Anders False."""
         batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
         huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
-        if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
-            for x in range(len(huizen_x)):
-                self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
-                self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
-    
-    def hc_kies_willekeurige_huizen(self, batterij):
+
+        if self.hc_check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
+            self.hc_wissel_huizen(huizen_x, huizen_y, batterij_x, batterij_y)
+            return True
+        else:
+            return False
+
+    def hc_wissel_huizen(self, huizen_x: list[Huizen], huizen_y: list[Huizen], 
+                         batterij_x: Batterijen, batterij_y: Batterijen) -> None:
+        """Wissel 3 huizen van de ene batterij met 3 huizen van een andere batterij.
+
+        In: 2 lijsten met drie huis objecten, 2 batterij objecten."""
+        for x in range(len(huizen_x)):
+            self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
+            self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
+        batterij_x.herbereken_capaciteit()
+        batterij_y.herbereken_capaciteit()     
+             
+    def hc_kies_willekeurige_huizen(self, batterij: Batterijen) -> list[Huizen]:
+        """Kiest drie willekeurige huizen uit de lijst.
+        van gelinkte huizen aan de aangegeven batterij.
         
-        afstanden = batterij.afstanden_gelinkte_huizen()
-        huizen = []
-        while len(huizen) < 3:
-            x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
-            if x not in huizen:
-                huizen.append(x)
+        In: batterij object
+        uit: lijst met 3 huis objecten."""
+        huizen = random.sample(batterij.gelinkte_huizen, k=3)    
         return huizen
     
-    def hc_kies_willekeurige_batterijen(self):
-        
-        batterijen_gevonden = False
-        while not batterijen_gevonden:
-            x = random.choice(list(self.batterijen))
-            y = random.choice(list(self.batterijen))
-            if x != y:
-                batterijen_gevonden = True
-                return x, y
+    def hc_kies_willekeurige_batterijen(self) -> list[Batterijen]:
+        """Kiest twee willekeurige batterijen uit batterijen.
 
-    def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
-        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
+        Uit: 2 batterij objecten."""
+        batterijen = random.sample(self.batterijen, k=2)
+        return batterijen
+
+    def hc_kabels_verleggen(self, huis: Huizen, nieuwe_batterij: Batterijen, 
+                            oude_batterij: Batterijen) -> None:
+        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels.
+
+        In: 1 huis object en 2 batterij objecten."""
+        oude_batterij.gelinkte_huizen.remove(huis)
         huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
-        
-        index = oude_batterij.gelinkte_huizen.index(huis)
-        nieuwe_batterij.gelinkte_huizen.append(
-            oude_batterij.gelinkte_huizen.pop(index))
-
         oude_batterij.overbodige_kabels_verwijderen()
     
-    def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
-        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-        huizen_x_output = 0
-        huizen_y_output = 0
-    
-        for x in range(3):
-            huizen_x_output += huizen_x[x].maxoutput
-            huizen_y_output += huizen_y[x].maxoutput
-        
+    def hc_check_capaciteit(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
+                            batterij_x: Batterijen, batterij_y: Batterijen) -> bool:
+        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit.
+
+        In: 2 lijsten met 3 huis objecten, 2 batterij objecten.
+        Uit: als nieuwe cap - nieuwe output >= 0 dan True, anders False"""
+        huizen_x_output = sum(huis.maxoutput for huis in huizen_x)
+        huizen_y_output = sum(huis.maxoutput for huis in huizen_y)
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
         nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
-        
+
         if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
             return True
         else: 
             return False
-    
-    def hc_verwissel_alle_huizen(self):
-        batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
-        aantal_y = len(batterij_y.gelinkte_huizen)
-        self.hc_wissel_gelinkte_huizen_bat1(batterij_x, batterij_y)
-        self.hc_wissel_gelinkte_huizen_bat2(batterij_y, batterij_x, aantal_y)
-        
-    def hc_wissel_gelinkte_huizen_bat1(self, oude_batterij, nieuwe_batterij):
-        for huis in oude_batterij.gelinkte_huizen:
-            self.hc_kabels_verleggen(huis, nieuwe_batterij, oude_batterij)
-            print(len(nieuwe_batterij.gelinkte_huizen))        
-                
-    def hc_wissel_gelinkte_huizen_bat2(self, oude_batterij, nieuwe_batterij, aantal):
-        for x in range(aantal):
-            self.hc_kabels_verleggen(oude_batterij.gelinkte_huizen[x], nieuwe_batterij, oude_batterij)
-        
-        
-        
-            
 
-def data_inladen(b: TextIO): 
+
+def parse_csv(b: TextIO) -> list:
     """Neemt bestandlijn en converteert het naar een lijst.
 
     In: CSV bestand.
@@ -263,25 +254,7 @@ def data_inladen(b: TextIO):
     return line.split(",")
 
 
-def data_pad(district, item, item2=None, kmeans=False,
-             huizen=False) -> str:
-    """Vind het juist bestandspad naar opgevraagde bestand.
 
-    In: bestaandsnaam
-    Uit: pad naar opgevraagde bestand."""
-
-    cwd = os.getcwd()
-    sep = os.sep
-    if kmeans == True:
-        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
-        return cwd + os.path.normpath(pad)
-
-    if huizen == True:
-        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
-        return cwd + os.path.normpath(pad)
-
-    pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
-    return cwd + os.path.normpath(pad)
 
 
 

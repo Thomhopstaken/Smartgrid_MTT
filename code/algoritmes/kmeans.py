@@ -1,8 +1,8 @@
 import pandas as pd
-from code.klassen import district
-from code.helpers import csv_writer
+from code.helpers import csv_writer, helpers
 from sklearn.cluster import KMeans
 import random
+import copy
 
 
 
@@ -10,7 +10,7 @@ import random
 
 def gebruik_clusters(wijk, k):
     wijk_nummer = wijk.wijk
-    pad = district.data_pad(wijk_nummer, 'houses')
+    pad = helpers.data_pad(wijk_nummer, 'houses')
     df_coords = pd.read_csv(pad, usecols=['x', 'y'])
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
     df_combined = pd.read_csv(pad)
@@ -40,14 +40,14 @@ def gebruik_clusters(wijk, k):
 
 
     wijk.laad_batterijen(
-        district.data_pad(wijk_nummer, k, kmeans=True), 5000)
+        helpers.data_pad(wijk_nummer, k, kmeans=True), 5000)
 
     return filtered_combined
 
 def kmeans_alg(wijk, k=5):
-
-    filtered_huizen = gebruik_clusters(wijk, k)
-    wijk_nummer = wijk.wijk
+    wijk_buffer = copy.deepcopy(wijk)
+    filtered_huizen = gebruik_clusters(wijk_buffer, k)
+    wijk_nummer = wijk_buffer.wijk
 
     # goedkoopste_run = [0, 9999999]
     # goedkoopste_wijk = None
@@ -59,20 +59,19 @@ def kmeans_alg(wijk, k=5):
 
     for i in range(k):
 
-        batterij = wijk.batterijen.x_as
-        wijk.laad_huizen(
-            district.data_pad(wijk_nummer, k, i, huizen=True))
+        wijk_buffer.laad_huizen(
+            helpers.data_pad(wijk_nummer, k, i, huizen=True))
         # Vermijd overlap tussen batterij en huizen
-        random.shuffle(wijk.losse_huizen)
-        for huis in wijk.losse_huizen:
-            if wijk.batterijen[i].x_as == huis.x_as and \
-                    wijk.batterijen[i].y_as == huis.y_as:
-                wijk.batterijen[i].x_as += 1
+        random.shuffle(wijk_buffer.losse_huizen)
+        for huis in wijk_buffer.losse_huizen:
+            if wijk_buffer.batterijen[i].x_as == huis.x_as and \
+                    wijk_buffer.batterijen[i].y_as == huis.y_as:
+                wijk_buffer.batterijen[i].x_as += 1
         # Alle losse huizen aan batterij verbinden
-        while len(wijk.losse_huizen) > 0:
-            for huis in wijk.losse_huizen:
-                wijk.leg_route(wijk.batterijen[i], huis)
-    return wijk
+        while len(wijk_buffer.losse_huizen) > 0:
+            for huis in wijk_buffer.losse_huizen:
+                wijk_buffer.leg_route(wijk_buffer.batterijen[i], huis)
+    return wijk_buffer
 
 def kies_batterij(outputs):
     batterijen = []
