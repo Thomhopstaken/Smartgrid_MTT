@@ -29,7 +29,7 @@ class Wijk:
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
-    def ontkoppel_huis(self, huis):
+    def ontkoppel_huis(self, huis: Huizen) -> None:
         self.gelinkte_huizen.remove(huis)
         self.losse_huizen.append(huis)
         huis.aangesloten = False
@@ -70,7 +70,7 @@ class Wijk:
                     self.losse_huizen.append(
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
-    def bereken_afstand(self):
+    def bereken_afstand(self) -> list[int]:
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
@@ -79,7 +79,7 @@ class Wijk:
         return(self.afstanden_batterij_huis)
     
 
-    def leg_route(self, batterij, huis):
+    def leg_route(self, batterij: Batterijen, huis: Huizen) -> None:
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
         for kabel in batterij.gelegde_kabels:
@@ -117,7 +117,7 @@ class Wijk:
         self.creer_connectie(batterij, huis)
 
 
-    def creer_connectie(self, batterij, huis):
+    def creer_connectie(self, batterij: Batterijen, huis: Huizen) -> None:
         huis.aangesloten = batterij
         if huis in self.losse_huizen:
             self.losse_huizen.remove(huis)
@@ -126,7 +126,7 @@ class Wijk:
         batterij.gelinkte_huizen.append(huis)
 
 
-    def kosten_berekening(self):
+    def kosten_berekening(self) -> int:
         """Berekent de prijs van alle batterijen en kabels in wijk."""
         prijskaartje = 0
         # Kosten batterijen
@@ -139,10 +139,10 @@ class Wijk:
         return prijskaartje
 
 
-    def jsonify(self, wijk_nummer, algoritme):
+    def jsonify(self, wijk_nummer: int, algoritme: str) -> None:
         """Print de informatie van de wijk naar een json bestand
         
-        In: wijknummer."""
+        In: wijknummer, algoritme naam."""
         json_dict = []
         district = {"district": int(wijk_nummer), "costs-shared": self.kosten_berekening()}
         json_dict.append(district)
@@ -170,7 +170,7 @@ class Wijk:
         with open(f"figures/{algoritme}_{wijk_nummer}_output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
-    def hill_climber(self):
+    def hill_climber(self) -> bool:
         """Checkt of 3 huizen van de ene batterij gewisseld
         kunnen worden met 3 huizen van een andere batterij.
 
@@ -185,7 +185,8 @@ class Wijk:
         else:
             return False
 
-    def hc_wissel_huizen(self, huizen_x, huizen_y, batterij_x, batterij_y):
+    def hc_wissel_huizen(self, huizen_x: list[Huizen], huizen_y: list[Huizen], 
+                         batterij_x: Batterijen, batterij_y: Batterijen) -> None:
         """Wissel 3 huizen van de ene batterij met 3 huizen van een andere batterij.
 
         In: 2 lijsten met drie huis objecten, 2 batterij objecten."""
@@ -195,7 +196,7 @@ class Wijk:
         batterij_x.herbereken_capaciteit()
         batterij_y.herbereken_capaciteit()     
              
-    def hc_kies_willekeurige_huizen(self, batterij):
+    def hc_kies_willekeurige_huizen(self, batterij: Batterijen) -> list[Huizen]:
         """Kiest drie willekeurige huizen uit de lijst.
         van gelinkte huizen aan de aangegeven batterij.
         
@@ -204,14 +205,15 @@ class Wijk:
         huizen = random.sample(batterij.gelinkte_huizen, k=3)    
         return huizen
     
-    def hc_kies_willekeurige_batterijen(self):
+    def hc_kies_willekeurige_batterijen(self) -> list[Batterijen]:
         """Kiest twee willekeurige batterijen uit batterijen.
 
         Uit: 2 batterij objecten."""
         batterijen = random.sample(self.batterijen, k=2)
         return batterijen
 
-    def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
+    def hc_kabels_verleggen(self, huis: Huizen, nieuwe_batterij: Batterijen, 
+                            oude_batterij: Batterijen) -> None:
         """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels.
 
         In: 1 huis object en 2 batterij objecten."""
@@ -220,7 +222,8 @@ class Wijk:
         self.leg_route(nieuwe_batterij, huis)
         oude_batterij.overbodige_kabels_verwijderen()
     
-    def hc_check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
+    def hc_check_capaciteit(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
+                            batterij_x: Batterijen, batterij_y: Batterijen) -> bool:
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit.
 
         In: 2 lijsten met 3 huis objecten, 2 batterij objecten.
@@ -236,7 +239,7 @@ class Wijk:
             return False
 
 
-def parse_csv(b: TextIO):
+def parse_csv(b: TextIO) -> list:
     """Neemt bestandlijn en converteert het naar een lijst.
 
     In: CSV bestand.
