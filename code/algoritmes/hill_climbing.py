@@ -9,18 +9,6 @@ class Hill_climber:
         self.kosten = wijk.kosten_berekening()
         
         self.counter = 0
-    
-    def kies_willekeurige_huizen(self, wijk):
-        
-        huizen_gevonden = False
-        
-        while not huizen_gevonden:
-            x = wijk.gelinkte_huizen[random.randint(0, 149)]
-            y = wijk.gelinkte_huizen[random.randint(0, 149)]
-            if x.aangesloten != y.aangesloten:
-                self.huis_x, self.huis_y = x, y
-                self.batterij_x, self.batterij_y  = x.aangesloten, y.aangesloten
-                huizen_gevonden = True
                 
     def check_uitkomst(self, nieuwe_wijk):
         
@@ -37,11 +25,12 @@ class Hill_climber:
     
     def draai_hillclimber(self):
         
-        while self.counter <= 100:
+        while self.counter <= 1000:
             nieuwe_wijk = copy.deepcopy(self.oude_wijk)
             nieuwe_wijk.hc_verwissel_huizen()
             
             self.check_uitkomst(nieuwe_wijk)
+            print(self.kosten)
 
 
 # def vind_batterij_y(huis_x, batterij_x):

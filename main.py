@@ -59,7 +59,7 @@ if __name__ == "__main__":
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
-        aantal_runs = 10
+        aantal_runs = 1
         runs = 0
         while runs <= aantal_runs: 
             while not run_succesvol:
