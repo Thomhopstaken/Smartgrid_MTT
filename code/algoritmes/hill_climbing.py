@@ -30,11 +30,10 @@ class Hill_climber:
     def draai_hillclimber(self):
         
         while self.counter < 100:
-            if self.nieuwe_wijk.hc_verwissel_huizen():
+            if self.nieuwe_wijk.hillclimber_wissel():
                 self.check_uitkomst()
             else:
                 continue
             
         print(self.kosten)
-        for batterij in self.oude_wijk.batterijen:
-                print(f'{batterij.batterij_id} | {batterij.resterende_capaciteit}')
+        
