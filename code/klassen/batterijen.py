@@ -25,9 +25,9 @@ class Batterijen:
         self.update_verbruik(huis.maxoutput, ontkoppeling=True)
         huis.aangesloten = False
 
-
     def update_verbruik(self, output, ontkoppeling=False) -> None:
-        """Update de resterende capaciteit van de batterij na het aansluiten van een huis."""
+        """Update de resterende capaciteit van de batterij
+        na het aansluiten van een huis."""
         if ontkoppeling:
             self.resterende_capaciteit += output
         else:

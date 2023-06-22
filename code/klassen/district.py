@@ -18,8 +18,8 @@ class Wijk:
         self.batterijen: list[Batterijen] = []
         self.losse_huizen: list[Huizen] = []
         self.gelinkte_huizen: list[Huizen] = []
-        self.afstanden_batterij_huis:list[tuple[Batterijen, Huizen, int]] = []
-        self.geshuffelde_afstanden = []
+        self.afstanden_batterij_huis: list[tuple[Batterijen, Huizen, int]] = []
+        self.geshuffelde_afstanden: list[tuple[Batterijen, Huizen, int]] = []
 
     
         if laad_huis:
