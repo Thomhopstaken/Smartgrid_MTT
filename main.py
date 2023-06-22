@@ -70,6 +70,7 @@ if __name__ == "__main__":
             hillclimber = hill_climbing.Hill_climber(wijk)
             hillclimber.draai_hillclimber()
             print(hillclimber.kosten)
+            print(hillclimber.aanpassingen)
             runs += 1
             run_succesvol = False
             
