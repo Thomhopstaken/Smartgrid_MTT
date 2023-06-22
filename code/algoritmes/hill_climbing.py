@@ -1,8 +1,9 @@
 import copy
+from code.klassen.district import Wijk
 
 class Hill_climber:
     
-    def __init__(self, wijk) -> None:
+    def __init__(self, wijk: Wijk) -> None:
         """Maak een hill_climber aan."""
         self.oude_wijk = copy.deepcopy(wijk)
         self.kosten = wijk.kosten_berekening()
@@ -11,7 +12,7 @@ class Hill_climber:
         self.counter = 0
         self.aanpassingen = 0
                 
-    def check_uitkomst(self):
+    def check_uitkomst(self) -> None:
         """Checkt of the nieuwe staat goedkoper is dan de oude staat.
         zo ja, nieuwe staat = oude staat."""
         nieuwe_kosten = self.nieuwe_wijk.kosten_berekening()
@@ -27,7 +28,7 @@ class Hill_climber:
             self.counter += 1
             
     
-    def draai_hillclimber(self):
+    def draai_hillclimber(self) -> None:
         """Run hill climber algoritme totdat de counter bereikt is."""
         while self.counter < 100:
             if self.nieuwe_wijk.hill_climber():
