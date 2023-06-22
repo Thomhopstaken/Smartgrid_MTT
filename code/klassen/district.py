@@ -171,16 +171,15 @@ class District:
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
         if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
             for x in range(len(huizen_x)):
-                self.hc_kabels_verleggen(huizen_x[x], huizen_y[x], batterij_x, batterij_y)
-        # for batterij in self.batterijen:
-        #     print(batterij.)
+                self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
+                self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
     
     def hc_kies_willekeurige_huizen(self, batterij):
-
-        huizen = []
         
-        while len(huizen) != 3:
-            x = random.choice(list(batterij.gelinkte_huizen))
+        afstanden = batterij.afstanden_gelinkte_huizen()
+        huizen = []
+        while len(huizen) < 3:
+            x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
             if x not in huizen:
                 huizen.append(x)
         return huizen
@@ -195,22 +194,16 @@ class District:
                 batterijen_gevonden = True
                 return x, y
 
-    def hc_kabels_verleggen(self, huis_x, huis_y, batterij_x, batterij_y):
-        """legt kabels tussen huis_x en batterij_y en huis_y en batterij_x"""
-        huis_x.verwijder_kabels()
-        huis_y.verwijder_kabels()
-        self.leg_route(batterij_x, huis_y)
-        self.leg_route(batterij_y, huis_x)
+    def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
+        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
+        huis.verwijder_kabels()
+        self.leg_route(nieuwe_batterij, huis)
+        
+        index = oude_batterij.gelinkte_huizen.index(huis)
+        nieuwe_batterij.gelinkte_huizen.append(
+            oude_batterij.gelinkte_huizen.pop(index))
 
-        index_x = batterij_x.gelinkte_huizen.index(huis_x)
-        index_y = batterij_y.gelinkte_huizen.index(huis_y)
-        batterij_x.gelinkte_huizen.append(
-            batterij_y.gelinkte_huizen.pop(index_y))
-        batterij_y.gelinkte_huizen.append(
-            batterij_x.gelinkte_huizen.pop(index_x))
-
-        batterij_x.overbodige_kabels_verwijderen()
-        batterij_y.overbodige_kabels_verwijderen()
+        oude_batterij.overbodige_kabels_verwijderen()
     
     def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
@@ -228,6 +221,24 @@ class District:
             return True
         else: 
             return False
+    
+    def hc_verwissel_alle_huizen(self):
+        batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
+        aantal_y = len(batterij_y.gelinkte_huizen)
+        self.hc_wissel_gelinkte_huizen_bat1(batterij_x, batterij_y)
+        self.hc_wissel_gelinkte_huizen_bat2(batterij_y, batterij_x, aantal_y)
+        
+    def hc_wissel_gelinkte_huizen_bat1(self, oude_batterij, nieuwe_batterij):
+        for huis in oude_batterij.gelinkte_huizen:
+            self.hc_kabels_verleggen(huis, nieuwe_batterij, oude_batterij)
+            print(len(nieuwe_batterij.gelinkte_huizen))        
+                
+    def hc_wissel_gelinkte_huizen_bat2(self, oude_batterij, nieuwe_batterij, aantal):
+        for x in range(aantal):
+            self.hc_kabels_verleggen(oude_batterij.gelinkte_huizen[x], nieuwe_batterij, oude_batterij)
+        
+        
+        
             
 
 def data_inladen(b: TextIO): 

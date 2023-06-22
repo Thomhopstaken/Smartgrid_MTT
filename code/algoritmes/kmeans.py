@@ -59,6 +59,7 @@ def kmeans_alg(wijk, k=5):
 
     for i in range(k):
 
+        batterij = wijk.batterijen.x_as
         wijk.laad_huizen(
             district.data_pad(wijk_nummer, k, i, huizen=True))
         # Vermijd overlap tussen batterij en huizen
