@@ -18,6 +18,8 @@ class District:
         self.losse_huizen = []
         self.gelinkte_huizen = []
         self.afstanden_batterij_huis = []
+        self.geshuffelde_afstanden = []
+
     
         if laad_huis:
             self.laad_huizen(data_pad(district, 'houses'))
@@ -28,10 +30,6 @@ class District:
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
-    def ontkoppel_huis(self, huis):
-        self.gelinkte_huizen.remove(huis)
-        self.losse_huizen.append(huis)
-        huis.aangesloten = False
 
     def laad_batterijen(self, bestand: str, prijs:int=5000) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
@@ -75,9 +73,20 @@ class District:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
-        return(self.afstanden_batterij_huis)
+        return self.afstanden_batterij_huis
     
-
+    def shuffle_afstanden(self):
+        """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
+        self.bereken_afstand()
+        for i in range(0, len(self.afstanden_batterij_huis), 3):
+            sublijst = self.afstanden_batterij_huis[i:i+3]
+            #print(f"SUBLIJST: {sublijst}")
+            random.shuffle(sublijst)
+            self.geshuffelde_afstanden.append(sublijst)
+            #print(F"GESHUFFELDE AFSTANDEN: {self.geshuffelde_afstanden}")
+        return self.geshuffelde_afstanden
+        
+        
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]

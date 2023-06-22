@@ -17,6 +17,13 @@ class Huizen:
             self.afstand_batterijen[batterij] = afstand
         self.afstand_batterijen = dict(sorted(self.afstand_batterijen.items(), key=lambda item:item[1]))
 
+    def dichtstbijzijnde_batterij(self):
+        if self.afstand_batterijen:
+            return min(self.afstand_batterijen, key=self.afstand_batterijen.get)
+        else:
+            return None
+
+
     def leg_kabel(self, x, y) -> None:
         """Voegt kabels toe in self.kabels."""
         
