@@ -169,7 +169,7 @@ class District:
         huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
         if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
-            for x in range(3):
+            for x in range(len(huizen_x)):
                 self.hc_kabels_verleggen(huizen_x[x], huizen_y[x], batterij_x, batterij_y)
         # for batterij in self.batterijen:
         #     print(batterij.)
