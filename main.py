@@ -55,7 +55,8 @@ if __name__ == "__main__":
         wijk = district.District(wijk_kiezen, aantal_runs)
         run = greedy.greedy_alg(wijk)
         # succesvolle_runs[wijk] = wijk.kosten_berekening()
-        smartgrid.visualise(wijk_kiezen, wijk)
+        run.jsonify(wijk_kiezen)
+        smartgrid.visualise("Greedy")
         print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
@@ -74,7 +75,6 @@ if __name__ == "__main__":
             runs += 1
             run_succesvol = False
             
-        
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
