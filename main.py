@@ -2,7 +2,7 @@ from code.algoritmes import random_alg, greedy, kmeans
 from code.algoritmes import hill_climbing
 from code.klassen import district
 from code.visualisatie import smartgrid
-from code.visualisatie import grafiek
+from code.helpers import experiment, helpers
 
 
 def run_printer(x):
@@ -29,14 +29,20 @@ if __name__ == "__main__":
     
 
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
-        # wijk = district.Wijk(wijk_kiezen, wijk_kiezen, True, False)
+        wijk = helpers.wijk_lader("Random", wijk_kiezen)
         # kmeans.gebruik_clusters(wijk, 5)
-        run = random_alg.random_alg(wijk)
-        run.jsonify(wijk_kiezen)
-        smartgrid.visualise("Random")
+        # for _ in range(5):
+        #     run = random_alg.random_alg(wijk)
+        #     print(run.kosten_berekening())
+        # run.jsonify(wijk_kiezen, "Random")
+        # smartgrid.visualise("Random", wijk_kiezen)
+        experiment.run_experiment("Random", wijk_kiezen, 5)
+
 
         # aantal_runs = int(input('geef aantal runs: '))
-        # bestandsnaam = f'figures/data_random/kosten_wijk_{wijk_kiezen}_runs:_{aantal_runs}.csv'
+
+
+        # bestandsnaam = helpers.data_pad(wijk_nummer, algoritme, experiment=True))
         # grafiek.schrijf_csv_kosten(bestandsnaam)
         # for x in range (0, aantal_runs):
         #     wijk = district.Wijk(wijk_kiezen, x)
@@ -82,10 +88,11 @@ if __name__ == "__main__":
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
-        wijk = district.Wijk(wijk_kiezen, wijk_kiezen, False, False)
-        run = kmeans.kmeans_alg(wijk)
-        run.jsonify(wijk_kiezen)
-        smartgrid.visualise("KMeans")
+        wijk = helpers.wijk_lader("KMeans", wijk_kiezen)
+        experiment.run_experiment("KMeans", 5)
+        # run = kmeans.kmeans_alg(wijk)
+        # run.jsonify(wijk_kiezen, "KMeans")
+        # smartgrid.visualise("KMeans", wijk_kiezen)
 
     else: 
         print('Invalid Argument')

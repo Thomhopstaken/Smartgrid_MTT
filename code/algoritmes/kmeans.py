@@ -1,6 +1,5 @@
 import pandas as pd
-from code.klassen import district
-from code.helpers import csv_writer
+from code.helpers import csv_writer, helpers
 from sklearn.cluster import KMeans
 import random
 
@@ -10,7 +9,7 @@ import random
 
 def gebruik_clusters(wijk, k):
     wijk_nummer = wijk.wijk
-    pad = district.data_pad(wijk_nummer, 'houses')
+    pad = helpers.data_pad(wijk_nummer, 'houses')
     df_coords = pd.read_csv(pad, usecols=['x', 'y'])
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
     df_combined = pd.read_csv(pad)
@@ -40,7 +39,7 @@ def gebruik_clusters(wijk, k):
 
 
     wijk.laad_batterijen(
-        district.data_pad(wijk_nummer, k, kmeans=True), 5000)
+        helpers.data_pad(wijk_nummer, k, kmeans=True), 5000)
 
     return filtered_combined
 
@@ -59,9 +58,8 @@ def kmeans_alg(wijk, k=5):
 
     for i in range(k):
 
-        batterij = wijk.batterijen.x_as
         wijk.laad_huizen(
-            district.data_pad(wijk_nummer, k, i, huizen=True))
+            helpers.data_pad(wijk_nummer, k, i, huizen=True))
         # Vermijd overlap tussen batterij en huizen
         random.shuffle(wijk.losse_huizen)
         for huis in wijk.losse_huizen:

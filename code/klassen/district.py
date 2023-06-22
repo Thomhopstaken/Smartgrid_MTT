@@ -1,6 +1,7 @@
 from .batterijen import Batterijen
 from .huizen import Huizen
 from typing import TextIO
+from code.helpers import helpers
 import json
 import os
 import random
@@ -20,10 +21,10 @@ class Wijk:
         self.afstanden_batterij_huis = []
     
         if laad_huis:
-            self.laad_huizen(data_pad(district, 'houses'))
+            self.laad_huizen(helpers.data_pad(district, 'houses'))
 
         if laad_batterij:
-            self.laad_batterijen(data_pad(district, 'batteries'))
+            self.laad_batterijen(helpers.data_pad(district, 'batteries'))
 
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
@@ -44,7 +45,7 @@ class Wijk:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = data_inladen(b)
+                data = parse_csv(b)
                 # voeg batterij object aan batterij-lijst toe.
                 if data[0].isnumeric():
                     self.batterijen.append(
@@ -63,7 +64,7 @@ class Wijk:
             teller = len(b.readlines())
         with open(bestand, 'r') as b:
             for i in range(0, teller):
-                data = data_inladen(b)
+                data = parse_csv(b)
                 # voeg batterij object aan huizen-lijst toe.
                 if data[0].isnumeric():
                     self.losse_huizen.append(
@@ -138,7 +139,7 @@ class Wijk:
         return prijskaartje
 
 
-    def jsonify(self, wijk_nummer):
+    def jsonify(self, wijk_nummer, algoritme):
         """Print de informatie van de wijk naar een json bestand
         
         In: wijknummer."""
@@ -147,26 +148,26 @@ class Wijk:
         json_dict.append(district)
         batterij_data = {}
         for batterij in self.batterijen:
-            lokatie_bat = f"{batterij.x_as},{batterij.y_as}"
+            locatie_bat = f"{batterij.x_as},{batterij.y_as}"
             capaciteit = batterij.capaciteit
             huizen = []
             for huis in batterij.gelinkte_huizen:
                 huis_data = {}
-                lokatie_huis = f"{huis.x_as},{huis.y_as}"
+                locatie_huis = f"{huis.x_as},{huis.y_as}"
                 output = huis.maxoutput
                 kabels = []
                 for i in range(len(huis.kabels)):
                     kabels.append(f"{huis.kabels[i][0]},{huis.kabels[i][1]}")
-                huis_data["location"] = lokatie_huis
+                huis_data["location"] = locatie_huis
                 huis_data["output"] = output
                 huis_data["cables"] = kabels
                 huizen.append(huis_data)
-            batterij_data["location"] = lokatie_bat
+            batterij_data["location"] = locatie_bat
             batterij_data["capacity"] = capaciteit
             batterij_data["houses"] = huizen
             json_dict.append(batterij_data)
             batterij_data = {}
-        with open("figures/output.json", "w") as outfile:
+        with open(f"figures/{algoritme}_{wijk_nummer}_output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
     def hill_climber(self):
@@ -235,7 +236,7 @@ class Wijk:
             return False
 
 
-def data_inladen(b: TextIO): 
+def parse_csv(b: TextIO):
     """Neemt bestandlijn en converteert het naar een lijst.
 
     In: CSV bestand.
@@ -248,25 +249,7 @@ def data_inladen(b: TextIO):
     return line.split(",")
 
 
-def data_pad(district, item, item2=None, kmeans=False,
-             huizen=False) -> str:
-    """Vind het juist bestandspad naar opgevraagde bestand.
 
-    In: bestaandsnaam
-    Uit: pad naar opgevraagde bestand."""
-
-    cwd = os.getcwd()
-    sep = os.sep
-    if kmeans == True:
-        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
-        return cwd + os.path.normpath(pad)
-
-    if huizen == True:
-        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
-        return cwd + os.path.normpath(pad)
-
-    pad = f'{sep}Huizen&Batterijen{sep}district_{district}{sep}district-{district}_{item}.csv'
-    return cwd + os.path.normpath(pad)
 
 
 

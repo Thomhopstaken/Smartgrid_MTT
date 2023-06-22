@@ -11,11 +11,7 @@ class Batterijen:
         self.gelinkte_huizen = []
         self.gelegde_kabels = []
 
-    def dichtstbijzijnde_huis(self) -> int:
-        """Neemt het dichtstbijzijnde huis vanaf een batterij."""
-        afstand = self.afstand_huizen
-        return min(afstand, key=afstand.get)
-    
+
     def update_verbruik(self, output) -> None:
         """Update de resterende capaciteit van de batterij na het aansluiten van een huis."""
 

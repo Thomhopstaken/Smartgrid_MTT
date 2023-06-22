@@ -2,19 +2,6 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-def schrijf_csv_kosten(bestandsnaam):
-    with open(bestandsnaam, 'w', newline='') as bestand:
-        schrijver = csv.writer(bestand)
-        veld = ["Kosten:"]
-        schrijver.writerow(veld)
-
-def data_schrijven(bestandsnaam, kosten):
-    with open(bestandsnaam, 'a', newline='') as bestand:
-        schrijver = csv.writer(bestand)
-        veld = [kosten]
-        schrijver.writerow(veld)
-
-
 def data_inlezen(bestandsnaam):
     data = []
     
