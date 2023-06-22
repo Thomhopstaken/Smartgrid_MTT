@@ -178,6 +178,7 @@ class District:
         
         afstanden = batterij.afstanden_gelinkte_huizen()
         huizen = []
+        print(batterij.gelinkte_huizen)
         while len(huizen) < 3:
             x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
             if x not in huizen:
