@@ -8,10 +8,10 @@ import os
 import json
 
 
-def visualise(methode):
+def visualise(methode, wijk_nummer):
     cwd = os.getcwd()
     sep = os.sep
-    pad = f'{sep}figures{sep}output.json'
+    pad = f'{sep}figures{sep}{methode}_{wijk_nummer}_output.json'
 
     file = open(cwd + pad)
     data = json.load(file)
