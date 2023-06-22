@@ -40,4 +40,8 @@ class Batterijen:
             afstand = abs(huis.x_as - self.x_as) + abs(huis.y_as - self.y_as)
             afstanden.append(afstand)
         return afstanden 
+    
+    def herbereken_capaciteit(self):
+        totale_output = sum(huis.maxoutput for huis in self.gelinkte_huizen)
+        self.resterende_capaciteit = self.capaciteit - totale_output
                 

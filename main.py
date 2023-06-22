@@ -70,14 +70,12 @@ if __name__ == "__main__":
         aantal_runs = 1
         runs = 0
         while runs <= aantal_runs: 
-            while not run_succesvol:
-                wijk = district.District(wijk_kiezen, 1)
-                run_succesvol = random_alg.random_alg(wijk)
+            wijk = district.District(wijk_kiezen, 1)
+            wijk = random_alg.random_alg(wijk)
             kosten_randomrun = wijk.kosten_berekening()
             print(f'kosten random:      {kosten_randomrun}')
             hillclimber = hill_climbing.Hill_climber(wijk)
             hillclimber.draai_hillclimber()
-            print(hillclimber.kosten)
             print(hillclimber.aanpassingen)
             runs += 1
             run_succesvol = False

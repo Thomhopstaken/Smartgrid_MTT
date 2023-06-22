@@ -172,28 +172,24 @@ class District:
         if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
             for x in range(len(huizen_x)):
                 self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
+                print(len(batterij_x.gelinkte_huizen))
                 self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
-    
+                print(len(batterij_y.gelinkte_huizen))
+            batterij_x.herbereken_capaciteit()
+            batterij_y.herbereken_capaciteit()
+            return True
+        else:
+            return False
+                   
     def hc_kies_willekeurige_huizen(self, batterij):
-        
-        afstanden = batterij.afstanden_gelinkte_huizen()
-        huizen = []
-        print(batterij.gelinkte_huizen)
-        while len(huizen) < 3:
-            x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
-            if x not in huizen:
-                huizen.append(x)
+    
+        huizen = random.sample(batterij.gelinkte_huizen, k=3)    
         return huizen
     
     def hc_kies_willekeurige_batterijen(self):
         
-        batterijen_gevonden = False
-        while not batterijen_gevonden:
-            x = random.choice(list(self.batterijen))
-            y = random.choice(list(self.batterijen))
-            if x != y:
-                batterijen_gevonden = True
-                return x, y
+        batterijen = random.sample(self.batterijen, k=2)
+        return batterijen
 
     def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
         """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
@@ -208,16 +204,12 @@ class District:
     
     def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
-        huizen_x_output = 0
-        huizen_y_output = 0
-    
-        for x in range(3):
-            huizen_x_output += huizen_x[x].maxoutput
-            huizen_y_output += huizen_y[x].maxoutput
+        
+        huizen_x_output = sum(huis.maxoutput for huis in huizen_x)
+        huizen_y_output = sum(huis.maxoutput for huis in huizen_y)
         
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
         nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
-        
         if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
             return True
         else: 
