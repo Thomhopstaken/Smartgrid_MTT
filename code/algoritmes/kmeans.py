@@ -1,22 +1,20 @@
 import pandas as pd
 from code.klassen import district
-from code.algoritmes import greedy
+from code.helpers import csv_writer
 from sklearn.cluster import KMeans
-from matplotlib import pyplot as plt
-from matplotlib import cm
-import numpy as np
 import random
-import csv
-import os
+
 
 
 ## Make a maak_clusters function an use that to create csv etc.
 
-def maak_clusters(wijknummer, k):
-    pad = district.data_pad(wijknummer, 'houses')
+def gebruik_clusters(wijk, k):
+    wijk_nummer = wijk.wijk
+    pad = district.data_pad(wijk_nummer, 'houses')
     df_coords = pd.read_csv(pad, usecols=['x', 'y'])
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
     df_combined = pd.read_csv(pad)
+
 
     cluster_outputs = [9999, 9999]
     while not max(cluster_outputs) <= 1800:
@@ -37,31 +35,33 @@ def maak_clusters(wijknummer, k):
                 f'{round(centroids[i][0])}, {round(centroids[i][1])}')
 
         batterijen = kies_batterij(cluster_outputs)
-        write_csv_batterij(
-            f'Huizen&Batterijen/k_means/batterij_{k}.csv',
-            batterijen, cluster_cents)
+        csv_writer.Write_csv(f'Huizen&Batterijen/k_means/batterij_{k}.csv').batterij(batterijen, cluster_cents)
+
+
+
+    wijk.laad_batterijen(
+        district.data_pad(wijk_nummer, k, kmeans=True), 5000)
 
     return filtered_combined
-def kmeans_alg(wijknummer, k=5):
 
-    filtered_huizen = maak_clusters(wijknummer, k)
+def kmeans_alg(wijk, k=5):
+
+    filtered_huizen = gebruik_clusters(wijk, k)
+    wijk_nummer = wijk.wijk
+
     # goedkoopste_run = [0, 9999999]
     # goedkoopste_wijk = None
     # run_lijst = []
 
     for i in range(k):
-        write_csv_huizen(
-            f'Huizen&Batterijen/k_means/batterij_{k}_cluster_{i}.csv',
-            filtered_huizen[i])
-    wijk = district.District(wijknummer, k, False, False)
-    wijk.laad_batterijen(
-        district.data_pad(wijknummer, k, kmeans=True), 5000)
-
+        csv_writer.Write_csv(
+            f'Huizen&Batterijen/k_means/batterij_{k}_cluster_{i}.csv').huizen(filtered_huizen[i])
 
     for i in range(k):
 
+        batterij = wijk.batterijen.x_as
         wijk.laad_huizen(
-            district.data_pad(wijknummer, k, i, huizen=True))
+            district.data_pad(wijk_nummer, k, i, huizen=True))
         # Vermijd overlap tussen batterij en huizen
         random.shuffle(wijk.losse_huizen)
         for huis in wijk.losse_huizen:
@@ -73,43 +73,6 @@ def kmeans_alg(wijknummer, k=5):
             for huis in wijk.losse_huizen:
                 wijk.leg_route(wijk.batterijen[i], huis)
     return wijk
-
-
-
-    #     huidige_run = wijk.kosten_berekening()
-    # run_lijst.append({k: huidige_run})
-    # if huidige_run < goedkoopste_run[1]:
-    #     goedkoopste_run = [k, huidige_run]
-    #     goedkoopste_wijk = (wijk, k)
-    #     write_csv_batterij(
-    #         f'Huizen&Batterijen/k_means/beste_run/batterij_{k}.csv',
-    #         batterijen,
-    #         cluster_cents)
-    #     for i in range(k):
-    #         write_csv_huizen(
-    #             f'Huizen&Batterijen/k_means/beste_run/batterij_{k}_cluster_{i}.csv',
-    #             filtered_huizen[i])
-
-    # return [goedkoopste_wijk, goedkoopste_run, run_lijst]
-
-def write_csv_batterij(filename, batterijen, centroids):
-    with open(filename, 'w', newline='') as file:
-        writer = csv.writer(file)
-        field = ["positie", "capaciteit"]
-        writer.writerow(field)
-        for i in range(len(batterijen)):
-            writer.writerow([centroids[i], batterijen[i]])
-
-
-def write_csv_huizen(filename, huizen):
-    with open(filename, 'w', newline='') as file:
-        writer = csv.writer(file)
-        field = ["x", "y", "maxoutput"]
-        writer.writerow(field)
-        for ind in huizen.index:
-            writer.writerow(
-                [huizen['x'][ind], huizen['y'][ind], huizen['maxoutput'][ind]])
-
 
 def kies_batterij(outputs):
     batterijen = []

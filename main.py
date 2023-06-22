@@ -15,6 +15,7 @@ def gemiddelde_berekenen(data):
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
+    wijk = district.District(wijk_kiezen, wijk_kiezen)
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
 
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
@@ -28,27 +29,33 @@ if __name__ == "__main__":
     
 
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
-        aantal_runs = int(input('geef aantal runs: '))
-        bestandsnaam = f'figures/data_random/kosten_wijk_{wijk_kiezen}_runs:_{aantal_runs}.csv'
-        grafiek.schrijf_csv_kosten(bestandsnaam)
-        for x in range (0, aantal_runs):
-            wijk = district.District(wijk_kiezen, x)
-            run_succesvol = random_alg.random_alg(wijk)
-            run_printer(x)
-            if run_succesvol:
-                kosten_wijk = wijk.kosten_berekening()
-                grafiek.data_schrijven(bestandsnaam, kosten_wijk)
-                if kosten_wijk < goedkoopste_kosten:
-                    goedkoopste_kosten = kosten_wijk
-                    goedkoopste_run = wijk
-                if kosten_wijk > duurste_kosten:
-                    duurste_kosten = kosten_wijk
-                succesvolle_runs += 1
-            else: 
-                mislukte_runs += 1
-        data = grafiek.data_inlezen(bestandsnaam)        
-        gemiddelde_prijs = gemiddelde_berekenen(data)
-        grafiek.grafiek_maken(data, wijk_kiezen, aantal_runs)
+        # wijk = district.District(wijk_kiezen, wijk_kiezen, True, False)
+        # kmeans.gebruik_clusters(wijk, 5)
+        run = random_alg.random_alg(wijk)
+        run.jsonify(wijk_kiezen)
+        smartgrid.visualise("Random")
+
+        # aantal_runs = int(input('geef aantal runs: '))
+        # bestandsnaam = f'figures/data_random/kosten_wijk_{wijk_kiezen}_runs:_{aantal_runs}.csv'
+        # grafiek.schrijf_csv_kosten(bestandsnaam)
+        # for x in range (0, aantal_runs):
+        #     wijk = district.District(wijk_kiezen, x)
+        #     run_succesvol = random_alg.random_alg(wijk)
+        #     run_printer(x)
+        #     if run_succesvol:
+        #         kosten_wijk = wijk.kosten_berekening()
+        #         grafiek.data_schrijven(bestandsnaam, kosten_wijk)
+        #         if kosten_wijk < goedkoopste_kosten:
+        #             goedkoopste_kosten = kosten_wijk
+        #             goedkoopste_run = wijk
+        #         if kosten_wijk > duurste_kosten:
+        #             duurste_kosten = kosten_wijk
+        #         succesvolle_runs += 1
+        #     else:
+        #         mislukte_runs += 1
+        # data = grafiek.data_inlezen(bestandsnaam)
+        # gemiddelde_prijs = gemiddelde_berekenen(data)
+        # grafiek.grafiek_maken(data, wijk_kiezen, aantal_runs)
                 
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
         aantal_runs = 1
@@ -78,8 +85,8 @@ if __name__ == "__main__":
     
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
-
-        run = kmeans.kmeans_alg(wijk_kiezen)
+        wijk = district.District(wijk_kiezen, wijk_kiezen, False, False)
+        run = kmeans.kmeans_alg(wijk)
         run.jsonify(wijk_kiezen)
         smartgrid.visualise("KMeans")
 
