@@ -15,10 +15,10 @@ class Wijk:
         self.id = id
         self.wijk = district
         self.districtnummer = district
-        self.batterijen = []
-        self.losse_huizen = []
-        self.gelinkte_huizen = []
-        self.afstanden_batterij_huis = []
+        self.batterijen: list[Batterijen] = []
+        self.losse_huizen: list[Huizen] = []
+        self.gelinkte_huizen: list[Huizen] = []
+        self.afstanden_batterij_huis:list[tuple[Batterijen, Huizen, int]] = []
     
         if laad_huis:
             self.laad_huizen(helpers.data_pad(district, 'houses'))
@@ -70,7 +70,7 @@ class Wijk:
                     self.losse_huizen.append(
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
-    def bereken_afstand(self) -> list[int]:
+    def bereken_afstand(self) -> list[tuple[Batterijen, Huizen, int]]:
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
