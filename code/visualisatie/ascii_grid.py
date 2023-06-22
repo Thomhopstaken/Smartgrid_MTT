@@ -1,4 +1,4 @@
-from code.klassen.district import District
+from code.klassen.district import Wijk
 from termcolor import colored
 
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     else:
         wijknummer = int(wijknummer)
         # maak een district aan
-        wijk = District(wijknummer)
+        wijk = Wijk(wijknummer)
         # maak een smartgrid aan
         grid = Smartgrid()
     

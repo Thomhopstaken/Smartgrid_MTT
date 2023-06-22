@@ -6,7 +6,7 @@ import os
 import random
 
 
-class District:
+class Wijk:
     def __init__(self, district: str, id: str, laad_huis=True, laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
@@ -139,6 +139,9 @@ class District:
 
 
     def jsonify(self, wijk_nummer):
+        """Print de informatie van de wijk naar een json bestand
+        
+        In: wijknummer."""
         json_dict = []
         district = {"district": int(wijk_nummer), "costs-shared": self.kosten_berekening()}
         json_dict.append(district)
@@ -166,52 +169,71 @@ class District:
         with open("figures/output.json", "w") as outfile:
             json.dump(json_dict, outfile)
 
-    def hillclimber_wissel(self):
-        """checkt over 3 huizen van de ene batterij gewisseld
-        kunnen worden met 3 huizen van een andere batterij."""
+    def hill_climber(self):
+        """Checkt of 3 huizen van de ene batterij gewisseld
+        kunnen worden met 3 huizen van een andere batterij.
+
+        Uit: True als huizen verwisselt kunnen worden. Anders False."""
         batterij_x, batterij_y = self.hc_kies_willekeurige_batterijen()
         huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
-        if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
-            for x in range(len(huizen_x)):
-                self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
-                self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
-            batterij_x.herbereken_capaciteit()
-            batterij_y.herbereken_capaciteit()
+
+        if self.hc_check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
+            self.hc_wissel_huizen(huizen_x, huizen_y, batterij_x, batterij_y)
             return True
         else:
             return False
-                   
+
+    def hc_wissel_huizen(self, huizen_x, huizen_y, batterij_x, batterij_y):
+        """Wissel 3 huizen van de ene batterij met 3 huizen van een andere batterij.
+
+        In: 2 lijsten met drie huis objecten, 2 batterij objecten."""
+        for x in range(len(huizen_x)):
+            self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
+            self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
+        batterij_x.herbereken_capaciteit()
+        batterij_y.herbereken_capaciteit()     
+             
     def hc_kies_willekeurige_huizen(self, batterij):
         """Kiest drie willekeurige huizen uit de lijst.
-        van gelinkte huizen aan de aangegeven batterij."""
+        van gelinkte huizen aan de aangegeven batterij.
+        
+        In: batterij object
+        uit: lijst met 3 huis objecten."""
         huizen = random.sample(batterij.gelinkte_huizen, k=3)    
         return huizen
     
     def hc_kies_willekeurige_batterijen(self):
-        """Kiest twee willekeurige batterijen uit batterijen."""
+        """Kiest twee willekeurige batterijen uit batterijen.
+
+        Uit: 2 batterij objecten."""
         batterijen = random.sample(self.batterijen, k=2)
         return batterijen
 
     def hc_kabels_verleggen(self, huis, nieuwe_batterij, oude_batterij):
-        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels"""
+        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels.
+
+        In: 1 huis object en 2 batterij objecten."""
         oude_batterij.gelinkte_huizen.remove(huis)
         huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
         oude_batterij.overbodige_kabels_verwijderen()
     
-    def check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
-        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit. """
+    def hc_check_capaciteit(self, huizen_x, huizen_y, batterij_x, batterij_y):
+        """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit.
+
+        In: 2 lijsten met 3 huis objecten, 2 batterij objecten.
+        Uit: als nieuwe cap - nieuwe output >= 0 dan True, anders False"""
         huizen_x_output = sum(huis.maxoutput for huis in huizen_x)
         huizen_y_output = sum(huis.maxoutput for huis in huizen_y)
-        
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
         nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
+
         if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
             return True
         else: 
             return False
-            
+
 
 def data_inladen(b: TextIO): 
     """Neemt bestandlijn en converteert het naar een lijst.

@@ -29,7 +29,7 @@ class Hill_climber:
     def draai_hillclimber(self):
         
         while self.counter < 100:
-            if self.nieuwe_wijk.hillclimber_wissel():
+            if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
             else:
                 continue
