@@ -1,5 +1,4 @@
 import copy
-import random
 
 class Hill_climber:
     
