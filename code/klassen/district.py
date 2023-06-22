@@ -171,15 +171,13 @@ class District:
         if self.check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
             for x in range(len(huizen_x)):
                 self.hc_kabels_verleggen(huizen_x[x], huizen_y[x], batterij_x, batterij_y)
-        # for batterij in self.batterijen:
-        #     print(batterij.)
     
     def hc_kies_willekeurige_huizen(self, batterij):
-
-        huizen = []
         
-        while len(huizen) != 3:
-            x = random.choice(list(batterij.gelinkte_huizen))
+        afstanden = batterij.afstanden_gelinkte_huizen()
+        huizen = []
+        while len(huizen) < 3:
+            x = random.choices(batterij.gelinkte_huizen, afstanden)[0]
             if x not in huizen:
                 huizen.append(x)
         return huizen
