@@ -1,10 +1,9 @@
 import matplotlib
-
 matplotlib.use('Agg')
+
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import numpy as np
-import pandas as pd
 import os
 import json
 
@@ -42,7 +41,6 @@ def visualise(methode):
             huis = data[i]['houses'][j]['location'].split(',')
             if len(kabels) != 1:
                 for k in range(len(kabels) - 1):
-                    # try:
                     plt.plot([int(kabels[k].split(',')[0]),
                               int(kabels[k + 1].split(',')[0])],
                              [int(kabels[k].split(',')[1]),

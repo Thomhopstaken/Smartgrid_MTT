@@ -78,12 +78,9 @@ if __name__ == "__main__":
 
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
 
-        run = kmeans.kmeans_alg(wijk_kiezen, n_runs=100, algoritme='clusters')
-
-        run[0][0].jsonify(wijk_kiezen)
-        smartgrid.visualise('kmeans')
-        print(run[1])
-        print(run[2])
+        run = kmeans.kmeans_alg(wijk_kiezen)
+        run.jsonify(wijk_kiezen)
+        smartgrid.visualise("KMeans")
 
     else: 
         print('Invalid Argument')
