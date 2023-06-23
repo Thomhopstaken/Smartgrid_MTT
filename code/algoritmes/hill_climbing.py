@@ -1,6 +1,7 @@
 import copy
 from code.klassen.district import Wijk
 from .random_alg import random_alg
+from code.helpers import csv_writer, helpers
 
 class Hill_climber:
     
@@ -30,7 +31,10 @@ class Hill_climber:
     
     def draai_hillclimber(self) -> Wijk:
         """Run hill climber algoritme totdat de counter bereikt is."""
+        bestand = helpers.data_pad(self.oude_wijk.id, "Hill_Climb_Run", experiment=True)
+        csv_writer.Write_csv(bestand).maak_kosten()
         while self.counter < 150:
+            csv_writer.Write_csv(bestand).append_kosten(self.kosten)
             if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
         return self.oude_wijk
