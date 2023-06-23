@@ -2,20 +2,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-def data_inlezen(bestandsnaam):
-    data = []
-    
-    with open(bestandsnaam, 'r',) as bestand:
-        lezer = csv.reader(bestand)
-        
-        for rij in lezer:
-            for waarde in rij:
-                if waarde != 'Kosten:':
-                    data.append(float(waarde))
-    return data
 
-
-def grafiek_maken(data, wijk_kiezen, aantal_runs):
+def histogram(data, wijk_kiezen, aantal_runs):
     gemiddelde = np.mean(data)
     standaard_af = np.std(data)
     
