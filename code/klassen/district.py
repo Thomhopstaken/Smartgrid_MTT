@@ -140,6 +140,8 @@ class Wijk:
         return prijskaartje
 
     def herleg_alle_kabels(self):
+        for batterij in self.batterijen:
+            batterij.kabels_verwijderen()
         for huis in self.gelinkte_huizen:
             huis.verwijder_kabels()
         for huis in self.gelinkte_huizen:

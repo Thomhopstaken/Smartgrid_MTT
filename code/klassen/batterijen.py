@@ -53,3 +53,6 @@ class Batterijen:
         """berekend de capaciteit na verwisseling van huizen."""
         totale_output = sum(huis.maxoutput for huis in self.gelinkte_huizen)
         self.resterende_capaciteit = self.capaciteit - totale_output
+
+    def kabels_verwijderen(self) -> None:
+        self.gelegde_kabels = []

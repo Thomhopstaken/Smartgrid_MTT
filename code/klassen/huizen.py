@@ -13,9 +13,6 @@ class Huizen:
         self.afstand_batterijen: dict[object, int] = {}
         self.aangesloten = False
 
-    def verwijder_kabel(self):
-        self.kabels = []
-
     def bereken_afstand(self, batterijen) -> None:
         """berekent de afstand tussen huis en alle batterijen."""
         for batterij in batterijen:
