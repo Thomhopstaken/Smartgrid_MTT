@@ -1,16 +1,20 @@
 import copy
 from code.klassen.district import Wijk
+from .random_alg import random_alg
 
 class Hill_climber:
     
     def __init__(self, wijk: Wijk) -> None:
         """Maak een hill_climber aan."""
-        self.oude_wijk = copy.deepcopy(wijk)
+        # self.oude_wijk = copy.deepcopy(wijk)
+        self.oude_wijk = wijk
         self.kosten = wijk.kosten_berekening()
-        self.nieuwe_wijk = copy.deepcopy(wijk)
-        
+        # self.nieuwe_wijk = copy.deepcopy(wijk)
+        self.nieuwe_wijk = wijk
+
         self.counter = 0
-                
+
+
     def check_uitkomst(self) -> None:
         """Checkt of the nieuwe staat goedkoper is dan de oude staat.
         zo ja, nieuwe staat = oude staat."""
@@ -33,3 +37,10 @@ class Hill_climber:
                 self.check_uitkomst()
 
         return self.oude_wijk
+
+def hillclimber_alg(wijk):
+    wijk_kopie = copy.deepcopy(wijk)
+    random_wijk = random_alg(wijk_kopie)
+    hillclimber = Hill_climber(random_wijk)
+    nieuw_wijk = hillclimber.draai_hillclimber()
+    return nieuw_wijk
