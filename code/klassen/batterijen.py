@@ -1,6 +1,3 @@
-from code.klassen.huizen import Huizen
-
-
 class Batterijen:
 
     def __init__(self, i: int, x: int, y: int,
@@ -13,7 +10,7 @@ class Batterijen:
         self.prijs = prijs
         self.capaciteit = capaciteit
         self.resterende_capaciteit = capaciteit
-        self.gelinkte_huizen: list[Huizen] = []
+        self.gelinkte_huizen: list[object] = []
         self.gelegde_kabels: list[tuple[int, int]] = []
 
     def ontkoppel_huis(self, huis, wijk):
