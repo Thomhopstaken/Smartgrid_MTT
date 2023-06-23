@@ -35,7 +35,7 @@ class Wijk:
         self.losse_huizen.append(huis)
         huis.aangesloten = False
 
-    def laad_batterijen(self, bestand: str, prijs:int=5000) -> None:
+    def laad_batterijen(self, bestand: str, prijs:int=1800) -> None:
         """Neemt data van bestand en maakt daarmee batterijobjecten.
         deze worden ongebracht in batterijlijst.
 

@@ -2,6 +2,7 @@ import copy
 from code.klassen.district import Wijk
 from .random_alg import random_alg
 from code.helpers import csv_writer, helpers
+from .kmeans import gebruik_clusters
 
 class Hill_climber:
     
@@ -41,6 +42,7 @@ class Hill_climber:
 
 def hillclimber_alg(wijk):
     wijk_kopie = copy.deepcopy(wijk)
+    gebruik_clusters(wijk_kopie, 5)
     random_wijk = random_alg(wijk_kopie)
     hillclimber = Hill_climber(random_wijk)
     nieuw_wijk = hillclimber.draai_hillclimber()
