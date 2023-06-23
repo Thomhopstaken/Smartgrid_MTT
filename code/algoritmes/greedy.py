@@ -8,6 +8,7 @@ def greedy_alg(wijk) -> None:
     # Bereken afstand
     afstanden = wijk.bereken_afstand()
 
+    # Leg route wanneer mogelijk
     for batterij, huis, _ in afstanden:
         if huis.kan_aansluiten(batterij):
             wijk.leg_route(batterij, huis)
@@ -19,6 +20,7 @@ def greedy_alg(wijk) -> None:
         willekeurige_batterij = random.choice(wijk.batterijen)
         willekeurig_huis = random.choice(willekeurige_batterij.gelinkte_huizen)
         willekeurige_batterij.ontkoppel_huis(willekeurig_huis, wijk)
+        willekeurig_huis.verwijder_kabel()
         #print("ontkoppeld")
         
         # Leg route wanneer mogelijk
@@ -31,7 +33,7 @@ def greedy_alg(wijk) -> None:
         print(f"dichtstbijzijnde batterij: {huis.dichtstbijzijnde_batterij()}")
 
 
-    # # Geshuffelde nested lijst
+    # Geshuffelde nested lijst
     # geshuffelde_afstanden = wijk.shuffle_afstanden()
 
     # print(geshuffelde_afstanden)
@@ -44,7 +46,7 @@ def greedy_alg(wijk) -> None:
     #              counter += 1
 
 
-    # #Teruggaan en herverdelen
+    # Teruggaan en herverdelen
     # while len(wijk.losse_huizen) > 0:
     #     for inner_lijst in geshuffelde_afstanden:
     #         huis = random.choice()

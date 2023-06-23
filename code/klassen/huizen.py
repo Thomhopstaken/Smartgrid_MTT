@@ -1,4 +1,3 @@
-from code.klassen.batterijen import Batterijen
 
 
 class Huizen:
@@ -11,8 +10,11 @@ class Huizen:
         self.y_as = y
         self.maxoutput = maxoutput
         self.kabels: list[tuple[int, int]] = []
-        self.afstand_batterijen: dict[Batterijen, int] = {}
+        self.afstand_batterijen: dict[object, int] = {}
         self.aangesloten = False
+
+    def verwijder_kabel(self):
+        self.kabels = []
 
     def bereken_afstand(self, batterijen) -> None:
         """berekent de afstand tussen huis en alle batterijen."""
