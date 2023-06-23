@@ -229,9 +229,7 @@ class Wijk:
 
         In: 1 huis object en 2 batterij objecten."""
         oude_batterij.gelinkte_huizen.remove(huis)
-        #huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
-        #oude_batterij.overbodige_kabels_verwijderen()
     
     def hc_check_capaciteit(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
                             batterij_x: Batterijen, batterij_y: Batterijen) -> bool:
