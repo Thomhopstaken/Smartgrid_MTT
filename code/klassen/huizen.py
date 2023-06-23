@@ -18,6 +18,7 @@ class Huizen:
         self.afstand_batterijen = dict(sorted(self.afstand_batterijen.items(), key=lambda item:item[1]))
 
     def dichtstbijzijnde_batterij(self):
+        """Geeft kortste afstand vanaf een huis."""
         if self.afstand_batterijen:
             return min(self.afstand_batterijen, key=self.afstand_batterijen.get)
         else:
