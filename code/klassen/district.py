@@ -139,6 +139,11 @@ class Wijk:
         prijskaartje += len_kabels * 9
         return prijskaartje
 
+    def herleg_alle_kabels(self):
+        for huis in self.gelinkte_huizen:
+            huis.verwijder_kabels()
+        for huis in self.gelinkte_huizen:
+            self.leg_route(huis.aangesloten, huis)
 
     def jsonify(self, wijk_nummer: int, algoritme: str) -> None:
         """Print de informatie van de wijk naar een json bestand

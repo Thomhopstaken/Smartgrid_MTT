@@ -10,7 +10,7 @@ if __name__ == "__main__":
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
     wijk = district.Wijk(wijk_kiezen, wijk_kiezen)
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
-    aantal_runs = input('Geef aantal runs: ')
+    aantal_runs = int(input('Geef aantal runs: '))
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
     
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
