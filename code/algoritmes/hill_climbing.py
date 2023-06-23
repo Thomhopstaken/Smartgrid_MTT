@@ -37,6 +37,7 @@ class Hill_climber:
             csv_writer.Write_csv(bestand).append_kosten(self.kosten)
             if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
+
         return self.oude_wijk
 
 def hillclimber_alg(wijk):
