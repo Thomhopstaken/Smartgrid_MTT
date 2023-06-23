@@ -3,7 +3,6 @@ from .huizen import Huizen
 from typing import TextIO
 from code.helpers import helpers
 import json
-import os
 import random
 
 

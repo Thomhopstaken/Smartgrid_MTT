@@ -10,7 +10,6 @@ class Hill_climber:
         self.nieuwe_wijk = copy.deepcopy(wijk)
         
         self.counter = 0
-        self.aanpassingen = 0
                 
     def check_uitkomst(self) -> None:
         """Checkt of the nieuwe staat goedkoper is dan de oude staat.
@@ -22,17 +21,15 @@ class Hill_climber:
             self.oude_wijk = self.nieuwe_wijk
             self.kosten = nieuwe_kosten
             self.counter = 0
-            self.aanpassingen += 1
             self.nieuwe_wijk = copy.deepcopy(self.oude_wijk)
         else: 
             self.counter += 1
             
     
-    def draai_hillclimber(self) -> None:
+    def draai_hillclimber(self) -> Wijk:
         """Run hill climber algoritme totdat de counter bereikt is."""
-        while self.counter < 100:
+        while self.counter < 150:
             if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
-            
-        print(self.kosten)
-        
+
+        return self.oude_wijk

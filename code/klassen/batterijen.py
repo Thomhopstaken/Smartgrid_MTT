@@ -1,7 +1,8 @@
-from code.klassen.huizen import Huizen
-
+from .huizen import Huizen
 
 class Batterijen:
+
+
 
     def __init__(self, i: int, x: int, y: int,
                  capaciteit: int, prijs: int) -> None:
