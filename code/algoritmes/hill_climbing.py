@@ -6,10 +6,8 @@ class Hill_climber:
     
     def __init__(self, wijk: Wijk) -> None:
         """Maak een hill_climber aan."""
-        # self.oude_wijk = copy.deepcopy(wijk)
         self.oude_wijk = wijk
         self.kosten = wijk.kosten_berekening()
-        # self.nieuwe_wijk = copy.deepcopy(wijk)
         self.nieuwe_wijk = wijk
 
         self.counter = 0
