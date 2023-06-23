@@ -26,10 +26,9 @@ class Hill_climber:
             self.counter += 1
             
     
-    def draai_hillclimber(self) -> None:
+    def draai_hillclimber(self) -> Wijk:
         """Run hill climber algoritme totdat de counter bereikt is."""
         while self.counter < 150:
             if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
-        self.oude_wijk.prijs = self.kosten
         return self.oude_wijk
