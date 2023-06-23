@@ -1,38 +1,42 @@
 import random
+import copy
 
 def greedy_alg(wijk) -> None:
-    print("greedy")
+
+    wijk_kopie = copy.deepcopy(wijk)
+
+    # print("greedy")
     """Greedy algoritme om huizen aan te sluiten op batterijen in een wijk."""
     counter = 0
     
     # Bereken afstand
-    afstanden = wijk.bereken_afstand()
+    afstanden = wijk_kopie.bereken_afstand()
 
     for batterij, huis, _ in afstanden:
         if huis.kan_aansluiten(batterij):
-            wijk.leg_route(batterij, huis)
+            wijk_kopie.leg_route(batterij, huis)
             counter += 1
 
     # Teruggaan en herverdelen
-    while len(wijk.losse_huizen) > 0:
-        #print(len(wijk.losse_huizen))
-        willekeurige_batterij = random.choice(wijk.batterijen)
+    while len(wijk_kopie.losse_huizen) > 0:
+        #print(len(wijk_kopie.losse_huizen))
+        willekeurige_batterij = random.choice(wijk_kopie.batterijen)
         willekeurig_huis = random.choice(willekeurige_batterij.gelinkte_huizen)
-        willekeurige_batterij.ontkoppel_huis(willekeurig_huis, wijk)
+        willekeurige_batterij.ontkoppel_huis(willekeurig_huis, wijk_kopie)
         #print("ontkoppeld")
         
         # Leg route wanneer mogelijk
-        for huis in wijk.losse_huizen[:]:
-            for batterij in wijk.batterijen:
+        for huis in wijk_kopie.losse_huizen[:]:
+            for batterij in wijk_kopie.batterijen:
                 if huis.kan_aansluiten(batterij):
-                    wijk.leg_route(batterij, huis)
+                    wijk_kopie.leg_route(batterij, huis)
                     counter += 1
-        print(f"losse huizen: {len(wijk.losse_huizen)}")
-        print(f"dichtstbijzijnde batterij: {huis.dichtstbijzijnde_batterij()}")
+        # print(f"losse huizen: {len(wijk_kopie.losse_huizen)}")
+        # print(f"dichtstbijzijnde batterij: {huis.dichtstbijzijnde_batterij()}")
 
 
     # # Geshuffelde nested lijst
-    # geshuffelde_afstanden = wijk.shuffle_afstanden()
+    # geshuffelde_afstanden = wijk_kopie.shuffle_afstanden()
 
     # print(geshuffelde_afstanden)
     # for inner_lijst in geshuffelde_afstanden:
@@ -40,25 +44,25 @@ def greedy_alg(wijk) -> None:
     #         batterij, huis, afstand = tuple
     #         if huis.kan_aansluiten(batterij):
     #             #print("kan aansluiten")
-    #             wijk.leg_route(batterij, huis)
+    #             wijk_kopie.leg_route(batterij, huis)
     #              counter += 1
 
 
     # #Teruggaan en herverdelen
-    # while len(wijk.losse_huizen) > 0:
+    # while len(wijk_kopie.losse_huizen) > 0:
     #     for inner_lijst in geshuffelde_afstanden:
     #         huis = random.choice()
     #         for tuple in inner_lijst:
     #             batterij, huis, afstand = tuple
-    #             wijk.ontkoppel_huis(huis)
+    #             wijk_kopie.ontkoppel_huis(huis)
     #             if huis.kan_aansluiten(batterij):
-    #                 wijk.leg_route(batterij, huis)
+    #                 wijk_kopie.leg_route(batterij, huis)
     #                 counter += 1
 
 
-    for batterij in wijk.batterijen:
-        print(batterij.resterende_capaciteit)
+    # for batterij in wijk_kopie.batterijen:
+        # print(batterij.resterende_capaciteit)
 
-    print(counter)
-    return wijk
+    # print(counter)
+    return wijk_kopie
 

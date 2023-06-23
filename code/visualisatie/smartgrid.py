@@ -52,3 +52,4 @@ def visualise(methode, wijk_nummer):
 
     wijknummer = data[0]['district']
     plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png")
+    plt.clf()

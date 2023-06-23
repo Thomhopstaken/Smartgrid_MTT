@@ -32,8 +32,12 @@ if __name__ == "__main__":
         # wijk = helpers.wijk_lader("Random", wijk_kiezen)
         # kmeans.gebruik_clusters(wijk, 5)
         # for _ in range(5):
-        #     run = random_alg.random_alg(wijk)
-        #     print(run.kosten_berekening())
+        # run = random_alg.random_alg(wijk)
+        # run.jsonify(wijk_kiezen, "Random")
+        # for batterij in run.batterijen:
+        #     for huis in batterij.gelinkte_huizen:
+        #         print(huis.kabels)
+
         # run.jsonify(wijk_kiezen, "Random")
         # smartgrid.visualise("Random", wijk_kiezen)
         experiment.run_experiment("Random", wijk_kiezen, 5)
@@ -64,13 +68,14 @@ if __name__ == "__main__":
         # grafiek.grafiek_maken(data, wijk_kiezen, aantal_runs)
                 
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
-        aantal_runs = 1
-        wijk = district.Wijk(wijk_kiezen, aantal_runs)
-        run = greedy.greedy_alg(wijk)
+        experiment.run_experiment("Greedy", wijk_kiezen, 5)
+        # aantal_runs = 1
+        # wijk = district.Wijk(wijk_kiezen, aantal_runs)
+        # run = greedy.greedy_alg(wijk)
         # succesvolle_runs[wijk] = wijk.kosten_berekening()
-        run.jsonify(wijk_kiezen)
-        smartgrid.visualise("Greedy")
-        print(wijk.kosten_berekening())
+        # run.jsonify(wijk_kiezen)
+        # smartgrid.visualise("Greedy")
+        # print(wijk.kosten_berekening())
 
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
         aantal_runs = 10
@@ -81,7 +86,7 @@ if __name__ == "__main__":
             kosten_randomrun = wijk.kosten_berekening()
             print(f'kosten random:      {kosten_randomrun}')
             hillclimber = hill_climbing.Hill_climber(wijk)
-            hillclimber.draai_hillclimber()
+            wijk = hillclimber.draai_hillclimber()
             print(hillclimber.aanpassingen)
             runs += 1
             

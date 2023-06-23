@@ -1,4 +1,8 @@
+from .huizen import Huizen
+
 class Batterijen:
+
+
 
     def __init__(self, i: int, x: int, y: int,
                  capaciteit: int, prijs: int) -> None:
@@ -10,7 +14,7 @@ class Batterijen:
         self.prijs = prijs
         self.capaciteit = capaciteit
         self.resterende_capaciteit = capaciteit
-        self.gelinkte_huizen: list[object] = []
+        self.gelinkte_huizen: list[Huizen] = []
         self.gelegde_kabels: list[tuple[int, int]] = []
 
     def ontkoppel_huis(self, huis, wijk):
