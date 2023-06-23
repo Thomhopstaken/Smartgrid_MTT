@@ -2,7 +2,7 @@ import copy
 import random
 
 def random_alg(wijk):
-    """Willekeurig algoritme om huizen aan te sluiten op batterijen in een wijk."""
+    """Random algoritme om huizen aan te sluiten op batterijen in een wijk."""
     random.shuffle(wijk.batterijen)
     random.shuffle(wijk.losse_huizen)
     wijk_buffer = copy.deepcopy(wijk)
