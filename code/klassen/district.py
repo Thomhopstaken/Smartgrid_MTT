@@ -119,12 +119,14 @@ class Wijk:
 
 
     def creer_connectie(self, batterij: Batterijen, huis: Huizen) -> None:
+        
         huis.aangesloten = batterij
         if huis in self.losse_huizen:
             self.losse_huizen.remove(huis)
             self.gelinkte_huizen.append(huis)
         batterij.update_verbruik(huis.maxoutput)
-        batterij.gelinkte_huizen.append(huis)
+        if huis not in batterij.gelinkte_huizen:
+            batterij.gelinkte_huizen.append(huis)
 
 
     def kosten_berekening(self) -> int:
@@ -146,7 +148,7 @@ class Wijk:
             huis.verwijder_kabels()
         for huis in self.gelinkte_huizen:
             self.leg_route(huis.aangesloten, huis)
-
+            
     def jsonify(self, wijk_nummer: int, algoritme: str) -> None:
         """Print de informatie van de wijk naar een json bestand
         
@@ -201,6 +203,7 @@ class Wijk:
         for x in range(len(huizen_x)):
             self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
             self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
+        self.herleg_alle_kabels()
         batterij_x.herbereken_capaciteit()
         batterij_y.herbereken_capaciteit()     
              
@@ -226,9 +229,9 @@ class Wijk:
 
         In: 1 huis object en 2 batterij objecten."""
         oude_batterij.gelinkte_huizen.remove(huis)
-        huis.verwijder_kabels()
+        #huis.verwijder_kabels()
         self.leg_route(nieuwe_batterij, huis)
-        oude_batterij.overbodige_kabels_verwijderen()
+        #oude_batterij.overbodige_kabels_verwijderen()
     
     def hc_check_capaciteit(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
                             batterij_x: Batterijen, batterij_y: Batterijen) -> bool:
