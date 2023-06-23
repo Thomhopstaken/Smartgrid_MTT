@@ -31,5 +31,5 @@ class Hill_climber:
         while self.counter < 150:
             if self.nieuwe_wijk.hill_climber():
                 self.check_uitkomst()
-        self.oude_wijk.prijs = self.kosten
+
         return self.oude_wijk
