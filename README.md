@@ -19,6 +19,7 @@ Requirements:
 - numpy
 - pandas
 - python3-tk (GUI-backend)
+- tqdm
 
 Todo:
 - visualisatie updaten (michael)
