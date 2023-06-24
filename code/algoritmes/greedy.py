@@ -1,10 +1,9 @@
 import random
 
 def greedy_alg(wijk) -> None:
-    print("greedy")
     """Greedy algoritme om huizen aan te sluiten op batterijen in een wijk."""
     counter = 0
-    
+
     # Bereken afstand
     afstanden = wijk.bereken_afstand()
 
@@ -20,43 +19,43 @@ def greedy_alg(wijk) -> None:
         willekeurige_batterij = random.choice(wijk.batterijen)
         willekeurig_huis = random.choice(willekeurige_batterij.gelinkte_huizen)
         willekeurige_batterij.ontkoppel_huis(willekeurig_huis, wijk)
-        willekeurig_huis.verwijder_kabel()
+        willekeurig_huis.verwijder_kabels()
         #print("ontkoppeld")
         
         # Leg route wanneer mogelijk
-        for huis in wijk.losse_huizen[:]:
+        for huis in wijk.losse_huizen:
             for batterij in wijk.batterijen:
                 if huis.kan_aansluiten(batterij):
                     wijk.leg_route(batterij, huis)
+                    print("route")
+
                     counter += 1
-        print(f"losse huizen: {len(wijk.losse_huizen)}")
-        print(f"dichtstbijzijnde batterij: {huis.dichtstbijzijnde_batterij()}")
+    print(f"losse huizen: {len(wijk.losse_huizen)}")
+    print(f"dichtstbijzijnde batterij: {huis.dichtstbijzijnde_batterij()}")
 
 
-    # Geshuffelde nested lijst
+    # # Geshuffelde nested lijst
     # geshuffelde_afstanden = wijk.shuffle_afstanden()
 
-    # print(geshuffelde_afstanden)
+    # #print(geshuffelde_afstanden)
     # for inner_lijst in geshuffelde_afstanden:
-    #     for tuple in inner_lijst:
-    #         batterij, huis, afstand = tuple
+    #         batterij, huis, _ = tuple
     #         if huis.kan_aansluiten(batterij):
-    #             #print("kan aansluiten")
     #             wijk.leg_route(batterij, huis)
-    #              counter += 1
+    #             counter += 1
 
-
-    # Teruggaan en herverdelen
+    # # Teruggaan en herverdelen
     # while len(wijk.losse_huizen) > 0:
+    #     willekeurige_batterij = random.choice(wijk.batterijen)
+    #     willekeurig_huis = random.choice(willekeurige_batterij.gelinkte_huizen)
+    #     willekeurige_batterij.ontkoppel_huis(willekeurig_huis, wijk)
+    #     willekeurig_huis.verwijder_kabel()
     #     for inner_lijst in geshuffelde_afstanden:
-    #         huis = random.choice()
-    #         for tuple in inner_lijst:
-    #             batterij, huis, afstand = tuple
+    #         for batterij, huis, _ in inner_lijst:
     #             wijk.ontkoppel_huis(huis)
     #             if huis.kan_aansluiten(batterij):
     #                 wijk.leg_route(batterij, huis)
     #                 counter += 1
-
 
     for batterij in wijk.batterijen:
         print(batterij.resterende_capaciteit)

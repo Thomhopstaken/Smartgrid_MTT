@@ -79,6 +79,17 @@ class Wijk:
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
     
+    def shuffle_afstanden(self):
+        """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
+        self.bereken_afstand()
+        for i in range(0, len(self.afstanden_batterij_huis), 3):
+            sublijst = self.afstanden_batterij_huis[i:i+3]
+            print(f"SUBLIJST: {sublijst}")
+            random.shuffle(sublijst)
+            self.geshuffelde_afstanden.append(sublijst)
+            print(F"GESHUFFELDE AFSTANDEN: {self.geshuffelde_afstanden}")
+        return self.geshuffelde_afstanden
+
 
     def leg_route(self, batterij, huis):
         cursor_x, cursor_y = huis.x_as, huis.y_as
