@@ -32,8 +32,8 @@ def data_pad(district, item, item2=None, kmeans=False,
 
 
 def wijk_lader(algoritme, wijk):
-    algoritmes = {'Random': district.Wijk(wijk, algoritme, True, True),
-                  'Greedy': district.Wijk(wijk, algoritme, True, True),
-                  'Hill': district.Wijk(wijk, algoritme, True, True),
+    algoritmes = {'Random': district.Wijk(wijk, algoritme, True, False),
+                  'Greedy': district.Wijk(wijk, algoritme, True, False),
+                  'Hill': district.Wijk(wijk, algoritme, True, False),
                   'KMeans': district.Wijk(wijk, algoritme, False, False)}
     return algoritmes[algoritme]
