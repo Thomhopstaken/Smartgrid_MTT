@@ -2,17 +2,22 @@ class Huizen:
 
     def __init__(self, i, x, y, maxoutput: int) -> None:
         """Neemt gegevens van Huizen uit district
-        en slaat ze op in een Huizen object."""
+        en slaat ze op in een Huizen object.
+
+        In: huisnummer, x-as, y-as en maxoutput."""
         self.huis_id = i
         self.x_as = x
         self.y_as = y
         self.maxoutput = maxoutput
+
         self.kabels: list[tuple[int, int]] = []
         self.afstand_batterijen: dict[object, int] = {}
         self.aangesloten: bool = False
 
     def bereken_afstand(self, batterijen: object) -> None:
-        """berekent de afstand tussen huis en alle batterijen."""
+        """berekent de afstand tussen huis en alle batterijen.
+
+        In: batterij object."""
         for batterij in batterijen:
             afstand = abs(batterij.x_as - self.x_as) + abs(batterij.y_as
                                                            - self.y_as)
@@ -21,11 +26,16 @@ class Huizen:
                                               key=lambda item: item[1]))
 
     def leg_kabel(self, x, y) -> None:
-        """Voegt kabels toe in self.kabels."""
+        """Voegt kabels toe in self.kabels.
+
+        In: x-coördinaat en y-coördinaat"""
         self.kabels.append((x, y))
 
     def kan_aansluiten(self, batterij: object) -> bool:
-        """Controleert of een huis kan worden aangesloten op een batterij."""
+        """Controleert of een huis kan worden aangesloten op een batterij.
+
+        In: batterij object.
+        uit: True of False."""
         if not self.aangesloten:
             if batterij.resterende_capaciteit - self.maxoutput >= 0:
                 return True

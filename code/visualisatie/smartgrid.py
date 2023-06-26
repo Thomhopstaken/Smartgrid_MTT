@@ -9,6 +9,10 @@ matplotlib.use('Agg')
 
 
 def visualisatie(methode: str, wijk_nummer: int) -> None:
+    """Maakt een visuele weergave van het smartgrid
+    volgens de opgegeven methode en wijknummer.
+
+    In: type algoritme en wijknummer."""
     cwd = os.getcwd()
     sep = os.sep
     pad = f'{sep}figures{sep}{methode}_{wijk_nummer}_output.json'
@@ -23,22 +27,30 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
     plt.rcParams["figure.autolayout"] = True
     plt.grid()
 
+    # Coördinaten van de batterijen
     x_batterijen = []
     y_batterijen = []
 
+    # Laad batterij coördinaten in
     for i in range(1, len(data)):
         x_batterijen.append(int(data[i]['location'].split(',')[0]))
         y_batterijen.append(int(data[i]['location'].split(',')[1]))
 
+    # Plot de batterijen
     for i in range(len(x_batterijen)):
         plt.plot(x_batterijen[i], y_batterijen[i], marker='s', ls='none',
                  ms=10, color=kleuren[i])
 
+    # Plot de huizen en kabels
     for i in range(1, len(data)):
         kleur = kleuren[i - 1]
+
+        # Plot de kabels van het huis naar de batterij
         for j in range(len(data[i]['houses'])):
             kabels = (data[i]['houses'][j]['cables'])
             huis = data[i]['houses'][j]['location'].split(',')
+
+            # Plot de kabels als er meer dan één is
             if len(kabels) != 1:
                 for k in range(len(kabels) - 1):
                     plt.plot([int(kabels[k].split(',')[0]),
@@ -47,6 +59,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
                               int(kabels[k + 1].split(',')[1])],
                              color=kleur, linestyle='dotted')
 
+            # Plot het huis
             plt.plot(int(huis[0]), int(huis[1]), color=kleur,
                      marker='p')
 
