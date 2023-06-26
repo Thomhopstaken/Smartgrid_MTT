@@ -12,7 +12,6 @@ def greedy_alg(wijk) -> object:
     # Geshuffelde nested lijst
     geshuffelde_afstanden = wijk_buffer.shuffle_afstanden()
 
-    # Print(geshuffelde_afstanden)
     for inner_lijst in geshuffelde_afstanden:
         for batterij, huis, _ in inner_lijst:
             if huis.kan_aansluiten(batterij):
