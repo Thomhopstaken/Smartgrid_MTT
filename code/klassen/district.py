@@ -23,15 +23,15 @@ class Wijk:
         self.afstanden_batterij_huis: list[tuple[Batterijen, Huizen, int]] = []
         self.geshuffelde_afstanden: list[tuple[Batterijen, Huizen, int]] = []
 
-        # Laad de huizen in als laad_huis True is.
+        # Laad de huizen in als laad_huis True is
         if laad_huis:
             self.laad_huizen(helpers.data_pad(district, 'houses'))
 
-        # Laad de batterijen in als laad_batterij True is.
+        # Laad de batterijen in als laad_batterij True is
         if laad_batterij:
             self.laad_batterijen(helpers.data_pad(district, 'batteries'))
 
-        # Bereken de afstanden tussen huizen en batterijen.
+        # Bereken de afstanden tussen huizen en batterijen
         for huis in self.losse_huizen:
             huis.bereken_afstand(self.batterijen)
 
@@ -49,7 +49,7 @@ class Wijk:
 
         In: CSV bestandpad, prijs(standaard 1800)."""
 
-        # neemt file eindigend op batteries.csv als input.
+        # neemt file eindigend op batteries.csv als input
         with open(bestand, 'r') as b:
             teller = len(b.readlines())
 
@@ -88,8 +88,8 @@ class Wijk:
         """Berekent de afstand van huizen tot batterijen
         en sorteert van klein naar groot.
 
-        Uit: lijst met tuple bestaande uit batterij object,
-        huis object en afstand tussen huizen en batterijen."""
+        Uit: lijst met tuple bestaande uit een batterij object,
+        een huis object en afstand tussen huizen en batterijen."""
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(
@@ -172,7 +172,7 @@ class Wijk:
         In: batterij object en huis object."""
         huis.aangesloten = batterij
 
-        # Verplaats het huis van losse_huizen naar gelinkte_huizen.
+        # Verplaats het huis van losse_huizen naar gelinkte_huizen
         if huis in self.losse_huizen:
             self.losse_huizen.remove(huis)
             self.gelinkte_huizen.append(huis)
@@ -189,7 +189,7 @@ class Wijk:
         Uit: prijskaartje"""
         prijskaartje = 0
 
-        # Kosten van batterijen berekenen.
+        # Kosten van batterijen berekenen
         for batterij in self.batterijen:
             prijskaartje += batterij.prijs
         len_kabels = 0
@@ -217,13 +217,13 @@ class Wijk:
         json_dict.append(district)
         batterij_data = {}
 
-        # Loop over de batterijen om de informatie op te slaan.
+        # Loop over de batterijen om de informatie op te slaan
         for batterij in self.batterijen:
             locatie_bat = f"{batterij.x_as},{batterij.y_as}"
             capaciteit = batterij.capaciteit
             huizen = []
 
-            # Loop over gelinkte huizen van de batterij en sla info op.
+            # Loop over gelinkte huizen van de batterij en sla info op
             for huis in batterij.gelinkte_huizen:
                 huis_data = {}
                 locatie_huis = f"{huis.x_as},{huis.y_as}"
