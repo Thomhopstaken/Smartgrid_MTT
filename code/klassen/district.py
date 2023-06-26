@@ -11,9 +11,9 @@ class Wijk:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
-        self.id = id
+        self.id: int = id
         self.wijk = district
-        self.districtnummer = district
+        self.districtnummer: int = district
         self.batterijen: list[Batterijen] = []
         self.losse_huizen: list[Huizen] = []
         self.gelinkte_huizen: list[Huizen] = []
@@ -31,12 +31,13 @@ class Wijk:
             huis.bereken_afstand(self.batterijen)
 
     def ontkoppel_huis(self, huis: Huizen) -> None:
+        """Ontkoppelt een huis object."""
         self.gelinkte_huizen.remove(huis)
         self.losse_huizen.append(huis)
         huis.aangesloten = False
 
     def laad_batterijen(self, bestand: str, prijs:int=1800) -> None:
-        """Neemt data van bestand en maakt daarmee batterijobjecten.
+        """Neemt data van bestand en maakt daarmee batterij objecten.
         deze worden ongebracht in batterijlijst.
 
         In: CSV bestand"""
@@ -72,6 +73,7 @@ class Wijk:
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def bereken_afstand(self) -> list[tuple[Batterijen, Huizen, int]]:
+        """Berekent de afstand van huizen tot batterijen en sorteert van klein naar groot."""
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
                 afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
@@ -79,7 +81,7 @@ class Wijk:
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
     
-    def shuffle_afstanden(self):
+    def shuffle_afstanden(self) -> list[Batterijen, Huizen, int]:
         """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
         self.bereken_afstand()
         for i in range(0, len(self.afstanden_batterij_huis), 3):
@@ -89,12 +91,17 @@ class Wijk:
         return self.geshuffelde_afstanden
 
 
-    def leg_route(self, batterij, huis):
+    def leg_route(self, batterij, huis) -> None:
+        """Legt een route voor het leggen van een kabel van een huis naar een batterij."""
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
+
+        # Bepaal het doel als het dichtstbijzijnde punt waar al een kabel is gelegd
         for kabel in batterij.gelegde_kabels:
             if (abs(cursor_x - kabel[0]) + abs(cursor_y - kabel[1])) < (abs(cursor_x - target[0]) + abs(cursor_y - target[1])):
                 target = [kabel[0], kabel[1]]
+
+        # Leg de kabel in stappen totdat het doel is bereikt
         while cursor_x < target[0]:
             if ((cursor_x), (cursor_y))  in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
@@ -102,6 +109,7 @@ class Wijk:
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x += 1
+
         while cursor_x > target[0]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
@@ -109,6 +117,7 @@ class Wijk:
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_x -= 1
+
         while cursor_y < target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
@@ -116,6 +125,7 @@ class Wijk:
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y += 1
+
         while cursor_y > target[1]:
             if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
@@ -123,17 +133,21 @@ class Wijk:
             huis.leg_kabel((cursor_x), (cursor_y))
             batterij.kabel_toevoegen(((cursor_x), (cursor_y)))
             cursor_y -= 1
+
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
 
 
     def creer_connectie(self, batterij: Batterijen, huis: Huizen) -> None:
-        
+        """Creëert een verbinding tussen een batterij en een huis."""
         huis.aangesloten = batterij
+
         if huis in self.losse_huizen:
             self.losse_huizen.remove(huis)
             self.gelinkte_huizen.append(huis)
+
         batterij.update_verbruik(huis.maxoutput)
+
         if huis not in batterij.gelinkte_huizen:
             batterij.gelinkte_huizen.append(huis)
 

@@ -2,8 +2,6 @@ from .huizen import Huizen
 
 class Batterijen:
 
-
-
     def __init__(self, i: int, x: int, y: int,
                  capaciteit: int, prijs: int) -> None:
         """Neemt gegevens van batterijen uit district en
@@ -17,9 +15,8 @@ class Batterijen:
         self.gelinkte_huizen: list[Huizen] = []
         self.gelegde_kabels: list[tuple[int, int]] = []
 
-    def ontkoppel_huis(self, huis, wijk):
-        """Ontkoppelt een willekeurig huis."""
-        #huis = random.choice(self.gelinkte_huizen)
+    def ontkoppel_huis(self, huis, wijk) -> None:
+        """Ontkoppelt een huis object."""
         self.gelinkte_huizen.remove(huis)
         wijk.gelinkte_huizen.remove(huis)
         wijk.losse_huizen.append(huis)
@@ -39,9 +36,10 @@ class Batterijen:
         self.gelegde_kabels.append(kabel)
 
     def herbereken_capaciteit(self) -> None:
-        """berekend de capaciteit na verwisseling van huizen."""
+        """berekent de capaciteit na verwisseling van huizen."""
         totale_output = sum(huis.maxoutput for huis in self.gelinkte_huizen)
         self.resterende_capaciteit = self.capaciteit - totale_output
 
     def kabels_verwijderen(self) -> None:
+        """Verwijdert kabels van een batterij object."""
         self.gelegde_kabels = []
