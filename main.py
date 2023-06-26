@@ -3,6 +3,8 @@ from code.algoritmes import hill_climbing
 from code.klassen import district
 from code.visualisatie import smartgrid
 from code.helpers import experiment, helpers
+from code.visualisatie import grafiek
+import os
 
 
 if __name__ == "__main__":
@@ -21,5 +23,8 @@ if __name__ == "__main__":
         experiment.run_experiment("Hill", wijk_kiezen, aantal_runs)
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
         experiment.run_experiment("KMeans", wijk_kiezen, aantal_runs)
+    elif algoritme_kiezen == 'Test':
+        cwd = os.getcwd()
+        grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv')
     else: 
         print('Invalid Argument')

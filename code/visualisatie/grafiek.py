@@ -1,6 +1,6 @@
-import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def histogram(data, wijk_kiezen, aantal_runs):
@@ -15,3 +15,17 @@ def histogram(data, wijk_kiezen, aantal_runs):
     plt.title(f'Wijk {wijk_kiezen}')
     
     plt.savefig(f'figures/data_random/grafiek_wijk_{wijk_kiezen}_runs:_{aantal_runs}')
+    
+
+def hill_climber_grafiek(bestand):
+    data = pd.read_csv(bestand)
+    data['iteratie'] = range(1, len(data)+ 1)
+    
+    plt.plot(data['iteratie'], data['kosten'])
+    
+    plt.title('Hill Climber')
+    plt.ylabel('Kosten')
+    plt.xlabel('Iteraties')
+    
+    plt.savefig(f'figures/grafiek_hillclimber')
+    
