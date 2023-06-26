@@ -1,6 +1,6 @@
-from code.visualisatie import smartgrid
-from code.helpers import csv_writer, helpers
 from code.algoritmes import random_alg, kmeans, greedy, hill_climbing
+from code.helpers import csv_writer, helpers
+from code.visualisatie import smartgrid
 import pandas as pd
 import os
 from tqdm import tqdm
