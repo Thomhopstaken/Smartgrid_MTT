@@ -3,7 +3,6 @@ from code.helpers import csv_writer, helpers
 from .random_alg import random_alg
 
 
-
 class Hill_climber:
 
     def __init__(self, wijk: object) -> None:
@@ -34,13 +33,13 @@ class Hill_climber:
 
     def draai_hillclimber(self) -> object:
         """ Voert de hillclimber uit op de wijk.
-        
+
         Uit: Wijk object."""
         bestand = helpers.data_pad(self.oude_wijk.id, "Hill_Climb_Run",
                                    experiment=True)
         csv_writer.Write_csv(bestand).maak_kosten()
-        
-         # Voer de hillclimber uit zolang de counter kleiner is dan 150.
+
+        # Voer de hillclimber uit zolang de counter kleiner is dan 150.
         while self.counter < 150:
             csv_writer.Write_csv(bestand).append_kosten(self.kosten)
             if self.nieuwe_wijk.hill_climber():
