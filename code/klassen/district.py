@@ -84,10 +84,8 @@ class Wijk:
         self.bereken_afstand()
         for i in range(0, len(self.afstanden_batterij_huis), 3):
             sublijst = self.afstanden_batterij_huis[i:i+3]
-            print(f"SUBLIJST: {sublijst}")
             random.shuffle(sublijst)
             self.geshuffelde_afstanden.append(sublijst)
-            print(F"GESHUFFELDE AFSTANDEN: {self.geshuffelde_afstanden}")
         return self.geshuffelde_afstanden
 
 
