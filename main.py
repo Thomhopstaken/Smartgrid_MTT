@@ -7,7 +7,8 @@ import os
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
-    algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
+    algoritme_kiezen = input('Kies uit algoritme (R)andom, '
+                             '(G)reedy, (K)Means, (H)ill: ')
     aantal_runs = int(input('Geef aantal runs: '))
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
     
@@ -21,6 +22,7 @@ if __name__ == "__main__":
         experiment.run_experiment("KMeans", wijk_kiezen, aantal_runs)
     elif algoritme_kiezen == 'Test':
         cwd = os.getcwd()
-        grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv')
+        grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/'
+                                     f'Hill_Climb_Run_Hill_experiment.csv')
     else: 
         print('Invalid Argument')

@@ -10,4 +10,19 @@ Participants:
 - Teun Binkhorst
 - Thom Hopstaken
 
+<<<<<<< Updated upstream
+=======
+Requirements:
+- typing library
+- os library
+- json
+- matplotlib
+- scikit-learn
+- scipy.stats
+- numpy
+- pandas
+- python3-tk (GUI-backend)
+- tqdm
+- seaborn
+>>>>>>> Stashed changes
 

@@ -7,7 +7,8 @@ import random
 
 
 class Wijk:
-    def __init__(self, district: str, id: str, laad_huis=True, laad_batterij=True) -> None:
+    def __init__(self, district: str, id: str, laad_huis=True,
+                 laad_batterij=True) -> None:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
@@ -20,7 +21,6 @@ class Wijk:
         self.afstanden_batterij_huis: list[tuple[Batterijen, Huizen, int]] = []
         self.geshuffelde_afstanden: list[tuple[Batterijen, Huizen, int]] = []
 
-    
         if laad_huis:
             self.laad_huizen(helpers.data_pad(district, 'houses'))
 
@@ -36,7 +36,7 @@ class Wijk:
         self.losse_huizen.append(huis)
         huis.aangesloten = False
 
-    def laad_batterijen(self, bestand: str, prijs:int=1800) -> None:
+    def laad_batterijen(self, bestand: str, prijs: int = 1800) -> None:
         """Neemt data van bestand en maakt daarmee batterij objecten.
         deze worden ongebracht in batterijlijst.
 
@@ -53,7 +53,6 @@ class Wijk:
                     self.batterijen.append(
                         Batterijen(i, int(data[0]), int(data[1]),
                                    float(data[2]), prijs))
-
 
     def laad_huizen(self, bestand: str) -> None:
         """Neemt data van bestand en maakt daarna huisobjecten.
@@ -73,37 +72,46 @@ class Wijk:
                         Huizen(i, int(data[0]), int(data[1]), float(data[2])))
 
     def bereken_afstand(self) -> list[tuple[Batterijen, Huizen, int]]:
-        """Berekent de afstand van huizen tot batterijen en sorteert van klein naar groot."""
+        """
+        Berekent de afstand van huizen tot batterijen
+        en sorteert van klein naar groot.
+        """
         for batterij in self.batterijen:
             for huis in self.losse_huizen:
-                afstand = abs(batterij.x_as - huis.x_as) + abs(batterij.y_as - huis.y_as)
+                afstand = abs(batterij.x_as - huis.x_as) + abs(
+                    batterij.y_as - huis.y_as)
                 self.afstanden_batterij_huis.append((batterij, huis, afstand))
-        self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
-        return(self.afstanden_batterij_huis)
-    
+        self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis,
+                                              key=lambda x: x[2])
+        return (self.afstanden_batterij_huis)
+
     def shuffle_afstanden(self) -> list[list[tuple[object, int]]]:
         """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
         self.bereken_afstand()
         for i in range(0, len(self.afstanden_batterij_huis), 3):
-            sublijst = self.afstanden_batterij_huis[i:i+3]
+            sublijst = self.afstanden_batterij_huis[i:i + 3]
             random.shuffle(sublijst)
             self.geshuffelde_afstanden.append(sublijst)
         return self.geshuffelde_afstanden
 
-
     def leg_route(self, batterij: Batterijen, huis: Huizen) -> None:
-        """Legt een route voor het leggen van een kabel van een huis naar een batterij."""
+        """
+        Legt een route voor het leggen van een kabel
+        van een huis naar een batterij.
+        """
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
 
-        # Bepaal het doel als het dichtstbijzijnde punt waar al een kabel is gelegd
+        # Bepaal het doel als het dichtstbijzijnde
+        # punt waar al een kabel is gelegd
         for kabel in batterij.gelegde_kabels:
-            if (abs(cursor_x - kabel[0]) + abs(cursor_y - kabel[1])) < (abs(cursor_x - target[0]) + abs(cursor_y - target[1])):
+            if (abs(cursor_x - kabel[0]) + abs(cursor_y - kabel[1])) < (
+                    abs(cursor_x - target[0]) + abs(cursor_y - target[1])):
                 target = [kabel[0], kabel[1]]
 
         # Leg de kabel in stappen totdat het doel is bereikt
         while cursor_x < target[0]:
-            if ((cursor_x), (cursor_y))  in batterij.gelegde_kabels:
+            if ((cursor_x), (cursor_y)) in batterij.gelegde_kabels:
                 self.creer_connectie(batterij, huis)
                 return
             huis.leg_kabel((cursor_x), (cursor_y))
@@ -137,7 +145,6 @@ class Wijk:
         huis.leg_kabel((cursor_x), (cursor_y))
         self.creer_connectie(batterij, huis)
 
-
     def creer_connectie(self, batterij: Batterijen, huis: Huizen) -> None:
         """Creëert een verbinding tussen een batterij en een huis."""
         huis.aangesloten = batterij
@@ -150,7 +157,6 @@ class Wijk:
 
         if huis not in batterij.gelinkte_huizen:
             batterij.gelinkte_huizen.append(huis)
-
 
     def kosten_berekening(self) -> int:
         """Berekent de prijs van alle batterijen en kabels in wijk."""
@@ -172,13 +178,14 @@ class Wijk:
             huis.verwijder_kabels()
         for huis in self.gelinkte_huizen:
             self.leg_route(huis.aangesloten, huis)
-            
+
     def jsonify(self, wijk_nummer: int, algoritme: str) -> None:
         """Print de informatie van de wijk naar een json bestand
         
         In: wijknummer, algoritme naam."""
         json_dict = []
-        district = {"district": int(wijk_nummer), "costs-shared": self.kosten_berekening()}
+        district = {"district": int(wijk_nummer),
+                    "costs-shared": self.kosten_berekening()}
         json_dict.append(district)
         batterij_data = {}
         for batterij in self.batterijen:
@@ -201,7 +208,8 @@ class Wijk:
             batterij_data["houses"] = huizen
             json_dict.append(batterij_data)
             batterij_data = {}
-        with open(f"figures/{algoritme}_{wijk_nummer}_output.json", "w") as outfile:
+        with open(f"figures/{algoritme}_{wijk_nummer}_output.json",
+                  "w") as outfile:
             json.dump(json_dict, outfile)
 
     def hill_climber(self) -> bool:
@@ -213,33 +221,41 @@ class Wijk:
         huizen_x = self.hc_kies_willekeurige_huizen(batterij_x)
         huizen_y = self.hc_kies_willekeurige_huizen(batterij_y)
 
-        if self.hc_check_capaciteit(huizen_x, huizen_y, batterij_x, batterij_y):
+        if self.hc_check_capaciteit(huizen_x, huizen_y, batterij_x,
+                                    batterij_y):
             self.hc_wissel_huizen(huizen_x, huizen_y, batterij_x, batterij_y)
             return True
         else:
             return False
 
-    def hc_wissel_huizen(self, huizen_x: list[Huizen], huizen_y: list[Huizen], 
-                         batterij_x: Batterijen, batterij_y: Batterijen) -> None:
-        """Wissel 3 huizen van de ene batterij met 3 huizen van een andere batterij.
+    def hc_wissel_huizen(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
+                         batterij_x: Batterijen,
+                         batterij_y: Batterijen) -> None:
+        """
+        Wissel 3 huizen van de ene batterij met 3 huizen
+        van een andere batterij.
 
-        In: 2 lijsten met drie huis objecten, 2 batterij objecten."""
+        In: 2 lijsten met drie huis objecten, 2 batterij objecten.
+        """
         for x in range(len(huizen_x)):
             self.hc_kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
             self.hc_kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
         self.herleg_alle_kabels()
         batterij_x.herbereken_capaciteit()
-        batterij_y.herbereken_capaciteit()     
-             
-    def hc_kies_willekeurige_huizen(self, batterij: Batterijen) -> list[Huizen]:
-        """Kiest drie willekeurige huizen uit de lijst.
+        batterij_y.herbereken_capaciteit()
+
+    def hc_kies_willekeurige_huizen(self, batterij: Batterijen) -> list[
+        Huizen]:
+        """
+        Kiest drie willekeurige huizen uit de lijst.
         van gelinkte huizen aan de aangegeven batterij.
         
         In: batterij object
-        uit: lijst met 3 huis objecten."""
-        huizen = random.sample(batterij.gelinkte_huizen, k=3)    
+        uit: lijst met 3 huis objecten.
+        """
+        huizen = random.sample(batterij.gelinkte_huizen, k=3)
         return huizen
-    
+
     def hc_kies_willekeurige_batterijen(self) -> list[Batterijen]:
         """Kiest twee willekeurige batterijen uit batterijen.
 
@@ -247,16 +263,21 @@ class Wijk:
         batterijen = random.sample(self.batterijen, k=2)
         return batterijen
 
-    def hc_kabels_verleggen(self, huis: Huizen, nieuwe_batterij: Batterijen, 
+    def hc_kabels_verleggen(self, huis: Huizen, nieuwe_batterij: Batterijen,
                             oude_batterij: Batterijen) -> None:
-        """legt kabels tussen huis naar nieuwe batterij en verwijderd de oude kabels.
+        """
+        legt kabels tussen huis naar nieuwe batterij
+        en verwijderd de oude kabels.
 
-        In: 1 huis object en 2 batterij objecten."""
+        In: 1 huis object en 2 batterij objecten.
+        """
         oude_batterij.gelinkte_huizen.remove(huis)
         self.leg_route(nieuwe_batterij, huis)
-    
-    def hc_check_capaciteit(self, huizen_x: list[Huizen], huizen_y: list[Huizen],
-                            batterij_x: Batterijen, batterij_y: Batterijen) -> bool:
+
+    def hc_check_capaciteit(self, huizen_x: list[Huizen],
+                            huizen_y: list[Huizen],
+                            batterij_x: Batterijen,
+                            batterij_y: Batterijen) -> bool:
         """checkt of wissel huis_x en huis_y haalbaar is ivm capaciteit.
 
         In: 2 lijsten met 3 huis objecten, 2 batterij objecten.
@@ -266,9 +287,10 @@ class Wijk:
         nieuwe_cap_bat_x = batterij_x.resterende_capaciteit + huizen_x_output
         nieuwe_cap_bat_y = batterij_y.resterende_capaciteit + huizen_y_output
 
-        if nieuwe_cap_bat_x - huizen_y_output >= 0 and nieuwe_cap_bat_y - huizen_x_output >= 0:
+        if nieuwe_cap_bat_x - huizen_y_output >= 0 and \
+                nieuwe_cap_bat_y - huizen_x_output >= 0:
             return True
-        else: 
+        else:
             return False
 
 
@@ -283,9 +305,3 @@ def parse_csv(b: TextIO) -> list:
     line = line.replace('\"', '')
 
     return line.split(",")
-
-
-
-
-
-

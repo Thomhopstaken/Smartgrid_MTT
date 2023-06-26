@@ -16,18 +16,21 @@ def data_pad(wijk: int, item, item2=None, kmeans=False,
         return cwd + os.path.normpath(pad)
 
     if huizen:
-        pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}_cluster_{item2}.csv'
+        pad = (f'{sep}Huizen&Batterijen{sep}k_means'
+               f'{sep}batterij_{item}_cluster_{item2}.csv')
         return cwd + os.path.normpath(pad)
 
     if experiment:
-        pad = f'{sep}Huizen&Batterijen{sep}experiment{sep}{item}_{wijk}_experiment.csv'
+        pad = (f'{sep}Huizen&Batterijen{sep}experiment'
+               f'{sep}{item}_{wijk}_experiment.csv')
         return cwd + os.path.normpath(pad)
 
     if json:
         pad = f'{sep}figures{sep}smartgrid_{wijk}_{item}_output.json'
         return cwd + os.path.normpath(pad)
 
-    pad = f'{sep}Huizen&Batterijen{sep}district_{wijk}{sep}district-{wijk}_{item}.csv'
+    pad = (f'{sep}Huizen&Batterijen{sep}district_'
+           f'{wijk}{sep}district-{wijk}_{item}.csv')
     return cwd + os.path.normpath(pad)
 
 

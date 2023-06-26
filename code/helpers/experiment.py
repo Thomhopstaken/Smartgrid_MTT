@@ -32,7 +32,8 @@ def run_experiment(algoritme: str, wijk: int, runs=1) -> None:
         # print(run)
         # print(run.kosten_berekening())
         csv_writer.Write_csv(bestand).append_kosten(run.kosten_berekening())
-        if run.kosten_berekening() < df['kosten'].min() or not os.path.isfile(helpers.data_pad(wijk.wijk, algoritme, experiment=True)):
+        if run.kosten_berekening() < df['kosten'].min() or not os.path.isfile(
+                helpers.data_pad(wijk.wijk, algoritme, experiment=True)):
             print(f"Nieuw goedkoopst run: {df['kosten'].min()}")
             run.jsonify(run.wijk, algoritme)
             smartgrid.visualisatie(algoritme, run.wijk)

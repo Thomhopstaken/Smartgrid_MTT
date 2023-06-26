@@ -35,7 +35,8 @@ def gebruik_clusters(wijk: object, k: int) -> list:
                 f'{round(centroids[i][0])}, {round(centroids[i][1])}')
 
         batterijen = kies_batterij(cluster_outputs)
-        csv_writer.Write_csv(f'Huizen&Batterijen/k_means/batterij_{k}.csv').batterij(batterijen, cluster_cents)
+        csv_writer.Write_csv(f'Huizen&Batterijen/k_means/batterij_{k}.csv') \
+            .batterij(batterijen, cluster_cents)
 
     wijk.laad_batterijen(
         helpers.data_pad(wijk_nummer, k, kmeans=True), 5000)
@@ -49,7 +50,8 @@ def kmeans_alg(wijk: object, k=5) -> object:
 
     for i in range(k):
         csv_writer.Write_csv(
-            f'Huizen&Batterijen/k_means/batterij_{k}_cluster_{i}.csv').huizen(gefilterde_huizen[i])
+            f'Huizen&Batterijen/k_means/batterij_{k}_cluster_{i}.csv').huizen(
+            gefilterde_huizen[i])
 
     for i in range(k):
 
