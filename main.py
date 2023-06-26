@@ -1,8 +1,5 @@
-from code.algoritmes import random_alg, greedy, kmeans
-from code.algoritmes import hill_climbing
 from code.klassen import district
-from code.visualisatie import smartgrid
-from code.helpers import experiment, helpers
+from code.helpers import experiment
 from code.visualisatie import grafiek
 import os
 
@@ -10,7 +7,6 @@ import os
 if __name__ == "__main__":
 
     wijk_kiezen = input('Kies wijk 1, 2 of 3: ')
-    wijk = district.Wijk(wijk_kiezen, wijk_kiezen)
     algoritme_kiezen = input('Kies uit algoritme (R)andom, (G)reedy, (K)Means, (H)ill: ')
     aantal_runs = int(input('Geef aantal runs: '))
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
