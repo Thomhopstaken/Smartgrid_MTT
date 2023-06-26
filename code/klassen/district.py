@@ -11,9 +11,9 @@ class Wijk:
         """Laad een wijk in aan de hand van opgegeven getal.
 
         In: wijknummer."""
-        self.id: int = id
+        self.id = id
         self.wijk = district
-        self.districtnummer: int = district
+        self.districtnummer = district
         self.batterijen: list[Batterijen] = []
         self.losse_huizen: list[Huizen] = []
         self.gelinkte_huizen: list[Huizen] = []
@@ -81,7 +81,7 @@ class Wijk:
         self.afstanden_batterij_huis = sorted(self.afstanden_batterij_huis, key=lambda x: x[2])
         return(self.afstanden_batterij_huis)
     
-    def shuffle_afstanden(self) -> list[Batterijen, Huizen, int]:
+    def shuffle_afstanden(self) -> list[list[tuple[object, int]]]:
         """Maakt sublijsten aan in afstanden_batterij_huis en shuffled."""
         self.bereken_afstand()
         for i in range(0, len(self.afstanden_batterij_huis), 3):
@@ -91,7 +91,7 @@ class Wijk:
         return self.geshuffelde_afstanden
 
 
-    def leg_route(self, batterij, huis) -> None:
+    def leg_route(self, batterij: Batterijen, huis: Huizen) -> None:
         """Legt een route voor het leggen van een kabel van een huis naar een batterij."""
         cursor_x, cursor_y = huis.x_as, huis.y_as
         target = [batterij.x_as, batterij.y_as]
@@ -164,7 +164,8 @@ class Wijk:
         prijskaartje += len_kabels * 9
         return prijskaartje
 
-    def herleg_alle_kabels(self):
+    def herleg_alle_kabels(self) -> None:
+        """Herlegt kabels tussen batterijen en huizen."""
         for batterij in self.batterijen:
             batterij.kabels_verwijderen()
         for huis in self.gelinkte_huizen:

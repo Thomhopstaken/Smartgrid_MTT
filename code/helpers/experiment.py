@@ -6,7 +6,7 @@ from code.helpers import csv_writer, helpers
 from code.algoritmes import random_alg, kmeans, greedy, hill_climbing
 import os
 
-def run_experiment(algoritme, wijk, runs=1):
+def run_experiment(algoritme, wijk, runs=1) -> None:
     wijk = helpers.wijk_lader(algoritme, wijk)
 
     bestand = helpers.data_pad(wijk.wijk, algoritme, experiment=True)

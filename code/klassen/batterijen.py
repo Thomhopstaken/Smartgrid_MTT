@@ -2,7 +2,7 @@ from .huizen import Huizen
 
 class Batterijen:
 
-    def __init__(self, i: int, x: int, y: int,
+    def __init__(self, i, x, y,
                  capaciteit: int, prijs: int) -> None:
         """Neemt gegevens van batterijen uit district en
         slaat het op in batterij object."""
@@ -15,7 +15,7 @@ class Batterijen:
         self.gelinkte_huizen: list[Huizen] = []
         self.gelegde_kabels: list[tuple[int, int]] = []
 
-    def ontkoppel_huis(self, huis, wijk) -> None:
+    def ontkoppel_huis(self, huis: Huizen, wijk: object) -> None:
         """Ontkoppelt een huis object."""
         self.gelinkte_huizen.remove(huis)
         wijk.gelinkte_huizen.remove(huis)
@@ -23,7 +23,7 @@ class Batterijen:
         self.update_verbruik(huis.maxoutput, ontkoppeling=True)
         huis.aangesloten = False
 
-    def update_verbruik(self, output, ontkoppeling=False) -> None:
+    def update_verbruik(self, output: int, ontkoppeling: bool =False) -> None:
         """Update de resterende capaciteit van de batterij
         na het aansluiten van een huis."""
         if ontkoppeling:
@@ -31,7 +31,7 @@ class Batterijen:
         else:
             self.resterende_capaciteit -= output
 
-    def kabel_toevoegen(self, kabel) -> None:
+    def kabel_toevoegen(self, kabel: tuple[int, int]) -> None:
         """Voegt een kabel toe aan batterij."""
         self.gelegde_kabels.append(kabel)
 
