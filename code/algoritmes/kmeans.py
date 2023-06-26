@@ -16,28 +16,28 @@ def gebruik_clusters(wijk: object, k: int) -> list:
     df_output = pd.read_csv(pad, usecols=['maxoutput'])
     df_gecombineerd = pd.read_csv(pad)
     cluster_outputs = [9999, 9999]
-    
+
     # Itereer totdat maximum van cluster_outputs kleiner of gelijk is aan 1800.
     while not max(cluster_outputs) <= 1800:
         km = KMeans(n_clusters=k, n_init='auto')
         cluster_id = km.fit_predict(df_coords)
         gefilterde_output = []
         gefilterd_gecombineerd = []
-        
-        # Iteratieve clustering tot de gewenste maximale outputwaarde bereikt is.
+
+        # Iteratieve clustering tot gewenste maximale outputwaarde bereikt is.
         for i in range(k):
             gefilterde_output.append(df_output[cluster_id == i])
             gefilterd_gecombineerd.append(df_gecombineerd[cluster_id == i])
         centroids = km.cluster_centers_
         cluster_outputs = []
         cluster_cents = []
-        
-        # Bereken totale output voor elk gefilterd cluster en append cluster_outputs.
+
+        # Bereken output voor elk gefilterd cluster en append cluster_outputs.
         for i in range(k):
             cluster_outputs.append(sum(gefilterde_output[i]["maxoutput"]))
             cluster_cents.append(
                 f'{round(centroids[i][0])}, {round(centroids[i][1])}')
-            
+
         batterijen = kies_batterij(cluster_outputs)
         csv_writer.Write_csv(f'Huizen&Batterijen/k_means/batterij_{k}.csv') \
             .batterij(batterijen, cluster_cents)
@@ -66,14 +66,14 @@ def kmeans_alg(wijk: object, k=5) -> object:
     for i in range(k):
         wijk_buffer.laad_huizen(
             helpers.data_pad(wijk_nummer, k, i, huizen=True))
-        
+
         # Vermijd overlap tussen batterij en huizen
         random.shuffle(wijk_buffer.losse_huizen)
         for huis in wijk_buffer.losse_huizen:
             if wijk_buffer.batterijen[i].x_as == huis.x_as and \
                     wijk_buffer.batterijen[i].y_as == huis.y_as:
                 wijk_buffer.batterijen[i].x_as += 1
-                
+
         # Alle losse huizen aan batterij verbinden
         while len(wijk_buffer.losse_huizen) > 0:
             for huis in wijk_buffer.losse_huizen:
@@ -88,7 +88,7 @@ def kies_batterij(outputs: list[float]) -> list[int]:
     Uit: lijst van integers"""
     batterijen = []
     bat_cat = [450, 900, 1800]
-    
+
     # Selecteer batterijcapaciteiten op basis van outputwaarden.
     for i in range(len(outputs)):
         for j in range(len(bat_cat)):

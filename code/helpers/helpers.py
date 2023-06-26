@@ -8,23 +8,27 @@ def data_pad(wijk: int, item, item2=None, kmeans=False,
 
     In: bestaandsnaam
     Uit: pad naar opgevraagde bestand."""
-
     cwd = os.getcwd()
     sep = os.sep
+
+    # Retourneer het volledige pad voor k-means batterijgegevens.
     if kmeans:
         pad = f'{sep}Huizen&Batterijen{sep}k_means{sep}batterij_{item}.csv'
         return cwd + os.path.normpath(pad)
 
+    # Retourneer het volledige pad voor k-means batterijgegevens per cluster.
     if huizen:
         pad = (f'{sep}Huizen&Batterijen{sep}k_means'
                f'{sep}batterij_{item}_cluster_{item2}.csv')
         return cwd + os.path.normpath(pad)
 
+    # Retourneer het volledige pad voor experimentele gegevens van de wijk.
     if experiment:
         pad = (f'{sep}Huizen&Batterijen{sep}experiment'
                f'{sep}{item}_{wijk}_experiment.csv')
         return cwd + os.path.normpath(pad)
 
+    # Retourneer het volledige pad voor JSON-uitvoer van het smart grid.
     if json:
         pad = f'{sep}figures{sep}smartgrid_{wijk}_{item}_output.json'
         return cwd + os.path.normpath(pad)

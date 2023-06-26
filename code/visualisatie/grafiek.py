@@ -4,6 +4,9 @@ import pandas as pd
 
 
 def histogram(data, wijk_kiezen, aantal_runs):
+    """Maakt een histogram en plot de normale verdeling van de gegeven dataset.
+
+    In: data, wijknummer en aantal runs."""
     gemiddelde = np.mean(data)
     standaard_af = np.std(data)
 
@@ -20,6 +23,10 @@ def histogram(data, wijk_kiezen, aantal_runs):
 
 
 def hill_climber_grafiek(bestand):
+    """Maakt een grafiek van de kostenveranderingen
+    tijdens de uitvoering van de Hill Climber.
+
+    In: bestand met kostendata."""
     data = pd.read_csv(bestand)
     data['iteratie'] = range(1, len(data) + 1)
 
@@ -29,4 +36,4 @@ def hill_climber_grafiek(bestand):
     plt.ylabel('Kosten')
     plt.xlabel('Iteraties')
 
-    plt.savefig(f'figures/grafiek_hillclimber')
+    plt.savefig('figures/grafiek_hillclimber')
