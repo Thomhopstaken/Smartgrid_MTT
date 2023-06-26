@@ -1,5 +1,3 @@
-
-
 class Huizen:
 
     def __init__(self, i, x, y, maxoutput: int) -> None:

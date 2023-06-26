@@ -1,12 +1,15 @@
-from tqdm import tqdm
-
-import pandas as pd
 from code.visualisatie import smartgrid
 from code.helpers import csv_writer, helpers
 from code.algoritmes import random_alg, kmeans, greedy, hill_climbing
+import pandas as pd
 import os
+from tqdm import tqdm
 
-def run_experiment(algoritme, wijk, runs=1) -> None:
+
+def run_experiment(algoritme: str, wijk: int, runs=1) -> None:
+    """Run een experiment op basis van wijk en algoritme>
+
+    In: algoritme naam en wijknummer."""
     wijk = helpers.wijk_lader(algoritme, wijk)
 
     bestand = helpers.data_pad(wijk.wijk, algoritme, experiment=True)
@@ -32,6 +35,4 @@ def run_experiment(algoritme, wijk, runs=1) -> None:
         if run.kosten_berekening() < df['kosten'].min() or not os.path.isfile(helpers.data_pad(wijk.wijk, algoritme, experiment=True)):
             print(f"Nieuw goedkoopst run: {df['kosten'].min()}")
             run.jsonify(run.wijk, algoritme)
-            smartgrid.visualise(algoritme, run.wijk)
-
-
+            smartgrid.visualisatie(algoritme, run.wijk)

@@ -20,12 +20,12 @@ def histogram(data, wijk_kiezen, aantal_runs):
 def hill_climber_grafiek(bestand):
     data = pd.read_csv(bestand)
     data['iteratie'] = range(1, len(data)+ 1)
-    
+
     plt.plot(data['iteratie'], data['kosten'])
-    
+
     plt.title('Hill Climber')
     plt.ylabel('Kosten')
     plt.xlabel('Iteraties')
-    
+
     plt.savefig(f'figures/grafiek_hillclimber')
     
