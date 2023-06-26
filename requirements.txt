@@ -1,6 +1,5 @@
-Requirements:
-- matplotlib
-- scikit-learn
-- numpy
-- pandas
-- tqdm
+matplotlib==3.7.1
+sklearn==1.2.2
+numpy==1.24.2
+pandas==2.0.0
+tqdm==1.24.2

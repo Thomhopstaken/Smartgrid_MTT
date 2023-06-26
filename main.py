@@ -1,4 +1,3 @@
-from code.klassen import district
 from code.helpers import experiment
 from code.visualisatie import grafiek
 import os

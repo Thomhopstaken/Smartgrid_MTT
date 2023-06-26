@@ -1,9 +1,11 @@
 from .batterijen import Batterijen
-from .huizen import Huizen
-from typing import TextIO
 from code.helpers import helpers
+from .huizen import Huizen
 import json
 import random
+from typing import TextIO
+
+
 
 
 class Wijk:
