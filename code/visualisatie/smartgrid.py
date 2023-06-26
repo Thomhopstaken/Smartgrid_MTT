@@ -1,5 +1,5 @@
-import matplotlib
 import json
+import matplotlib
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import numpy as np

@@ -1,5 +1,5 @@
-import os
 from code.klassen import district
+import os
 
 
 def data_pad(wijk: int, item, item2=None, kmeans=False,
@@ -35,7 +35,7 @@ def wijk_lader(algoritme: str, wijk: int) -> object:
     """Runt het opgrvraagde algoritme.
 
     In: wijknummer en naam algoritme.
-    Uit: """
+    Uit: wijk object."""
     algoritmes = {'Random': district.Wijk(wijk, algoritme, True, False),
                   'Greedy': district.Wijk(wijk, algoritme, True, False),
                   'Hill': district.Wijk(wijk, algoritme, True, False),
