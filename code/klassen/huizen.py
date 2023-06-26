@@ -1,5 +1,3 @@
-
-
 class Huizen:
 
     def __init__(self, i, x, y, maxoutput) -> None:
@@ -13,7 +11,7 @@ class Huizen:
         self.afstand_batterijen: dict[object, int] = {}
         self.aangesloten: bool = False
 
-    def bereken_afstand(self, batterijen: Batterijen) -> None:
+    def bereken_afstand(self, batterijen: object) -> None:
         """berekent de afstand tussen huis en alle batterijen."""
         for batterij in batterijen:
             afstand = abs(batterij.x_as - self.x_as) + abs(batterij.y_as

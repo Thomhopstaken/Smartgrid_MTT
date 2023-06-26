@@ -2,7 +2,8 @@ import copy
 import random
 from .kmeans import gebruik_clusters
 
-def random_alg(wijk):
+
+def random_alg(wijk) -> object:
     """Random algoritme om huizen aan te sluiten op batterijen in een wijk."""
     random.shuffle(wijk.batterijen)
     random.shuffle(wijk.losse_huizen)
