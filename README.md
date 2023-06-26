@@ -10,22 +10,4 @@ Participants:
 - Teun Binkhorst
 - Thom Hopstaken
 
-Requirements:
-- typing library
-- os library
-- json
-- matplotlib
-- scikit-learn
-- numpy
-- pandas
-- python3-tk (GUI-backend)
-- tqdm
 
-Todo:
-- visualisatie updaten (michael)
-- random algoritme (teun)
-- andere soort algoritmen schrijven (komt later)
-- opschonen code
-- grafieken toevoeggen
-- let op engels namen, functie, parameters
-- 
