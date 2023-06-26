@@ -1,22 +1,21 @@
 import matplotlib
-matplotlib.use('Agg')
-
+import json
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import numpy as np
 import os
-import json
+matplotlib.use('Agg')
 
 
-def visualise(methode, wijk_nummer):
+def visualisatie(methode: str, wijk_nummer: int) -> None:
     cwd = os.getcwd()
     sep = os.sep
     pad = f'{sep}figures{sep}{methode}_{wijk_nummer}_output.json'
 
-    file = open(cwd + pad)
-    data = json.load(file)
+    bestand = open(cwd + pad)
+    data = json.load(bestand)
 
-    colors = cm.rainbow(np.linspace(0, 1, len(data) - 1))
+    kleuren = cm.rainbow(np.linspace(0, 1, len(data) - 1))
 
     # Grid parameters
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
@@ -32,10 +31,10 @@ def visualise(methode, wijk_nummer):
 
     for i in range(len(x_batterijen)):
         plt.plot(x_batterijen[i], y_batterijen[i], marker='s', ls='none',
-                 ms=10, color=colors[i])
+                 ms=10, color=kleuren[i])
 
     for i in range(1, len(data)):
-        color = colors[i - 1]
+        kleur = kleuren[i - 1]
         for j in range(len(data[i]['houses'])):
             kabels = (data[i]['houses'][j]['cables'])
             huis = data[i]['houses'][j]['location'].split(',')
@@ -45,9 +44,9 @@ def visualise(methode, wijk_nummer):
                               int(kabels[k + 1].split(',')[0])],
                              [int(kabels[k].split(',')[1]),
                               int(kabels[k + 1].split(',')[1])],
-                             color=color, linestyle='dotted')
+                             color=kleur, linestyle='dotted')
 
-            plt.plot(int(huis[0]), int(huis[1]), color=color,
+            plt.plot(int(huis[0]), int(huis[1]), color=kleur,
                      marker='p')
 
     wijknummer = data[0]['district']
