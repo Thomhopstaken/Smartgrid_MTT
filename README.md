@@ -15,15 +15,15 @@ Clone het project van de git-repository naar je lokale machine.
 Ga naar de projectdirectory.
 Installeer de benodigde bibliotheken met het volgende commando:
 
-"pip install -r requirements.txt"
+"pip3 install -r requirements.txt"
 
 &nbsp;
 
 ## Gebruiksinstructies:
 
 Voer het hoofdscript uit om het energienetwerk te optimaliseren:
-
 python main.py
+
 Volg de instructies op het scherm om de gewenste parameters in te stellen, zoals het aantal huizen, batterijen, en aantal runs.
 Het script zal het optimalisatieproces uitvoeren en de resultaten weergeven, inclusief de geoptimaliseerde plaatsing van batterijen en de totale kosten/efficiëntie van het energienetwerk.
 
@@ -31,10 +31,10 @@ Het script zal het optimalisatieproces uitvoeren en de resultaten weergeven, inc
 
 ## Auteurs:
 
-Michael Lin
-Teun Binkhorst
-Thom Hopstaken
-Bijdragers: Momenteel zijn er geen bijdragers aan dit project.
+_ Michael Lin
+- Teun Binkhorst
+- Thom Hopstaken
+- Bijdragers: Momenteel zijn er geen bijdragers aan dit project.
 
 &nbsp;
 
