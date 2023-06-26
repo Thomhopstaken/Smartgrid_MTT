@@ -1,12 +1,12 @@
 class Huizen:
 
-    def __init__(self, i, x, y, maxoutput) -> None:
+    def __init__(self, i, x, y, maxoutput: int) -> None:
         """Neemt gegevens van Huizen uit district
         en slaat ze op in een Huizen object."""
-        self.huis_id: int = i
-        self.x_as: int = x
-        self.y_as: int = y
-        self.maxoutput: int = maxoutput
+        self.huis_id = i
+        self.x_as = x
+        self.y_as = y
+        self.maxoutput = maxoutput
         self.kabels: list[tuple[int, int]] = []
         self.afstand_batterijen: dict[object, int] = {}
         self.aangesloten: bool = False
@@ -24,7 +24,7 @@ class Huizen:
         """Voegt kabels toe in self.kabels."""
         self.kabels.append((x, y))
 
-    def kan_aansluiten(self, batterij) -> bool:
+    def kan_aansluiten(self, batterij: object) -> bool:
         """Controleert of een huis kan worden aangesloten op een batterij."""
         if not self.aangesloten:
             if batterij.resterende_capaciteit - self.maxoutput >= 0:
