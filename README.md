@@ -42,7 +42,9 @@ Het script zal het optimalisatieproces uitvoeren en de resultaten weergeven, inc
 
 Wat is de doelstelling van dit project?
 Dit project heeft als doel het optimaliseren van een energienetwerk met behulp van batterijen om pieken en dalen in energieproductie op te kunnen vangen.
+
 Welke optimalisatie-algoritmen worden gebruikt?
 Het project onderzoekt verschillende algoritmen en heuristieken, zoals een random algoritme, een greedy algoritme, een hill-climber algoritme en een k-means algoritme.
+
 Kan ik bijdragen aan dit project?
 Nee.
