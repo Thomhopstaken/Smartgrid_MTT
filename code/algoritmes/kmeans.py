@@ -17,14 +17,14 @@ def gebruik_clusters(wijk: object, k: int) -> list:
     df_gecombineerd = pd.read_csv(pad)
     cluster_outputs = [9999, 9999]
 
-    # Itereer totdat maximum van cluster_outputs kleiner of gelijk is aan 1800.
+    # Itereer totdat maximum van cluster_outputs kleiner of gelijk is aan 1800
     while not max(cluster_outputs) <= 1800:
         km = KMeans(n_clusters=k, n_init='auto')
         cluster_id = km.fit_predict(df_coords)
         gefilterde_output = []
         gefilterd_gecombineerd = []
 
-        # Iteratieve clustering tot gewenste maximale outputwaarde bereikt is.
+        # Iteratieve clustering tot gewenste maximale output-waarde bereikt is
         for i in range(k):
             gefilterde_output.append(df_output[cluster_id == i])
             gefilterd_gecombineerd.append(df_gecombineerd[cluster_id == i])
@@ -32,7 +32,7 @@ def gebruik_clusters(wijk: object, k: int) -> list:
         cluster_outputs = []
         cluster_cents = []
 
-        # Bereken output voor elk gefilterd cluster en append cluster_outputs.
+        # Bereken output voor elke gefilterde cluster en append cluster_outputs
         for i in range(k):
             cluster_outputs.append(sum(gefilterde_output[i]["maxoutput"]))
             cluster_cents.append(
@@ -56,7 +56,7 @@ def kmeans_alg(wijk: object, k=5) -> object:
     gefilterde_huizen = gebruik_clusters(wijk_buffer, k)
     wijk_nummer = wijk_buffer.wijk
 
-    # Schrijf de geclusterde huizen naar CSV-bestanden.
+    # Schrijf de geclusterde huizen naar CSV-bestanden
     for i in range(k):
         csv_writer.Write_csv(
             f'Huizen&Batterijen/k_means/batterij_{k}_cluster_{i}.csv').huizen(
@@ -89,7 +89,7 @@ def kies_batterij(outputs: list[float]) -> list[int]:
     batterijen = []
     bat_cat = [450, 900, 1800]
 
-    # Selecteer batterijcapaciteiten op basis van outputwaarden.
+    # Selecteer batterijcapaciteiten op basis van outputwaarden
     for i in range(len(outputs)):
         for j in range(len(bat_cat)):
             if outputs[i] > bat_cat[j]:

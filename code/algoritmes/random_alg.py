@@ -4,7 +4,7 @@ import random
 
 
 def random_alg(wijk) -> object:
-    """Voert het random algoritme uit op een wijkobject.
+    """Voert het random algoritme uit op een wijk object.
 
     In: wijk object.
     Uit: wijk object."""
@@ -13,7 +13,7 @@ def random_alg(wijk) -> object:
     wijk_buffer = copy.deepcopy(wijk)
     gebruik_clusters(wijk_buffer, 5)
 
-    # Verbind losse huizen met batterijen als er nog losse huizen zijn.
+    # Verbindt losse huizen met batterijen als er nog losse huizen zijn.
     while len(wijk_buffer.losse_huizen) > 0:
         loop_start = len(wijk_buffer.losse_huizen)
 

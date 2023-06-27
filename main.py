@@ -1,5 +1,5 @@
 from code.helpers import experiment
-from code.visualisatie import grafiek
+from code.visualisatie import grafiek, smartgrid
 import os
 
 
@@ -23,5 +23,8 @@ if __name__ == "__main__":
         cwd = os.getcwd()
         grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/'
                                      f'Hill_Climb_Run_Hill_experiment.csv')
+    elif algoritme_kiezen == 'Vernieuw':
+        cwd = os.getcwd()
+        smartgrid.vernieuw_grids()
     else: 
         print('Invalid Argument')
