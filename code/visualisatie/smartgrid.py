@@ -20,7 +20,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
     bestand = open(cwd + pad)
     data = json.load(bestand)
 
-    kleuren = cm.rainbow(np.linspace(0, 1, len(data) - 1))
+    kleuren = cm.Set2(np.linspace(0, 1, len(data) - 1))
 
     # Grid parameters
     plt.rcParams["figure.figsize"] = [8.00, 6.00]
@@ -64,5 +64,13 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
                      marker='p')
 
     wijknummer = data[0]['district']
-    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png")
+    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png", dpi=300)
     plt.clf()
+
+
+def vernieuw_grids():
+    methods = ["Greedy", "Hill", "KMeans", "Random"]
+    wijken = range(1, 4)
+    for method in methods:
+        for wijk in wijken:
+            visualisatie(method, wijk)

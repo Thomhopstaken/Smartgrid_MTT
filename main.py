@@ -1,7 +1,6 @@
 from code.helpers import experiment
-from code.visualisatie import grafiek
+from code.visualisatie import grafiek, smartgrid
 import os
-
 
 if __name__ == "__main__":
 
@@ -10,9 +9,9 @@ if __name__ == "__main__":
                              '(G)reedy, (K)Means, (H)ill: ')
     aantal_runs = int(input('Geef aantal runs: '))
     algoritme_kiezen = algoritme_kiezen[0].upper() + algoritme_kiezen[1:]
-    
+
     if algoritme_kiezen == 'R' or algoritme_kiezen == "Random":
-        experiment.run_experiment("Random", wijk_kiezen, aantal_runs)            
+        experiment.run_experiment("Random", wijk_kiezen, aantal_runs)
     elif algoritme_kiezen == 'G' or algoritme_kiezen == "Greedy":
         experiment.run_experiment("Greedy", wijk_kiezen, aantal_runs)
     elif algoritme_kiezen == 'H' or algoritme_kiezen == "Hill":
@@ -23,5 +22,10 @@ if __name__ == "__main__":
         cwd = os.getcwd()
         grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/'
                                      f'Hill_Climb_Run_Hill_experiment.csv')
-    else: 
+    elif algoritme_kiezen == 'Vernieuw':
+        smartgrid.vernieuw_grids()
+    elif algoritme_kiezen == 'Histogram':
+        grafiek.histogram('hoofdplot')
+        grafiek.histogram('subplot')
+    else:
         print('Invalid Argument')
