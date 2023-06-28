@@ -6,6 +6,8 @@ Steeds meer huizen maken tegenwoordig gebruik van zonnepanelen of andere gedecen
 
 Dit project heeft als doel het optimaliseren van een energienetwerk met behulp van batterijen. Het onderzoekt algoritmen en heuristieken om de plaatsing en werking van batterijen in het energienetwerk te optimaliseren, zodat pieken en dalen in energieproductie kunnen worden opgevangen en energie kan worden verkocht aan energieleveranciers.
 
+&nbsp;
+
 #### Algoritmen:
 
 Voor dit project maken wij gebruik van vier verschillende projecten. 
