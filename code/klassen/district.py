@@ -99,7 +99,7 @@ class Wijk:
                                               key=lambda x: x[2])
         return (self.afstanden_batterij_huis)
 
-    def shuffle_afstanden(self) -> list[list[tuple[object, int]]]:
+    def shuffle_afstanden(self) -> list[tuple[Batterijen, Huizen, int]]:
         """Maakt sublijsten aan in afstanden_batterij_huis en shuffled.
 
         Uit: maakt een lijst aan met
