@@ -16,6 +16,7 @@ def histogram(soort):
 
     for i in range(1, 4):
         wijknummer = i
+        # Vind lees de data van experimenten uit CSV-bestanden.
         kmeans = pd.read_csv(
             cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
                    f'{sep}KMeans_{wijknummer}_experiment.csv'))['kosten']
@@ -29,6 +30,7 @@ def histogram(soort):
             cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
                    f'{sep}Hill_{wijknummer}_experiment.csv'))['kosten']
 
+        # Plot histogrammen in een subplots grid.
         if soort == 'sub':
             fig, axs = plt.subplots(2, 2, figsize=(8, 8))
             plt.subplots_adjust(hspace=0.4)
@@ -41,6 +43,7 @@ def histogram(soort):
             axs[1, 1].hist(hillclimb, density=True, color='c', bins=1000)
             axs[1, 1].set_title('Hill Climber')
 
+        # Plot histogrammen en KDE-plot in één grafiek.
         if soort == 'hist':
             plt.hist(kmeans, density=True, color=kleuren[0], label='KMeans',
                      alpha=0.5,
@@ -61,9 +64,9 @@ def histogram(soort):
             plt.legend(loc='upper right')
 
         plt.savefig(
-            cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}', dpi=300)
+            cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
+            dpi=300)
         plt.clf()
-
 
 
 def hill_climber_grafiek(bestand):
