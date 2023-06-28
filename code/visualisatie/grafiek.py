@@ -6,10 +6,10 @@ from matplotlib import cm
 import os
 
 
-def histogram(soort):
-    """Maakt een histogram en plot de normale verdeling van de gegeven dataset.
+def histogram(soort) -> None:
+    """Maakt histogrammen en plot de verdeling van alle datasets.
 
-    In: data, wijknummer en aantal runs."""
+    In: Soort plot"""
     cwd = os.getcwd()
     sep = os.sep
     kleuren = cm.Set2(np.linspace(0, 1, 4))
@@ -40,7 +40,8 @@ def histogram(soort):
             axs[1, 0].set_title('Greedy')
             axs[0, 1].hist(random, density=True, color=kleuren[2], bins='auto')
             axs[0, 1].set_title('Random')
-            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3], bins='auto')
+            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3],
+                           bins='auto')
             axs[1, 1].set_title('Hill Climber')
 
             sns.kdeplot(kmeans, ax=axs[0, 0], linewidth=1)
