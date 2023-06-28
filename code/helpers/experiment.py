@@ -1,6 +1,7 @@
 from code.algoritmes import random_alg, kmeans, greedy, hill_climbing
 from code.helpers import csv_writer, helpers
 from code.visualisatie import smartgrid
+from scipy.stats import f_oneway, kruskal
 import pandas as pd
 import os
 from tqdm import tqdm
@@ -40,3 +41,17 @@ def run_experiment(algoritme: str, wijk: int, runs=1) -> None:
             print(f"Nieuw goedkoopst run: {df['kosten'].min()}")
             run.jsonify(run.wijk, algoritme)
             smartgrid.visualisatie(algoritme, run.wijk)
+
+
+def stat_test(wijknummer, test):
+    cwd = os.getcwd()
+    sep = os.sep
+    kmeans = pd.read_csv(cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}KMeans_{wijknummer}_experiment.csv')['kosten']
+    greedy = pd.read_csv(cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Greedy_{wijknummer}_experiment.csv')['kosten']
+    random = pd.read_csv(cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Random_{wijknummer}_experiment.csv')['kosten']
+    hillclimb = pd.read_csv(cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Hill_{wijknummer}_experiment.csv')['kosten']
+
+    if test == 'ANOVA':
+        print(f'One-Way ANOVA: {f_oneway(kmeans, greedy, random, hillclimb)}')
+    if test == 'Kruskal':
+        print(f'Kruskal-Wallis: {kruskal(kmeans, greedy, random, hillclimb)}')
