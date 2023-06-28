@@ -2,7 +2,7 @@ from code.klassen import district
 import os
 
 
-def data_pad(wijk: int, item, item2=None, kmeans=False,
+def data_pad(wijk: int, item: str, item2=None, kmeans=False,
              huizen=False, experiment=False, json=False) -> str:
     """Vind het juist bestandspad naar opgevraagde bestand.
 
@@ -44,7 +44,7 @@ def wijk_lader(algoritme: str, wijk: int) -> object:
     In: wijknummer en naam algoritme.
     Uit: wijk object."""
     algoritmes = {'Random': district.Wijk(wijk, algoritme, True, False),
-                  'Greedy': district.Wijk(wijk, algoritme, True, False),
+                  'Greedy': district.Wijk(wijk, algoritme, True, True),
                   'Hill': district.Wijk(wijk, algoritme, True, False),
                   'KMeans': district.Wijk(wijk, algoritme, False, False)}
     return algoritmes[algoritme]
