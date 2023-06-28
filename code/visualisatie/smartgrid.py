@@ -64,7 +64,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
                      marker='p')
 
     wijknummer = data[0]['district']
-    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png")
+    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png", dpi=300)
     plt.clf()
 
 

@@ -1,16 +1,13 @@
-import os
 import pandas as pd
 from scipy.stats import f_oneway, kruskal
 
-cwd = os.getcwd()
-sep = os.sep
 
-bestand = f'gecombineerd.csv'
-df = pd.read_csv(bestand)
-kmeans = df['kmeans'].dropna()
-greedy = df['greedy'].dropna()
-random = df['random'].dropna()
-hillclimb = df['hillclimber'].dropna()
-
-print(f'One-Way ANOVA: {f_oneway(kmeans, greedy, random, hillclimb)}')
-print(f'Kruskal-Wallis: {kruskal(kmeans, greedy, random, hillclimb)}')
+def stat_test(wijknummer, test):
+    kmeans = pd.read_csv(f'KMeans_{wijknummer}_experiment.csv')['kosten']
+    greedy = pd.read_csv(f'Greedy_{wijknummer}_experiment.csv')['kosten']
+    random = pd.read_csv(f'Random_{wijknummer}_experiment.csv')['kosten']
+    hillclimb = pd.read_csv(f'Hill_{wijknummer}_experiment.csv')['kosten']
+    if test == 'ANOVA':
+        print(f'One-Way ANOVA: {f_oneway(kmeans, greedy, random, hillclimb)}')
+    if test == 'Kruskal':
+        print(f'Kruskal-Wallis: {kruskal(kmeans, greedy, random, hillclimb)}')
