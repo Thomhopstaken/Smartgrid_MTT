@@ -69,6 +69,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
 
 
 def vernieuw_grids():
+    """Past bestaande Grid grafieken aan naar nieuwe specificaties."""
     methods = ["Greedy", "Hill", "KMeans", "Random"]
     wijken = range(1, 4)
     for method in methods:

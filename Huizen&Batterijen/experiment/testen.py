@@ -3,6 +3,9 @@ from scipy.stats import f_oneway, kruskal
 
 
 def stat_test(wijknummer, test):
+    """Berekent statische gegevens over experiment data.
+
+    In: Wijknummer en type test."""
     kmeans = pd.read_csv(f'KMeans_{wijknummer}_experiment.csv')['kosten']
     greedy = pd.read_csv(f'Greedy_{wijknummer}_experiment.csv')['kosten']
     random = pd.read_csv(f'Random_{wijknummer}_experiment.csv')['kosten']
