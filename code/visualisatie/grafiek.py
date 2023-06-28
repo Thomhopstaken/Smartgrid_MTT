@@ -6,10 +6,10 @@ from matplotlib import cm
 import os
 
 
-def histogram(soort):
-    """Maakt een histogram en plot de normale verdeling van de gegeven dataset.
+def histogram(soort) -> None:
+    """Maakt histogrammen en plot de verdeling van alle datasets.
 
-    In: data, wijknummer en aantal runs."""
+    In: Soort plot"""
     cwd = os.getcwd()
     sep = os.sep
     kleuren = cm.Set2(np.linspace(0, 1, 4))
