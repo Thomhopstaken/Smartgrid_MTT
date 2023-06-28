@@ -15,7 +15,8 @@ Het random algoritme selecteert willekeurig een huis en voegt deze toe aan een b
 Het vormt onze baseline en wordt onderandere gebruikt door het Hill Climber algoritme.
 
 Greedy: 
-
+Het Greedy algoritme koppelt huizen aan batterijen met de kortste afstand tot elkaar als er voldoende capaciteit is. 
+Wanneer een batterij 'verzadigd' is gaat het algoritme naar de volgende batterij en koppelt daar huizen aan. Als er overgebleven huizen zijn, ontkoppelt het huis eerst een willekeurig huis en koppelt vervolgens, indien mogelijk, een nieuw huis. 
 
 Hill Climber: 
 Het Hill climber algoritme neemt een uitkomst van een random algoritme en verwisselt steeds 3 huizen van de ene batterij met 3 huizen van een andere batterij. 
