@@ -31,20 +31,30 @@ def histogram(soort):
                    f'{sep}Hill_{wijknummer}_experiment.csv'))['kosten']
 
         # Plot histogrammen in een subplots grid.
-        if soort == 'sub':
+        if soort == 'subplot':
             fig, axs = plt.subplots(2, 2, figsize=(8, 8))
             plt.subplots_adjust(hspace=0.4)
-            axs[0, 0].hist(kmeans, density=True, color='r', bins=1000)
+            axs[0, 0].hist(kmeans, density=True, color=kleuren[0], bins=7)
             axs[0, 0].set_title('KMeans')
-            axs[1, 0].hist(greedy, density=True, color='b', bins=1000)
+            axs[1, 0].hist(greedy, density=True, color=kleuren[1], bins=6)
             axs[1, 0].set_title('Greedy')
-            axs[0, 1].hist(random, density=True, color='g', bins=1000)
+            axs[0, 1].hist(random, density=True, color=kleuren[2], bins=12)
             axs[0, 1].set_title('Random')
-            axs[1, 1].hist(hillclimb, density=True, color='c', bins=1000)
+            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3], bins=21)
             axs[1, 1].set_title('Hill Climber')
 
+            sns.kdeplot(kmeans, ax=axs[0, 0], linewidth=1)
+            sns.kdeplot(greedy, ax=axs[1, 0], linewidth=1)
+            sns.kdeplot(random, ax=axs[0, 1], linewidth=1)
+            sns.kdeplot(hillclimb, ax=axs[1, 1], linewidth=1)
+
+            plt.savefig(
+                cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
+                dpi=300)
+            plt.clf()
+
         # Plot histogrammen en KDE-plot in één grafiek.
-        if soort == 'hist':
+        if soort == 'hoofdplot':
             plt.hist(kmeans, density=True, color=kleuren[0], label='KMeans',
                      alpha=0.5,
                      bins=7)
@@ -63,10 +73,10 @@ def histogram(soort):
             sns.kdeplot(hillclimb, linewidth=1)
             plt.legend(loc='upper right')
 
-        plt.savefig(
-            cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
-            dpi=300)
-        plt.clf()
+            plt.savefig(
+                cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
+                dpi=300)
+            plt.clf()
 
 
 def hill_climber_grafiek(bestand):
