@@ -34,13 +34,13 @@ def histogram(soort):
         if soort == 'subplot':
             fig, axs = plt.subplots(2, 2, figsize=(8, 8))
             plt.subplots_adjust(hspace=0.4)
-            axs[0, 0].hist(kmeans, density=True, color=kleuren[0], bins=7)
+            axs[0, 0].hist(kmeans, density=True, color=kleuren[0], bins='auto')
             axs[0, 0].set_title('KMeans')
-            axs[1, 0].hist(greedy, density=True, color=kleuren[1], bins=6)
+            axs[1, 0].hist(greedy, density=True, color=kleuren[1], bins='auto')
             axs[1, 0].set_title('Greedy')
-            axs[0, 1].hist(random, density=True, color=kleuren[2], bins=12)
+            axs[0, 1].hist(random, density=True, color=kleuren[2], bins='auto')
             axs[0, 1].set_title('Random')
-            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3], bins=21)
+            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3], bins='auto')
             axs[1, 1].set_title('Hill Climber')
 
             sns.kdeplot(kmeans, ax=axs[0, 0], linewidth=1)
@@ -57,16 +57,16 @@ def histogram(soort):
         if soort == 'hoofdplot':
             plt.hist(kmeans, density=True, color=kleuren[0], label='KMeans',
                      alpha=0.5,
-                     bins=7)
+                     bins='auto')
             plt.hist(greedy, density=True, color=kleuren[1], label='Greedy',
                      alpha=0.5,
-                     bins=6)
+                     bins='auto')
             plt.hist(random, density=True, color=kleuren[2], label='Random',
                      alpha=0.5,
-                     bins=12)
+                     bins='auto')
             plt.hist(hillclimb, density=True, color=kleuren[3],
                      label='Hill Climber',
-                     alpha=0.5, bins=21)
+                     alpha=0.5, bins='auto')
             sns.kdeplot(kmeans, linewidth=1)
             sns.kdeplot(greedy, linewidth=1)
             sns.kdeplot(random, linewidth=1)

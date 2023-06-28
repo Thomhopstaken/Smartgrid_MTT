@@ -18,6 +18,9 @@ if __name__ == "__main__":
         experiment.run_experiment("Hill", wijk_kiezen, aantal_runs)
     elif algoritme_kiezen == 'K' or algoritme_kiezen == "KMeans":
         experiment.run_experiment("KMeans", wijk_kiezen, aantal_runs)
+    elif algoritme_kiezen == 'K' or algoritme_kiezen == "Hypothese":
+        experiment.stat_test(wijk_kiezen, 'ANOVA')
+        experiment.stat_test(wijk_kiezen, 'Kruskal')
     elif algoritme_kiezen == 'Test':
         cwd = os.getcwd()
         grafiek.hill_climber_grafiek(f'{cwd}/Huizen&Batterijen/experiment/'
