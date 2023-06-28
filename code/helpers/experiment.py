@@ -50,17 +50,17 @@ def stat_test(wijknummer, test) -> None:
     cwd = os.getcwd()
     sep = os.sep
     kmeans = pd.read_csv(
-        cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}KMeans_{wijknummer}_experiment.csv')[
-        'kosten']
+        cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
+               f'{sep}KMeans_{wijknummer}_experiment.csv'))['kosten']
     greedy = pd.read_csv(
-        cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Greedy_{wijknummer}_experiment.csv')[
-        'kosten']
+        cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
+               f'{sep}Greedy_{wijknummer}_experiment.csv'))['kosten']
     random = pd.read_csv(
-        cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Random_{wijknummer}_experiment.csv')[
-        'kosten']
+        cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
+               f'{sep}Random_{wijknummer}_experiment.csv'))['kosten']
     hillclimb = pd.read_csv(
-        cwd + f'{sep}Huizen&Batterijen{sep}experiment{sep}Hill_{wijknummer}_experiment.csv')[
-        'kosten']
+        cwd + (f'{sep}Huizen&Batterijen{sep}experiment'
+               f'{sep}Hill_{wijknummer}_experiment.csv'))['kosten']
 
     if test == 'ANOVA':
         print(f'One-Way ANOVA: {f_oneway(kmeans, greedy, random, hillclimb)}')

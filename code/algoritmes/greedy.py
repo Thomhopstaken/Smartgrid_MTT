@@ -2,19 +2,20 @@ import copy
 from .kmeans import gebruik_clusters
 import random
 
+
 def greedy_alg(wijk) -> object:
     """Greedy algoritme om huizen aan te sluiten op batterijen in een wijk."""
-    wijk_buffer = copy.deepcopy(wijk)  
+    wijk_buffer = copy.deepcopy(wijk)
     gebruik_clusters(wijk_buffer, 5)
-    counter = 0  
+    counter = 0
 
     # Geshuffelde nested lijst van afstanden tussen batterijen en huizen
     geshuffelde_afstanden = wijk_buffer.shuffle_afstanden()
 
     for inner_lijst in geshuffelde_afstanden:
         for batterij, huis, _ in inner_lijst:
-            if huis.kan_aansluiten(batterij): 
-                wijk_buffer.leg_route(batterij, huis)  
+            if huis.kan_aansluiten(batterij):
+                wijk_buffer.leg_route(batterij, huis)
                 counter += 1  # Teller verhogen
 
     # Teruggaan en herverdelen van niet-aangesloten huizen

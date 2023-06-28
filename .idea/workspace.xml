@@ -8,10 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Random_1_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Random_1_experiment.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/klassen/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/klassen/district.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figuren/KMeans_1_output.json" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/KMeans_1_output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/algoritmes/greedy.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/algoritmes/greedy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/helpers/experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/helpers/experiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/visualisatie/grafiek.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/visualisatie/grafiek.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/Hill_3_output.json" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/Hill_3_output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -40,7 +40,8 @@ def histogram(soort) -> None:
             axs[1, 0].set_title('Greedy')
             axs[0, 1].hist(random, density=True, color=kleuren[2], bins='auto')
             axs[0, 1].set_title('Random')
-            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3], bins='auto')
+            axs[1, 1].hist(hillclimb, density=True, color=kleuren[3],
+                           bins='auto')
             axs[1, 1].set_title('Hill Climber')
 
             sns.kdeplot(kmeans, ax=axs[0, 0], linewidth=1)
