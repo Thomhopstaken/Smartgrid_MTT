@@ -44,11 +44,6 @@ class Batterijen:
         In: kabel coördinaten."""
         self.gelegde_kabels.append(kabel)
 
-    def herbereken_capaciteit(self) -> None:
-        """berekent de capaciteit na verwisseling van huizen."""
-        totale_output = sum(huis.maxoutput for huis in self.gelinkte_huizen)
-        self.resterende_capaciteit = self.capaciteit - totale_output
-
     def kabels_verwijderen(self) -> None:
         """Verwijdert kabels van een batterij object."""
         self.gelegde_kabels = []
