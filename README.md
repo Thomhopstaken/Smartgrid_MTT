@@ -24,8 +24,9 @@ Installeer de benodigde bibliotheken met het volgende commando:
 Voer het hoofdscript uit om het energienetwerk te optimaliseren:
 python main.py
 
-Volg de instructies op het scherm om de gewenste parameters in te stellen, zoals het aantal huizen, batterijen, en aantal runs.
-Het script zal het optimalisatieproces uitvoeren en de resultaten weergeven, inclusief de geoptimaliseerde plaatsing van batterijen en de totale kosten/efficiëntie van het energienetwerk.
+Volg de instructies op het scherm om de gewenste parameters in te stellen, zoals de gewenste wijk, algoritme, en aantal runs.
+Het script zal het optimalisatieproces uitvoeren en de resultaten weergeven, inclusief de geoptimaliseerde plaatsing van batterijen en de totale kosten van het energienetwerk.
+De CSV-bestanden met de kosten per run zijn te vinden onder Huizen&batterijen/experimenten en de grafieken en griduitbeelding zijn te vinden onder figuren
 
 &nbsp;
 

@@ -246,7 +246,7 @@ class Wijk:
             batterij_data = {}
 
         # Schrijf de JSON-data naar het bestand
-        with open(f"figures/{algoritme}_{wijk_nummer}_output.json",
+        with open(f"figuren/{algoritme}_{wijk_nummer}_output.json",
                   "w") as outfile:
             json.dump(json_dict, outfile)
 
