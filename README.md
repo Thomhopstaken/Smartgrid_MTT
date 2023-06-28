@@ -25,6 +25,8 @@ Het Hill climber algoritme neemt een uitkomst van een random algoritme en verwis
 Dit blijf hij doen totdat het na 2500 iteraties geen betere uitkomst meer kan vinden. 
 
 K-means: 
+Het K-means algoritme word gebruikt om de batterijen te plaatsen. Hiervoor clustert het huizen bijelkaar en zoekt naar de meest efficiente clusters. 
+Wanneer het K-means algoritme word aangeroepen door de gebruiker worden deze clusters aan de geplaatste batterij gelinkt en als uitkomst gegeven. 
 
 &nbsp;
 
