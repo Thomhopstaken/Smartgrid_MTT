@@ -30,7 +30,7 @@ def data_pad(wijk: int, item, item2=None, kmeans=False,
 
     # Retourneer het volledige pad voor JSON-uitvoer van het smart grid.
     if json:
-        pad = f'{sep}figures{sep}smartgrid_{wijk}_{item}_output.json'
+        pad = f'{sep}figuren{sep}smartgrid_{wijk}_{item}_output.json'
         return cwd + os.path.normpath(pad)
 
     pad = (f'{sep}Huizen&Batterijen{sep}district_'

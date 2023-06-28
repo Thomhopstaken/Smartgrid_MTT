@@ -202,6 +202,7 @@ class Wijk:
         """Herlegt kabels tussen batterijen en huizen."""
         for batterij in self.batterijen:
             batterij.kabels_verwijderen()
+            batterij.resterende_capaciteit = batterij.capaciteit
         for huis in self.gelinkte_huizen:
             huis.verwijder_kabels()
         for huis in self.gelinkte_huizen:
@@ -245,7 +246,7 @@ class Wijk:
             batterij_data = {}
 
         # Schrijf de JSON-data naar het bestand
-        with open(f"figures/{algoritme}_{wijk_nummer}_output.json",
+        with open(f"figuren/{algoritme}_{wijk_nummer}_output.json",
                   "w") as outfile:
             json.dump(json_dict, outfile)
 
@@ -279,8 +280,6 @@ class Wijk:
             self.kabels_verleggen(huizen_x[x], batterij_y, batterij_x)
             self.kabels_verleggen(huizen_y[x], batterij_x, batterij_y)
         self.herleg_alle_kabels()
-        batterij_x.herbereken_capaciteit()
-        batterij_y.herbereken_capaciteit()
 
     def kies_willekeurige_huizen(self,
                                  batterij: Batterijen) -> list[Huizen]:

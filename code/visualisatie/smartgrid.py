@@ -15,7 +15,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
     In: type algoritme en wijknummer."""
     cwd = os.getcwd()
     sep = os.sep
-    pad = f'{sep}figures{sep}{methode}_{wijk_nummer}_output.json'
+    pad = f'{sep}figuren{sep}{methode}_{wijk_nummer}_output.json'
 
     bestand = open(cwd + pad)
     data = json.load(bestand)
@@ -64,7 +64,7 @@ def visualisatie(methode: str, wijk_nummer: int) -> None:
                      marker='p')
 
     wijknummer = data[0]['district']
-    plt.savefig(f"figures/smartgrid_{wijknummer}_{methode}.png", dpi=300)
+    plt.savefig(f"figuren/smartgrid_{wijknummer}_{methode}.png", dpi=300)
     plt.clf()
 
 

@@ -40,7 +40,7 @@ class Hill_climber:
         csv_writer.Write_csv(bestand).maak_kosten()
 
         # Voer de hillclimber uit zolang de counter kleiner is dan 150.
-        while self.counter < 150:
+        while self.counter < 2500:
             csv_writer.Write_csv(bestand).append_kosten(self.kosten)
             if self.nieuwe_wijk.willekeurige_huizen_wisselen():
                 self.check_uitkomst()

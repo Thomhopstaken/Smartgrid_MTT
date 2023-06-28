@@ -49,7 +49,7 @@ def histogram(soort):
             sns.kdeplot(hillclimb, ax=axs[1, 1], linewidth=1)
 
             plt.savefig(
-                cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
+                cwd + f'{sep}figuren{sep}grafiek_wijk_{wijknummer}_{soort}',
                 dpi=300)
             plt.clf()
 
@@ -74,7 +74,7 @@ def histogram(soort):
             plt.legend(loc='upper right')
 
             plt.savefig(
-                cwd + f'{sep}figures{sep}grafiek_wijk_{wijknummer}_{soort}',
+                cwd + f'{sep}figuren{sep}grafiek_wijk_{wijknummer}_{soort}',
                 dpi=300)
             plt.clf()
 
@@ -93,4 +93,4 @@ def hill_climber_grafiek(bestand):
     plt.ylabel('Kosten')
     plt.xlabel('Iteraties')
 
-    plt.savefig('figures/grafiek_hillclimber')
+    plt.savefig('figuren/grafiek_hillclimber')
