@@ -25,6 +25,6 @@ if __name__ == "__main__":
     elif algoritme_kiezen == 'Vernieuw':
         smartgrid.vernieuw_grids()
     elif algoritme_kiezen == 'Histogram':
-        grafiek.histogram(wijk_kiezen, 'hist')
+        grafiek.histogram('hist')
     else:
         print('Invalid Argument')
