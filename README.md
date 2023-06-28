@@ -6,6 +6,23 @@ Steeds meer huizen maken tegenwoordig gebruik van zonnepanelen of andere gedecen
 
 Dit project heeft als doel het optimaliseren van een energienetwerk met behulp van batterijen. Het onderzoekt algoritmen en heuristieken om de plaatsing en werking van batterijen in het energienetwerk te optimaliseren, zodat pieken en dalen in energieproductie kunnen worden opgevangen en energie kan worden verkocht aan energieleveranciers.
 
+#### Algoritmen:
+
+Voor dit project maken wij gebruik van vier verschillende projecten. 
+
+Random: 
+Het random algoritme selecteert willekeurig een huis en voegt deze toe aan een batterij als deze voldoende capaciteit heeft om het huis aan te nemen.
+Het vormt onze baseline en wordt onderandere gebruikt door het Hill Climber algoritme.
+
+Greedy: 
+
+
+Hill Climber: 
+Het Hill climber algoritme neemt een uitkomst van een random algoritme en verwisselt steeds 3 huizen van de ene batterij met 3 huizen van een andere batterij. 
+Dit blijf hij doen totdat het na 2500 iteraties geen betere uitkomst meer kan vinden. 
+
+K-means: 
+
 &nbsp;
 
 #### Installatie-instructies:
