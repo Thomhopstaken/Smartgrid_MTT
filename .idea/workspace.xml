@@ -5,23 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11d3959b-8f2c-4f12-bb7b-f7629ef07d3d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figuren/Hill_3_output.json" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/Hill_3_output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_1_hoofdplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_1_hoofdplot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_1_subplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_1_subplot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_2_hoofdplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_2_hoofdplot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_2_subplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_2_subplot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_3_hoofdplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_3_hoofdplot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/grafiek_wijk_3_subplot.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/grafiek_wijk_3_subplot.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2RrwOb46B2lsOXsseXUbn184Grk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main"
   }
 }]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="11d3959b-8f2c-4f12-bb7b-f7629ef07d3d" name="Changes" comment="" />
+      <created>1688021507365</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1688021507365</updated>
+    </task>
     <servers />
   </component>
 </project>
