@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="11d3959b-8f2c-4f12-bb7b-f7629ef07d3d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_3_experiment.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/experiment/Hill_Climb_Run_Hill_experiment.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Huizen&amp;Batterijen/k_means/batterij_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/Hill_3_output.json" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/Hill_3_output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" beforeDir="false" afterPath="$PROJECT_DIR$/figuren/smartgrid_3_Hill.png" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
